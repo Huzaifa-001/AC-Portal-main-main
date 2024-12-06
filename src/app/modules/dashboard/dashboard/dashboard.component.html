@@ -1,0 +1,55 @@
+<section class="section-padding">
+    <div class="container">
+        <div class="component-header">
+            <p class="title lg text-white">Dashboard</p>
+            <i class="material-symbols-outlined text-white">home</i>
+        </div>
+        <app-dashboard-analytics-cards></app-dashboard-analytics-cards>
+        <div class="text-end mt-4">
+            <button class="btn btn-info" (click)="openOrganizeDashboardDialog()">Organize</button>
+        </div>
+    </div>
+</section>
+
+
+<section>
+    <div class="container">
+        <div class="content-body">
+            <section>
+                <div class="row match-height d-flex flex-column">
+                    <ng-container #componentHost></ng-container>
+                    <!-- <ng-container *ngFor="let config of configs">
+                        <ng-container *ngIf="config.isVisible">
+                            <ng-container [ngSwitch]="config.componentName">
+                                <ng-container *ngSwitchCase="'Tasks'">
+                                    <div [ngStyle]="{'order':config.order}" class="col-col-12">
+                                        <app-dashboard-tasks></app-dashboard-tasks>
+                                    </div>
+                                    <div class="py-4 w-100"></div>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'Jobs'">
+                                    <div [ngStyle]="{'order':config.order}" class="col-col-12">
+                                        <app-dashboard-jobs></app-dashboard-jobs>
+                                    </div>
+                                    <div class="py-4 w-100"></div>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'Contacts'">
+                                    <div [ngStyle]="{'order':config.order}" class="col-col-12">
+                                        <app-dashboard-contacts></app-dashboard-contacts>
+                                    </div>
+                                    <div class="py-4 w-100"></div>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'Estimates'">
+                                    <div [ngStyle]="{'order':config.order}" class="col-col-12">
+                                        <app-dashboard-estimates></app-dashboard-estimates>
+                                    </div>
+                                    <div class="py-4 w-100"></div>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container> -->
+                </div>
+            </section>
+        </div>
+    </div>
+</section>

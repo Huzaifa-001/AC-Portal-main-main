@@ -1,0 +1,225 @@
+<section class="section-padding">
+  <div class="container">
+    <div class="component-header">
+      <p class="title lg text-white">Add Report</p>
+      <i class="material-symbols-outlined text-white">work</i>
+      <!-- <ol class="breadcrumb px-2">
+                <li class="breadcrumb-item"><a class="text-light" href="index.html">Contacts</a></li>
+                <li class="breadcrumb-item"><a class="text-light" href="#">Dashboard</a></li>
+            </ol> -->
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><button class="btn btn-outline-primary btn-sm d-flex align-items-center" mat-icon-button
+            (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+          </button></div>
+        <div class="actions d-flex">
+          <button class="btn btn-outline-primary btn-sm d-flex align-items-center" type="button"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <span>Save</span>
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-1">
+                <div class="input">
+                  <mat-label>Report Name</mat-label>
+                  <input matInput formControlName="reportName" placeholder="Report Name"
+                    class="form-control form-control-sm" />
+                </div>
+              </div>
+              <div class="mb-1">
+                <div class="input">
+                  <mat-label className="form-label">Description</mat-label>
+
+                  <textarea matInput formControlName="description" class="form-control form-control-sm"
+                    placeholder="Description" matTextareaAutosize matAutosizeMinRows="2"
+                    matAutosizeMaxRows="5"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-1">
+                <div class="input">
+                  <mat-label className="form-label">Share With</mat-label>
+                  <mat-select class="form-control form-control-sm" formControlName="shareWith" required
+                    placeholder="---SELECT---" (value)="reportForm.get('shareWith')?.value">
+                    <mat-option *ngFor="let option of shareWithOptions" [value]="option">{{ option }}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="
+                    reportForm.get('shareWith').invalid &&
+                    reportForm.get('shareWith').touched
+                  ">
+                    Share With is required.
+                  </mat-error>
+                </div>
+              </div>
+              <div class="mb-1">
+                <div class="input">
+                  <div *ngIf="reportForm.get('shareWith').value === 'Groups'">
+                    <mat-label className="form-label">Select Group</mat-label>
+                    <mat-select class="form-control form-control-sm" formControlName="selectedGroup">
+                      <mat-option *ngFor="let groupOption of groupOptions" [value]="groupOption">
+                        {{ groupOption }}
+                      </mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-1">
+                <div class="input">
+                  <div *ngIf="reportForm.get('shareWith').value === 'Certain Users'">
+                    <mat-label className="form-label">Select User</mat-label>
+                    <mat-select class="form-control form-control-sm" formControlName="selectedUser">
+                      <mat-option *ngFor="let userOption of userOptions" [value]="userOption">
+                        {{ userOption }}
+                      </mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="row mt-2 mb-2">
+            <div class="col-md-12">
+              <div class="d-flex flex-wrap justify-content-between">
+                <div class="mb-1 col-3 px-1"
+                  *ngFor="let calculation of appliedCalculations">
+                  <mat-label class="form-label">{{ calculation }}</mat-label>
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="editCalculation(calculation)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="deleteCalculation(calculation)"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <!-- Applied Filters (Above Middle Section) -->
+          <div class="row mt-2 mb-2">
+            <div class="col-md-12">
+              <div class="">
+                <div class="mb-1 col-3 px-1" *ngFor="let filter of addedFilters">
+                  <div class="clear k-widget k-listview" style="border: 0; list-style: none" data-role="listview"
+                    role="listbox">
+                    <li class="filtersList" role="option" aria-selected="false">
+                      {{ filter }} (<a class="k-edit-button" (click)="editFilter(filter)">Edit</a>
+                      |
+                      <a class="k-delete-button" (click)="deleteFilter(filter)">Remove</a>)
+                    </li>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Middle Section: Options to Interact with for Adding Information -->
+          <div class="row mt-2 mb-2">
+            <div class="col-md-12 d-flex flex-wrap justify-content-between">
+              <div class="mb-1 col-3 px-1">
+                <mat-label class="form-label-sm">Add Column</mat-label>
+                <mat-select class="form-control form-control-sm" (selectionChange)="addColumn($event.value)"
+                  placeholder="Add Columns To Table">
+                  <mat-option *ngFor="let column of availableColumns" [value]="column">{{ column.header }}</mat-option>
+                </mat-select>
+              </div>
+
+              <div class="mb-1 col-3 px-1">
+                <mat-label class="form-label">Remove Column</mat-label>
+                <mat-select class="form-control form-control-sm" (selectionChange)="removeColumn($event.value)"
+                  placeholder="Remove Columns From Table">
+                  <mat-option *ngFor="let column of addedColumns" [value]="column">{{ column.header }}</mat-option>
+                </mat-select>
+              </div>
+
+              <div class="mb-1 col-3 px-1">
+                <mat-label class="form-label">Add Filter</mat-label>
+                <mat-select class="form-control form-control-sm" (selectionChange)="addFilter($event.value)"
+                  placeholder="Add Filter To A Column">
+                  <mat-option *ngFor="let column of addedColumns" [value]="column">{{ column.header }}</mat-option>
+                </mat-select>
+              </div>
+
+              <div class="mb-1 col-3 px-1">
+                <mat-label class="form-label">Add Calculation</mat-label>
+                <mat-select class="form-control form-control-sm" (selectionChange)="addCalculation($event.value)"
+                  placeholder="Add Calculation To A Column">
+                  <mat-option *ngFor="let column of addedColumns" [value]="column">{{ column.header }}</mat-option>
+                </mat-select>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="row">
+          <!-- Table -->
+          <table class="table">
+            <thead>
+              <tr>
+                <th *ngFor="let column of addedColumns">
+                  {{ column.header | uppercase }}
+                </th>
+                <th style="max-width: 150px;">ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let report of reports">
+                <td *ngFor="let column of addedColumns">
+                  <ng-container *ngIf="column.name !== 'sharedWith'">
+                    <div style="cursor: pointer">
+                      {{ report[column.name] }}
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="column.name === 'sharedWith'">
+                    <div style="cursor: pointer">
+                      <span *ngFor="let user of report[column.name];  let isLast = last">{{ user }}{{ isLast ? '' : ', '
+                        }}</span>
+                    </div>
+                  </ng-container>
+                </td>
+                <td style="max-width: 150px;">
+                  <div class="dropdown">
+                    <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" [matMenuTriggerFor]="menu">
+                      <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                    </button>
+                    <div class="dropdown-menu">
+                      <button mat-icon-button [matMenuTriggerFor]="menu" xPosition="before">
+                        <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item>
+                          <mat-icon class="material-symbols-outlined">border_color</mat-icon>
+                          <span>Edit</span>
+                        </button>
+                        <button mat-menu-item>
+                          <mat-icon>delete</mat-icon>
+                          <span>Delete</span>
+                        </button>
+                      </mat-menu>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,28 @@
+::ng-deep .mdc-tab {
+    background-color: white !important;
+    font-weight: 600;
+    margin: 5px !important;
+  }
+  
+  ::ng-deep .mdc-tab.mdc-tab--active .mdc-tab__text-label {
+    color: rgb(34, 137, 34) !important;
+  }
+  ::ng-deep .mdc-tab .mdc-tab__text-label {
+      text-transform: uppercase !important;
+  }
+  
+  ::ng-deep .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
+      border-color: var(--mdc-tab-indicator-active-indicator-color, rgb(34, 137, 34));
+  }
+  .graph-section {
+      margin-top: 110px;
+  }
+  
+  ::ng-deep .menu-three-dots{
+          background: transparent;
+          border: none;
+      }
+  ::ng-deep .menu-content .mat-mdc-menu-item .mdc-list-item__primary-text {
+        font-size: 10px;
+      }
+  

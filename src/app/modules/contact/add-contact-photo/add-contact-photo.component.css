@@ -1,0 +1,11 @@
+.image-box {
+    border: 1px dashed darkgrey;
+    text-align: center;
+    width: 220px;
+}
+
+.image-box img {
+    height: auto;
+    width: 200px;
+    margin-bottom: 5px;
+}

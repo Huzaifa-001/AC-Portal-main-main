@@ -1,0 +1,55 @@
+<div class="mat-modal">
+  <div class="mat-modal-header">
+    <div class="modal-header heading">
+      <h4 class="modal-title text-primary" id="myModalLabel17" class="title">
+        {{ updateData.firstName + " " + updateData.lastName }}
+      </h4>
+    </div>
+    <div class="modal-header heading">
+      <h6 class="text-uppercase px-2 fw-bold">{{ updateData.discription }}</h6>
+    </div>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      aria-label="Close"
+      (click)="closeRelatedContactsModal()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <table class="table mt-1">
+      <tbody>
+        <tr>
+          <td class="py-0 border-0">
+            <h6 class="d-flex text-primary text-uppercase mt-1">address</h6>
+          </td>
+          <td class="py-0 border-0">
+            <h6 class="d-flex text-primary text-uppercase mt-1">email</h6>
+          </td>
+          <td class="py-0 border-0">
+            <h6 class="d-flex text-primary text-uppercase mt-1">fax</h6>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-capitalize py-0">
+            <small>{{
+              updateData.addressLine1 + " " + updateData.addressLine2
+            }}</small>
+            <h6 class="d-flex text-primary text-uppercase mt-1">City</h6>
+            <small class="text-capitalize">{{ updateData.city }}</small>
+          </td>
+          <td class="py-0">
+            <small>{{ updateData.email }}</small>
+            <h6 class="d-flex text-primary text-uppercase mt-1">Website</h6>
+            <small class="text-capitalize">{{ updateData.website }}</small>
+          </td>
+          <td class="py-0">
+            <small>{{ updateData.faxNo }}</small>
+            <h6 class="d-flex text-primary text-uppercase mt-1">Zip Code</h6>
+            <small class="text-capitalize">{{ updateData.zipCode }}</small>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

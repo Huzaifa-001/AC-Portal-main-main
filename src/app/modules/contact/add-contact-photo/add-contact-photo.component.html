@@ -1,0 +1,64 @@
+<div class="mat-modal">
+    <div class="mat-modal-header">
+        <p class="title">{{updateData.FormTitle}}</p>
+        <button type="button" class="btn-close modal-default-close" aria-label="Close" (click)="closeDialog()"></button>
+    </div>
+
+    <form [formGroup]="photosForm" (ngSubmit)="onSubmit()">
+        <div class="mat-modal-body">
+            <div class="row">
+                <div class="col">
+                    <div class="mb-1">
+                        <div class="input">
+                            <mat-label>Media (Dimension : 1920x975px, Format : jpg, jpeg, webp)</mat-label>
+                            <div class="upload-banner" *ngIf="!existingImageUrl">
+                                <button class="btn btn-outline-primary text-primary btn-sm d-flex align-items-center"
+                                    type="button" (click)="photosAddBtn.click()" data-bs-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="true">
+                                    <i class="material-symbols-outlined">cloud_upload</i>
+                                    <span>Select Files</span>
+                                </button>
+                                <input #photosAddBtn id="file-input" type="file" (change)="onFileSelected($event)"
+                                    style="display: none" />
+                            </div>
+
+                            <div class="image-box" *ngIf="existingImageUrl">
+                                <div class="d-flex justify-content-end btn-box">
+                                    <div class="btns-group d-flex align-items-end">
+                                        <button type="button" class="p-0" mat-menu-item (click)="photosAddBtn2.click()">
+                                            <mat-icon class="material-symbols-outlined">border_color</mat-icon>
+                                        </button>
+                                        <button type="button" class="p-0" mat-menu-item (click)="deSelectImage()">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                        <input #photosAddBtn2 id="file-input" type="file"
+                                            (change)="onFileSelected($event)" style="display: none" />
+                                    </div>
+                                </div>
+                                <img  *ngIf="existingImageUrl" [src]="existingImageUrl" alt="">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="mb-1">
+                        <div class="input">
+                            <mat-label>Description</mat-label>
+                            <textarea matInput formControlName="description" [rows]="7"
+                                class="form-control form-control-sm"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mat-modal-footer">
+            <div class="mt-4 text-end">
+                <button type="submit" class="btn btn-primary btn-lg">{{updateData.Request_Type}}</button>
+            </div>
+        </div>
+    </form>
+</div>

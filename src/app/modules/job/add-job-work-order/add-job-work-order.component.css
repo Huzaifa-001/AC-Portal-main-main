@@ -1,0 +1,38 @@
+.success-snackbar {
+  background-color: green;
+  color: white;
+}
+
+.error-snackbar {
+  background-color: red;
+  color: white;
+}
+
+.close {
+  color: white;
+}
+
+.heading {
+  display: flex;
+  justify-content: center;
+}
+
+.heading .title {
+  font-weight: 900;
+  font-size: 24px;
+  font-family:'Times New Roman', Times, serif;
+}
+
+.item-action-btn {
+  border: none;
+  background: transparent;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+
+  mat-icon {
+    font-size: 18px !important;
+  }
+}

@@ -1,0 +1,326 @@
+<div class="mat-modal">
+    <div class="mat-modal-header">
+        <p class="title">{{ this.updateData.FormTitle }}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="closeDailog()"></button>
+    </div>
+    <form [formGroup]="boardForm">
+        <div class="mat-modal-body">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input">
+                                    <mat-label>Project Name <span class="text-danger">*</span></mat-label>
+                                    <input matInput formControlName="projectName" class="form-control" />
+                                    <mat-error
+                                        *ngIf="boardForm.get('projectName').invalid && boardForm.get('projectName').touched">
+                                        Project Name is required field
+                                    </mat-error>
+
+                                </div>
+                                <div class="input">
+                                    <mat-label>Project Type <span class="text-danger">*</span></mat-label>
+                                    <mat-select class="form-control" formControlName="projectType"
+                                        placeholder="Choose a user" required>
+                                        <!-- <mat-option class="text-center" [value]="''">
+                                            --Clear Selection--
+                                        </mat-option> -->
+                                        <mat-option [value]="'contact'">Contact</mat-option>
+                                        <mat-option [value]="'job'">Job</mat-option>
+                                        <mat-option [value]="'workorder'">Work Order</mat-option>
+                                    </mat-select>
+                                    <mat-error
+                                        *ngIf="boardForm.get('projectType').invalid && boardForm.get('projectType').touched">
+                                        Project Type is required field</mat-error>
+                                </div>
+                                <div class="input">
+                                    <mat-label>Board Color</mat-label>
+                                    <div (click)="toggleColorPicker()" style="height: 40px;" class="form-control"
+                                        [style.background]="projectColor">
+                                        <p>{{projectColor}}</p>
+                                    </div>
+                                    <ng-container *ngIf="showprojectColorPicker">
+                                        <span [style.background]="projectColor" [cpToggle]="true"
+                                            [cpDialogDisplay]="'inline'" [cpCancelButton]="false"
+                                            [cpCancelButtonClass]="'btn btn-primary btn-xs'"
+                                            [(colorPicker)]="projectColor"
+                                            (colorPickerChange)=" boardForm.get('projectColor').setValue(projectColor)">
+                                        </span>
+                                    </ng-container>
+                                </div>
+                                <div class="input">
+                                    <mat-label>Access User <small class="text-danger">*</small></mat-label>
+                                    <mat-select class="form-control" formControlName="accessUserID"
+                                        placeholder="Choose a user" required multiple>
+                                        <mat-option *ngFor="let contact of PrimaryContacts" [value]="contact.id">
+                                            {{ contact.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error
+                                        *ngIf="boardForm.get('accessUserID').invalid && boardForm.get('accessUserID').touched">
+                                        Access user is required field</mat-error>
+                                </div>
+
+                                <!-- <div class="input">
+                                    <mat-label>Card Title <small class="text-danger">*</small></mat-label>
+                                    <input matInput formControlName="cardTitle" class="form-control" required />
+                                    <mat-error *ngIf="boardForm.get('cardTitle').invalid && boardForm.get('cardTitle').touched">
+                                        Card title is required field</mat-error>
+                                </div>
+
+                                <div class="input">
+                                    <mat-label>Customize the title for cards <small class="text-danger"></small></mat-label>
+                                    <mat-select class="form-control" formControlName="cardTemplates"
+                                        placeholder="Choose a card template" required multiple>
+                                        <mat-option *ngFor="let template of cardTemplates" [value]="template.id">
+                                            {{ template.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="boardForm.get('accessUserID').invalid && boardForm.get('accessUserID').touched">
+                                        Access user is required field</mat-error>
+                                </div> -->
+
+                                <!-- <div>
+                                    <mat-label>Card Title <small class="text-danger">*</small></mat-label>
+                                    <mat-form-field style="border:none; background: none;" class="w-100 custom-form-field">
+                                        <input matInput formControlName="cardTitle" placeholder="Card Title" required />
+                                        <button mat-icon-button matSuffix (click)="toggleDropdown()"
+                                            [matMenuTriggerFor]="dropdownMenu">
+                                            <mat-icon>arrow_drop_down</mat-icon>
+                                        </button>
+                                        <mat-error
+                                            *ngIf="boardForm.get('cardTitle').invalid && boardForm.get('cardTitle').touched">
+                                            Card title is a required field
+                                        </mat-error>
+                                        
+                                    </mat-form-field>
+                                </div> -->
+
+                                <div class="input">
+                                    <label>Card Title <small class="text-danger">*</small></label>
+                                    <div>
+                                        <mat-form-field appearance="outline" class="date-picker">
+                                            <input matInput formControlName="cardTitle" placeholder="Card Title"
+                                                required />
+                                            <button style="border:none;background: none;" mat-icon-button matSuffix
+                                                (click)="toggleDropdown()" [matMenuTriggerFor]="dropdownMenu">
+                                                <mat-icon>arrow_drop_down</mat-icon>
+                                            </button>
+
+                                            <mat-menu #dropdownMenu="matMenu">
+                                                <button mat-menu-item *ngFor="let template of cardTemplates"
+                                                    (click)="appendTemplate(template.id)">
+                                                    {{ template.name }}
+                                                </button>
+                                            </mat-menu>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="input">
+                                    <mat-label>Choose Background</mat-label>
+                                    <div class="form-control" *ngIf="!existingImageUrl">
+                                        <button class="text-muted d-flex align-items-center select-file-btn"
+                                            type="button" (click)="photosAddBtn.click()" data-bs-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="true">
+                                            <i class="material-symbols-outlined">cloud_upload</i>
+                                            <span>Select Files</span>
+                                        </button>
+                                        <input #photosAddBtn id="file-input" type="file"
+                                            (change)="onFileSelected($event)" style="display: none" />
+                                    </div>
+
+                                    <div class="image-box" *ngIf="existingImageUrl">
+                                        <div class="d-flex justify-content-end btn-box">
+                                            <div class="btns-group d-flex align-items-end">
+                                                <button type="button" class="p-0" mat-menu-item
+                                                    (click)="photosAddBtn2.click()">
+                                                    <mat-icon class="material-symbols-outlined">border_color</mat-icon>
+                                                </button>
+                                                <button type="button" class="p-0" mat-menu-item
+                                                    (click)="deSelectImage()">
+                                                    <mat-icon>delete</mat-icon>
+                                                </button>
+                                                <input #photosAddBtn2 id="file-input" type="file"
+                                                    (change)="onFileSelected($event)" style="display: none" />
+                                            </div>
+                                        </div>
+                                        <img *ngIf="existingImageUrl" [src]="existingImageUrl" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ng-container *ngIf="projectTypeHasValue">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table" #myTable>
+                                <thead>
+                                    <tr>
+                                        <th>NAME</th>
+                                        <th>STATUS </th>
+                                        <th>SORT</th>
+                                        <th>TOTAL</th>
+                                        <th style="width: 85px;"></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <ng-container *ngFor="let status of statuses">
+
+                                        <tr>
+                                            <td class="p-1">
+                                                <div class="d-flex">{{status.name}}</div>
+                                            </td>
+                                            <td class="p-1">
+                                                <div class="d-flex">
+                                                    <ng-container *ngFor="let tm of status.statuses; last as isLast">
+                                                        <span>{{ tm.workFlowName }} - {{ tm.statusName }}</span>
+                                                        <span *ngIf="!isLast">, &nbsp; </span>
+                                                    </ng-container>
+                                                </div>
+                                            </td>
+
+                                            <td class="p-1">
+                                                <div class="d-flex">{{status.sortBy}} - ({{status.sortingOrder}})</div>
+
+                                            </td>
+                                            <td class="p-1">
+                                                <div class="d-flex">{{status.total}}</div>
+                                            </td>
+                                            <td class="p-1" style="width: 85px;">
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-sm dropdown-toggle hide-arrow"
+                                                        [matMenuTriggerFor]="menu">
+                                                        <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <button mat-icon-button [matMenuTriggerFor]="menu"
+                                                            xPosition="before">
+                                                            <mat-icon
+                                                                class="material-symbols-outlined">more_vert</mat-icon>
+                                                        </button>
+                                                        <mat-menu #menu="matMenu">
+                                                            <button mat-menu-item (click)="editStatus(status)">
+                                                                <mat-icon
+                                                                    class="material-symbols-outlined">border_color</mat-icon>
+                                                                <span>Edit</span>
+                                                            </button>
+                                                            <button mat-menu-item (click)="removeFormList(status)">
+                                                                <mat-icon>delete</mat-icon>
+                                                                <span>Delete</span>
+                                                            </button>
+                                                        </mat-menu>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                            <ng-container *ngIf="showInsertionRow">
+                                <form [formGroup]="statuForm">
+                                    <div class="row">
+                                        <div class="col-md-12 d-flex justify-content-around">
+                                            <div class="col-md-3">
+                                                <div class="input">
+                                                    <input matInput formControlName="name" placeholder="Name"
+                                                        class="form-control" required />
+                                                    <mat-error
+                                                        *ngIf="statuForm.get('name').invalid  && statuForm.get('name').touched">
+                                                        Name is required</mat-error>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input">
+                                                    <mat-select formControlName="statuses" class="form-control" required
+                                                        placeholder="select a status" multiple>
+                                                        <mat-option *ngFor="let tm of WorkFlowStatuses" [value]="tm">
+                                                            {{tm.workFlowName}} - {{ tm.statusName }}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <mat-error
+                                                        *ngIf="statuForm.get('statuses').invalid && statuForm.get('statuses').touched">
+                                                        At lease one status is required</mat-error>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input">
+                                                    <mat-select class="form-control" formControlName="sortBy"
+                                                        placeholder="Sort By" required>
+                                                        <mat-option value="workFlowName">
+                                                            WorkFlow Name
+                                                        </mat-option>
+                                                        <mat-option value="statusName">
+                                                            Status
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </div>
+                                                <div class="input">
+                                                    <mat-select value="asc" class="form-control"
+                                                        formControlName="sortingOrder" placeholder="Choose a user"
+                                                        required>
+                                                        <mat-option value="asc">
+                                                            Ascending
+                                                        </mat-option>
+                                                        <mat-option value="desc">
+                                                            Descending
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input">
+                                                    <input matInput formControlName="total" placeholder="Total"
+                                                        class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end align-items-center">
+                                        <div class="mt-4 text-end px-2">
+                                            <button type="button" class="btn btn-outline-secondary btn-lg"
+                                                (click)="resetStatusForm()">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                        <div class="mt-4 text-end">
+                                            <button type="button" class="btn btn-primary btn-lg"
+                                                (click)="AddStatusToList()">
+                                                Save
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </ng-container>
+                            <div *ngIf="!showInsertionRow">
+                                <div class="mt-4 text-end">
+                                    <button type="button" class="btn btn-outline-primary btn-lg"
+                                        (click)="showInsertionRow = true">
+                                        Add Row
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="mat-modal-footer">
+            <div class="mt-4 text-end">
+                <button type="submit" class="btn btn-primary btn-lg" (click)="onSubmit()">
+                    {{ this.updateData.Request_Type }}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

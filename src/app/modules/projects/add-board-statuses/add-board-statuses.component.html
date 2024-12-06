@@ -1,0 +1,91 @@
+<div class="mat-modal">
+    <div class="mat-modal-header">
+        <p class="title">{{ this.updateData.FormTitle }}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="closeDailog()"></button>
+    </div>
+    <div class="mat-modal-body">
+        <div class="col-md-12">
+            <form [formGroup]="statuForm">
+                <div class="row">
+                        <div class="col-md-6">
+                            <div class="input">
+                                <mat-label>Name <small class="text-danger">*</small></mat-label>
+                                <input matInput formControlName="name" placeholder="Name" class="form-control"
+                                    required />
+                                    <mat-error *ngIf="statuForm.get('name').invalid  && statuForm.get('name').touched">
+                                        Name is required</mat-error>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input">
+                                <mat-label>Status <small class="text-danger">*</small></mat-label>
+                                <mat-select formControlName="statuses" class="form-control" required
+                                    placeholder="select a status" multiple>
+                                    <mat-option *ngFor="let tm of WorkFlowStatuses" [value]="tm">
+                                        {{tm.workFlowName}} - {{ tm.statusName }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="statuForm.get('statuses').invalid  && statuForm.get('statuses').touched">
+                                    Select status</mat-error>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input">
+                                <mat-label>Sort by <small class="text-danger">*</small></mat-label>
+                                <mat-select class="form-control" formControlName="sortBy" placeholder="Sort By"
+                                    required>
+                                    <mat-option value="workFlowName">
+                                        WorkFlow Name
+                                    </mat-option>
+                                    <mat-option value="statusName">
+                                        Status
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="statuForm.get('sortBy').invalid  && statuForm.get('sortBy').touched">
+                                    Sort by is required</mat-error>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input">
+                                <mat-label>Sorting Order <small class="text-danger">*</small></mat-label>
+                                <mat-select value="asc" class="form-control" formControlName="sortingOrder"
+                                    placeholder="Choose a user" required>
+                                    <mat-option value="asc">
+                                        Ascending
+                                    </mat-option>
+                                    <mat-option value="desc">
+                                        Descending
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="statuForm.get('sortingOrder').invalid  && statuForm.get('sortingOrder').touched">
+                                    Sorting Order is required</mat-error>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input">
+                                <mat-label>Total</mat-label>
+                                <input matInput formControlName="total" placeholder="Total" class="form-control" />
+                            </div>
+                        </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="mat-modal-footer">
+        <div class="mt-4 text-end">
+            <div class="d-flex justify-content-end align-items-center">
+                <div class="mt-4 text-end px-2">
+                    <button type="button" class="btn btn-outline-secondary btn-lg" (click)="closeDailog()">
+                        Cancel
+                    </button>
+                </div>
+                <div class="mt-4 text-end">
+                    <button type="button" class="btn btn-primary btn-lg" (click)="onSubmit()">
+                        {{ this.updateData.Request_Type }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

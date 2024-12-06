@@ -1,0 +1,187 @@
+<div class="mat-modal">
+    <div class="mat-modal-header">
+        <p class="title">{{ this.updateData?.FormTitle }}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="onCancelClick()"></button>
+    </div>
+    <form [formGroup]="taskForm">
+        <div class="mat-modal-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input">
+                        <mat-label>Task Name</mat-label>
+                        <input matInput class="form-control" formControlName="taskName" placeholder="Task Name"
+                            required />
+                        <mat-error *ngIf="taskForm.get('taskName').touched && taskForm.get('taskName').invalid">
+                            Please enter a task name
+                        </mat-error>
+                    </div>
+                    <div class="input">
+                        <mat-label>Task Type</mat-label>
+                        <mat-select class="form-control" formControlName="taskType" placeholder="Task Type" required>
+                            <mat-option value="Note">Note</mat-option>
+                            <mat-option value="Phone Call">Phone Call</mat-option>
+                            <mat-option value="Email">Email</mat-option>
+                            <mat-option value="Text Message">Text Message</mat-option>
+                            <mat-option value="Meeting Notes">Meeting Notes</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="taskForm.get('taskType').touched && taskForm.get('taskType').invalid">
+                            Please select a task type
+                        </mat-error>
+                    </div>
+                    <div class="input">
+                        <mat-label>Priority</mat-label>
+                        <mat-select class="form-control" formControlName="priority" placeholder="Priority" required>
+                            <mat-option value="Low">Low</mat-option>
+                            <mat-option value="Medium">Medium</mat-option>
+                            <mat-option value="High">High</mat-option>
+                            <mat-option value="Time-Based">Time-Based</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="taskForm.get('priority').touched && taskForm.get('priority').invalid">
+                            Please select a priority
+                        </mat-error>
+                    </div>
+                    <div class="input">
+                        <mat-label>Status</mat-label>
+                        <mat-select class="form-control" formControlName="status" placeholder="status" value="pending"
+                            required>
+                            <mat-option value="pending">Pending</mat-option>
+                            <mat-option value="inprogress">InProgress</mat-option>
+                            <mat-option value="completed">Completed</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="taskForm.get('status').touched && taskForm.get('status').invalid">
+                            Please select a status
+                        </mat-error>
+                    </div>
+
+                    <div class="input">
+                        <mat-label>Start Date</mat-label>
+                        <div class="d-flex">
+                            <input matInput type="datetime" [matDatepicker]="startDatePicker"
+                                formControlName="startDate" class="form-control" required />
+                            <div class="date-picker" style="width: 50px;">
+                                <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #startDatePicker></mat-datepicker>
+                            </div>
+
+                        </div>
+                        <mat-error *ngIf="taskForm.get('startDate').touched && taskForm.get('startDate').invalid">
+                            Please select a start date
+                        </mat-error>
+                    </div>
+                    <div class="input">
+                        <mat-label>Assigned Team Members</mat-label>
+                        <mat-select class="form-control" placeholder="Assigned Team Members"
+                            formControlName="assignedTeamMembers" multiple>
+                            <mat-option *ngFor="let contact of allTeamMembers" [value]="contact.id">
+                                {{ contact.name }}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input">
+                        <mat-label>Related Contacts</mat-label>
+                        <mat-select class="form-control" placeholder="Related Contacts"
+                            formControlName="relatedContacts" multiple>
+                            <mat-option *ngFor="let contact of relatedContacts" [value]="contact.id">
+                                {{ contact.name }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error
+                            *ngIf="taskForm.get('relatedContacts').touched && taskForm.get('relatedContacts').invalid">
+                            <mat-option *ngFor="let contact of relatedContacts" [value]="contact.id">
+                                {{ contact.name }}
+                            </mat-option>
+                        </mat-error>
+                    </div>
+                    <div class="input">
+                        <mat-label>Related Subcontractor</mat-label>
+                        <mat-select class="form-control" placeholder="Related Contacts"
+                            formControlName="relatedSubcontractors" multiple>
+                            <mat-option *ngFor="let contact of allSubcontractors" [value]="contact.id">
+                                {{ contact.name }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error
+                            *ngIf="taskForm.get('relatedSubcontractors').touched && taskForm.get('relatedContacts').invalid">
+                            <mat-option *ngFor="let contact of relatedContacts" [value]="contact.id">
+                                {{ contact.name }}
+                            </mat-option>
+                        </mat-error>
+                    </div>
+                    <div class="input">
+                        <mat-label>Related Jobs</mat-label>
+                        <mat-select class="form-control" placeholder="Related Jobs" formControlName="relatedJobs"
+                            multiple>
+                            <mat-option *ngFor="let job of Jobs" [value]="job.id">
+                                {{ job.name }}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                    <div class="input">
+                        <mat-label>End Date</mat-label>
+                        <div class="d-flex">
+                            <input matInput formControlName="endDate" [matDatepicker]="Endpicker"
+                                [value]="taskForm.get('endDate')?.value" class="form-control" type="datetime"
+                                required />
+                            <div class="date-picker" style="width: 50px;">
+                                <mat-datepicker-toggle matSuffix [for]="Endpicker"></mat-datepicker-toggle>
+                                <mat-datepicker #Endpicker></mat-datepicker>
+                            </div>
+
+                        </div>
+                        <mat-error *ngIf="taskForm.get('endDate').touched && taskForm.get('endDate').invalid">
+                            Please select an end date
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="input">
+                        <mat-label>Work Estimate</mat-label>
+                        <div class="input-group" style="height: 55px">
+                            <input class="form-control" style="height: 55px" type="number" placeholder="Work Estimate"
+                                formControlName="estimatedDuration" />
+                            <div class="input-group-append" style="height: 55px">
+                                <select class="form-control workEstimateUnit" formControlName="workEstimateUnit"
+                                    style="height: 55px">
+                                    <option value="minutes">Minutes</option>
+                                    <option value="hours">Hours</option>
+                                    <option value="days">Days</option>
+                                    <option value="weeks">Weeks</option>
+                                    <option value="months">Months</option>
+                                    <option value="years">Years</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="input">
+                        <mat-label>Tags</mat-label>
+                        <tag-input formControlName="tagsData" placeholder="Add Tags" class="form-control"
+                            style="height: auto;"></tag-input>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="input">
+                        <mat-label>Description</mat-label>
+                        <textarea class="form-control" placeholder="Task Description"
+                            formControlName="description"></textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- Dynamic Fields Goes Here W'LL fetch fields display here for entity type job and based on field type we will create the field -->
+            <div class="row">
+                <app-dynamic-field [fields]="fields" [form]="fieldsValueForm"></app-dynamic-field>
+            </div>
+        </div>
+        <div class="mat-modal-footer">
+            <div class="mt-4 text-end">
+                <button type="submit" class="btn btn-primary btn-lg" (click)="onSubmit()">
+                    {{ this.updateData?.Request_Type ?? 'Save Changes' }}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

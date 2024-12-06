@@ -1,0 +1,306 @@
+<div class="mat-modal">
+  <div class="mat-modal-header">
+    <p class="title">{{ this.updateData.FormTitle }}</p>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+      (click)="closeAddJobsModal()"></button>
+  </div>
+  <form [formGroup]="jobForm">
+    <div class="mat-modal-body">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Office Location</mat-label>
+            <mat-select class="form-control " formControlName="officeLocationId" placeholder="select an office">
+              <mat-option *ngFor="let ofc of officeLocationDropdownValues" [value]="ofc.id">
+                {{ofc.officeLocationName}}
+              </mat-option>
+            </mat-select>
+            <!-- <mat-error *ngIf="
+                      jobForm.get('officeLocationId')?.touched &&
+                      jobForm.get('officeLocationId')?.value === ''
+                    ">
+                  Please select an office location
+                </mat-error> -->
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Workflow<span class="text-danger">*</span></mat-label>
+            <mat-select formControlName="workFlowId" class="form-control " placeholder="select a Workflow"
+              (selectionChange)="onWorkflowSelectionChange($event)" required>
+              <mat-option *ngFor="let wf of workflows" [value]="wf.id">
+                {{ wf.workFlowName }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="
+                      jobForm.get('workFlowId')?.touched &&
+                      jobForm.get('workFlowId')?.value == '' || jobForm.get('workFlowId')?.value == 0
+                    ">
+              Please select an workflow
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label className="form-label">Status<span class="text-danger">*</span></mat-label>
+            <mat-select class="form-control " formControlName="statusId" required placeholder="select a status">
+              <mat-option *ngFor="let ss of statuses" [value]="ss.id">
+                {{ ss.statusName }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="
+                      jobForm.get('statusId')?.touched &&
+                      jobForm.get('statusId')?.value === '' || jobForm.get('statusId')?.value == 0
+                    ">
+              Please select an status
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Sales Representative<span class="text-danger">*</span></mat-label>
+            <mat-select formControlName="salesRepId" class="form-control " required
+              placeholder="select sales representative" required>
+              <mat-option *ngFor="let salesRep of salesReps" [value]="salesRep.id">
+                {{ salesRep.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="
+                      jobForm.get('salesRepId')?.touched &&
+                      jobForm.get('salesRepId')?.value === ''
+                    ">
+              Please select an sales representative
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Source</mat-label>
+            <mat-select formControlName="sourceId" class="form-control " placeholder="select a source">
+              <mat-option *ngFor="let src of sources" [value]="src.id">
+                {{ src.value }}
+              </mat-option>
+            </mat-select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Sub Contractor<span class="text-danger">*</span></mat-label>
+            <mat-select formControlName="subContractorId" class="form-control " placeholder="select a subcontractor"
+              required>
+              <mat-option *ngFor="let sc of subcontractors" [value]="sc.id">
+                {{ sc.name }}
+              </mat-option>
+
+            </mat-select>
+            <mat-error *ngIf="
+                jobForm.get('subContractorId')?.touched &&
+                jobForm.get('subContractorId')?.valid == false
+              ">
+              Please select a Sub Contractor
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Related Contacts</mat-label>
+            <mat-select formControlName="RelatedContactId" class="form-control " placeholder="select a related contacts"
+              multiple>
+              <mat-option *ngFor="let rl of RelatedContactId" [value]="rl.id">
+                {{ rl.name }}
+              </mat-option>
+            </mat-select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Assigned Team Members</mat-label>
+            <mat-select formControlName="TeamMememberId" class="form-control " placeholder="select a team members"
+              multiple>
+              <mat-option *ngFor="let tm of TeamMememberId" [value]="tm.id">
+                {{ tm.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="
+                    jobForm.get('TeamMememberId')?.touched &&
+                    jobForm.get('TeamMememberId')?.value === ''
+                  ">
+              Please select a Teammember
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Primary Contact<span class="text-danger">*</span></mat-label>
+            <mat-select formControlName="primaryContactId" class="form-control " required
+              placeholder="select primary contact" required (selectionChange)="setPrimaryContactName()">
+              <mat-option *ngFor="let pContact of PrimaryContacts" [value]="pContact.id">
+                {{ pContact.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="
+                    jobForm.get('salesRepId')?.touched &&
+                    jobForm.get('salesRepId')?.value === ''
+                  ">
+              Please select a primary Contact
+            </mat-error>
+          </div>
+        </div>
+      </div>
+
+      <!-- GenernalInformation -->
+      <div class="row my-3">
+        <div class="col-md-12">
+          <h3 class="title sm">General Information</h3>
+          <p class="text clr-text-light">This section contains details related to the general information of the job. Please provide the relevant information in the fields below.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Display Name<span class="text-danger">*</span></mat-label>
+            <input matInput formControlName="name" class="form-control " />
+            <mat-error *ngIf="
+                      jobForm.get('name')?.touched &&
+                      jobForm.get('name')?.value === ''
+                    ">
+              Display name is required!
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Address Line 1</mat-label>
+            <input matInput formControlName="addressLine1" class="form-control " />
+            <!-- <mat-error *ngIf="
+                      jobForm.get('addressLine1')?.touched &&
+                      jobForm.get('addressLine1')?.value === ''
+                    ">
+                    Address is required!
+                  </mat-error> -->
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Address Line 2</mat-label>
+            <input matInput formControlName="addressLine2" class="form-control " />
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>City</mat-label>
+            <input matInput formControlName="city" class="form-control " maxlength="50" />
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label className="form-label">State</mat-label>
+            <mat-select class="form-control " formControlName="stateId" placeholder="select a state"
+              (value)="jobForm.get('stateId')?.value">
+              <mat-option *ngFor="let state of states" [value]="state.id">
+                {{ state.name }}
+              </mat-option>
+            </mat-select>
+            <!-- <mat-error *ngIf="
+                      jobForm.get('stateId')?.touched &&
+                      jobForm.get('stateId')?.value === ''
+                    ">
+                    Please select a state
+                  </mat-error> -->
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Fax Number</mat-label>
+            <input matInput formControlName="faxNo" type="text" class="form-control " />
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Mobile Number</mat-label>
+            <input matInput formControlName="mobileNumber" type="text" class="form-control " />
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Home Number</mat-label>
+            <input matInput formControlName="homeNumber" type="text" class="form-control " />
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Office Number</mat-label>
+            <input matInput formControlName="officeNumber" type="text" class="form-control " />
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Zip Code</mat-label>
+            <input matInput formControlName="zipCode" type="number" class="form-control " />
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Start Date</mat-label>
+            <div class="d-flex">
+              <input matInput type="datetime" [matDatepicker]="startDatePicker" formControlName="startDate"
+                class="form-control form-control-sm" />
+              <div class="date-picker">
+                <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #startDatePicker></mat-datepicker>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>End Date</mat-label>
+            <div class="d-flex">
+              <input matInput type="datetime" [matDatepicker]="endDatePicker" formControlName="endDate"
+                class="form-control" />
+              <div class="date-picker">
+                <mat-datepicker-toggle matIconSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #endDatePicker></mat-datepicker>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Note</mat-label>
+            <textarea type="text" name="note" class="form-control " id="note" placeholder="Some note..."
+              value=""></textarea>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="discription" class="form-control "></textarea>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="md-1">
+            <mat-label>Tags</mat-label>
+            <tag-input formControlName="tags" class="form-control form-control-sm"></tag-input>
+          </div>
+        </div>
+      </div>
+
+    <!-- Dynamic Fields Goes Here W'LL fetch fields display here for entity type job and based on field type we will create the field -->
+      <div class="row">
+          <app-dynamic-field [fields]="fields" [form]="fieldsValueForm"></app-dynamic-field>
+      </div>
+
+    </div>
+    <div class="mat-modal-footer">
+      <div class="mt-4 text-end">
+        <button type="submit" class="btn btn-primary btn-lg" (click)="onSubmit(this.updateData.Request_Type)">{{
+          this.updateData.Request_Type }}</button>
+      </div>
+    </div>
+  </form>
+</div>

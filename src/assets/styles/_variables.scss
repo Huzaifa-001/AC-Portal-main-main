@@ -1,0 +1,30 @@
+/*Typography*/
+/*Gotham*/
+$gotham-r: 'gotham-book';
+$gotham-m: 'gotham-medium';
+$gotham-b: 'gotham-bold';
+/**************************************/
+/*Layout Components*/
+$slim: 80px;
+$expanded: 250px;
+$header-height: 70px;
+/**************************************/
+/*Element Sizes*/
+$h-lg: 48px;
+$h-md: 40px;
+$h-sm: 34px;
+/**************************************/
+$primary: #5D81EB;
+$secondary: #414042;
+
+$text: #172B4D;
+$text-light:#6E6E74;
+$text-dark: #2D2E46;
+
+/* Hover States */
+$primary-hover: darken($primary, 3%);
+$secondary-hover: lighten($secondary, 3%);
+
+$text-hover: lighten($text, 3%);
+$text-light-hover: lighten($text-light, 3%);
+$text-dark-hover: darken($text-dark, 3%);

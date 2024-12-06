@@ -1,0 +1,108 @@
+<section class="section-padding">
+    <div class="container">
+      <div class="card">
+        <div class="input-group justify-content-end w-auto my-2 px-3">
+          <div class="form-outline">
+            <input type="search" [(ngModel)]="searchText" placeholder="Search workflow" id="form1" class="form-control" style="border-top-right-radius: 0; border-bottom-right-radius: 0; outline: none;" />
+          </div>
+          <button type="button" class="btn btn-primary" style="width: 40px; height: 32px;">
+            <div class="search-input-icon">
+              <i class="material-symbols-outlined">search</i>
+          </div>
+          </button>
+        </div>
+        <div class="card-header">
+  
+          <div class="card-title">WorkOrder WorkFlows</div>
+          <div class="d-flex btns-group">
+            <button class="btn btn-primary" (click)="openAddWorkFlowModal(null)">
+              <div class="d-flex align-items-center">
+                <i class="material-symbols-outlined">add</i>
+                <span>Add WorkFlow</span>
+              </div>
+            </button>
+          </div>
+        </div>
+        <div class="card-body px-0">
+          <table class="table striped-td" #contactWorkflowTable>
+            <thead>
+              <tr>
+                <th (click)="onSort('workFlowName')" class="custom-sort-column">
+                  Name
+                  <mat-icon class="custom-icon-sort" *ngIf="sortField === 'workFlowName' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                  <mat-icon class="custom-icon-sort" *ngIf="sortField === 'workFlowName' && sortOrder === 'desc'">arrow_downward</mat-icon>
+                
+                </th>
+                <th (click)="onSort('isVisible')" class="custom-sort-column">
+                    Visible (Yes/No)
+                  <mat-icon class="custom-icon-sort" *ngIf="sortField === 'isVisible' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                  <mat-icon class="custom-icon-sort" *ngIf="sortField === 'isVisible' && sortOrder === 'desc'">arrow_downward</mat-icon>
+                </th>
+                <th (click)="onSort('isAccessable')" class="custom-sort-column">
+                    Access 
+                  <mat-icon class="custom-icon-sort" *ngIf="sortField === 'isAccessable' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                  <mat-icon class="custom-icon-sort" *ngIf="sortField === 'isAccessable' && sortOrder === 'desc'">arrow_downward</mat-icon>
+                </th>
+                <th (click)="onSort('status.statusName')" class="custom-sort-column">
+                    Statuses
+                  <mat-icon class="custom-icon-sort" *ngIf="sortField === 'status.statusName' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                  <mat-icon class="custom-icon-sort" *ngIf="sortField === 'status.statusName' && sortOrder === 'desc'">arrow_downward</mat-icon>
+                </th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let workflow of (workflows | tableSearch: searchText:['workFlowName','isVisible', 'isAccessable','status.statusName']) | customSort: sortField: sortOrder">              
+                <td style="cursor: pointer">
+                  {{ workflow.workFlowName }}
+                </td>
+                <td style="cursor: pointer">
+                  {{ workflow.isVisible ? 'YES' : 'NO' }}
+                </td>
+                <td style="cursor: pointer">
+                  <div class="d-flex">
+                    <!-- <i class="material-symbols-outlined text-success icon-size-dot">
+                      radio_button_checked
+                    </i> -->
+                    &nbsp; {{ workflow.isAccessable ? 'Everyone' : 'Assigned Only' }}
+                  </div>
+                </td>
+                <td style="cursor: pointer">
+                  <ng-container *ngFor="let status of workflow.statuses; last as isLast">
+                    {{ status.statusName }}{{ isLast ? '' : ', ' }}
+                  </ng-container>
+                </td>
+                
+                <td>
+                  <mat-menu #menu="matMenu" class="dropdown">
+                    <button mat-menu-item (click)="openAddWorkFlowModal(workflow)">
+                      <mat-icon class="material-symbols-outlined">border_color</mat-icon>
+                      <span>Edit</span>
+                    </button>
+                    <!-- <button mat-menu-item (click)="deleteWorkflow(workflow)" class="btn btn-sm">
+                        <mat-icon>hidden</mat-icon>
+                        <span>Hide</span>
+                      </button>
+                      <button mat-menu-item (click)="deleteWorkflow(workflow)" class="btn btn-sm">
+                        <mat-icon>delete</mat-icon>
+                        <span>Unhide</span>
+                      </button> -->
+                    <button mat-menu-item (click)="deleteWorkflow(workflow)" class="btn btn-sm">
+                      <mat-icon>delete</mat-icon>
+                      <span>Delete</span>
+                    </button>
+                  </mat-menu>
+  
+                  <button mat-icon-button [matMenuTriggerFor]="menu" class="btn btn-sm dropdown-toggle hide-arrow">
+                    <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- <app-pagination [currentPageIndex]="currentPageIndex" [totalCount]="totalCount"
+          (pageChange)="loadPagedData($event)"></app-pagination> -->
+      </div>
+    </div>
+  </section>

@@ -1,0 +1,120 @@
+<section class="section-padding">
+  <div class="container">
+    <div class="component-header">
+      <p class="title lg text-white">User Activity</p>
+      <i class="material-symbols-outlined text-white">work</i>
+    </div>
+    <div class="card">
+      <div class="input-group justify-content-end w-auto my-2 px-3">
+        <div class="form-outline">
+          <input type="search" [(ngModel)]="searchText" placeholder="Search Activities" id="form1" class="form-control"
+            style="border-top-right-radius: 0; border-bottom-right-radius: 0; outline: none;" />
+        </div>
+        <button type="button" class="btn btn-primary" style="width: 40px; height: 32px;">
+          <div class="search-input-icon">
+            <i class="material-symbols-outlined">search</i>
+          </div>
+        </button>
+      </div>
+      <div class="card-header">
+        <div class="card-title"></div>
+        <div class="actions d-flex">
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <button class="btn btn-outline-primary btn-sm d-flex align-items-center" type="button"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <span (click)="exportTable()">Export Activity</span>
+          </button>
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <table class="table" #myTable>
+          <thead>
+            <tr>
+              <th class="custom-sort-column" (click)="onSort('title')">
+                Title
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'title' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'title' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th class="custom-sort-column" (click)="onSort('description')">
+                Description
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'description' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'description' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th class="custom-sort-column" (click)="onSort('entityType')">
+                Record Type
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'entityType' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'entityType' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <!-- <th class="custom-sort-column" (click)="onSort('success')">
+                SUCCESSFULL
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'success' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'success' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th> -->
+              <th class="custom-sort-column" (click)="onSort('performedBy')">
+                Performed By
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'performedBy' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'performedBy' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th class="custom-sort-column" (click)="onSort('createdDate')">
+                DATE TIME
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'createdDate' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'createdDate' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="userActivities.length > 0; else noDataMessage">
+              <tr
+              *ngFor="let Job of  (userActivities | tableSearch: searchText:['description']) | customSort: sortField: sortOrder">
+              <td>
+                <div class="d-flex">{{ Job.title }}</div>
+              </td>
+              <td>
+                <div class="d-flex">{{ Job.description }}</div>
+              </td>
+              <!-- <td>
+                <mat-icon [ngClass]="{'text-success': Job.success, 'text-danger': !Job.success}">
+                  {{ Job.success ? 'check_circle' : 'cancel' }}
+                </mat-icon>
+              </td> -->
+              <td>
+                <div class="d-flex">{{ Job.entityType }}</div>
+              </td>
+              <td>
+                <div class="d-flex">{{ Job.performedBy }}</div>
+              </td>
+              <td>
+                {{ Job.createdDate | date:'dd/MM/yyyy HH:mm:ss' }}
+              </td>
+            </tr>
+            </ng-container>
+            <ng-template #noDataMessage>
+              <tr>
+                <td colspan="6" class="text-center">No jobs found</td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </div>
+      <!-- <ng-container *ngIf="totalCount > 0">
+          <app-pagination [currentPageIndex]="currentPageIndex" [totalCount]="totalCount"
+            (pageChange)="loadPagedData($event)"></app-pagination>
+        </ng-container> -->
+    </div>
+  </div>
+</section>
+
+<div class="sidenav-overlay"></div>

@@ -1,0 +1,164 @@
+<section class="section-padding">
+    <div class="container">
+        <div class="component-header">
+            <p class="title lg text-white">Team Members</p>
+            <i class="material-symbols-outlined text-white">people</i>
+        </div>
+        <div class="card">
+            <div class="input-group justify-content-end w-auto my-2 px-3">
+                <div class="form-outline">
+                    <input type="search" [(ngModel)]="searchText" placeholder="Search Team Members" id="form1"
+                        class="form-control"
+                        style="border-top-right-radius: 0; border-bottom-right-radius: 0; outline: none;" />
+                </div>
+                <button type="button" class="btn btn-primary" style="width: 40px; height: 32px;">
+                    <div class="search-input-icon">
+                        <i class="material-symbols-outlined">search</i>
+                    </div>
+                </button>
+            </div>
+            <div class="card-header">
+                <div class="card-title">Team Members</div>
+                <div class="d-flex btns-group">
+                    <button class="btn btn-primary" (click)="openAddTeamMemberModal(null)">
+                        <div class="d-flex align-items-center">
+                            <i class="material-symbols-outlined">add</i>
+                            <span>Add Team Member</span>
+                        </div>
+                    </button>
+                    <button class="btn btn-outline-primary btn-sm d-flex align-items-center" type="button"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span (click)="exportTable()">Export Team Members</span>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body px-0">
+                <table class="table striped-td" #teamMembersTable>
+                    <thead>
+                        <tr>
+                            <th (click)="onSort('firstName')" class="custom-sort-column">
+                                Name
+                                <mat-icon class="custom-icon-sort"
+                                    *ngIf="sortField === 'firstName' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                                <mat-icon class="custom-icon-sort"
+                                    *ngIf="sortField === 'firstName' && sortOrder === 'desc'">arrow_downward</mat-icon>
+                            </th>
+                            <th (click)="onSort('email')" class="custom-sort-column">
+                                Email
+                                <mat-icon class="custom-icon-sort"
+                                    *ngIf="sortField === 'email' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                                <mat-icon class="custom-icon-sort"
+                                    *ngIf="sortField === 'email' && sortOrder === 'desc'">arrow_downward</mat-icon>
+                            </th>
+                            <th (click)="onSort('isSubContractor')" class="custom-sort-column">
+                                SubContractor
+                                <mat-icon class="custom-icon-sort"
+                                    *ngIf="sortField === 'isSubContractor' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                                <mat-icon class="custom-icon-sort"
+                                    *ngIf="sortField === 'isSubContractor' && sortOrder === 'desc'">arrow_downward</mat-icon>
+                            </th>
+                            <th (click)="onSort('state')" class="custom-sort-column">
+                                State
+                                <mat-icon class="custom-icon-sort"
+                                    *ngIf="sortField === 'state' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                                <mat-icon class="custom-icon-sort"
+                                    *ngIf="sortField === 'state' && sortOrder === 'desc'">arrow_downward</mat-icon>
+                            </th>
+                            <th (click)="onSort('timeZone')" class="custom-sort-column">
+                                Time Zone
+                                <mat-icon class="custom-icon-sort"
+                                    *ngIf="sortField === 'timeZone' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                                <mat-icon class="custom-icon-sort"
+                                    *ngIf="sortField === 'timeZone' && sortOrder === 'desc'">arrow_downward</mat-icon>
+                            </th>
+                            <th (click)="onSort('businessLocation')" class="custom-sort-column">
+                                Business Location
+                                <mat-icon class="custom-icon-sort"
+                                    *ngIf="sortField === 'businessLocation' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                                <mat-icon class="custom-icon-sort"
+                                    *ngIf="sortField === 'businessLocation' && sortOrder === 'desc'">arrow_downward</mat-icon>
+                            </th>
+                            <th (click)="onSort('enableLogin')" class="custom-sort-column">
+                                Status
+                                <mat-icon class="custom-icon-sort"
+                                    *ngIf="sortField === 'enableLogin' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                                <mat-icon class="custom-icon-sort"
+                                    *ngIf="sortField === 'enableLogin' && sortOrder === 'desc'">arrow_downward</mat-icon>
+                            </th>
+                            <th>
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let member of (teamMembers | tableSearch: searchText:['firstName', 'lastName', 'email']) | customSort: sortField: sortOrder">
+                            <td (click)="redirect(member)" style="cursor: pointer">
+                                {{ member.firstName }} {{ member.lastName }}
+                            </td>
+                            <td (click)="redirect(member)" style="cursor: pointer">
+                                {{ member.email }}
+                            </td>
+                            <td (click)="redirect(member)" style="cursor: pointer">
+                                {{ member.isSubContractor ? 'Yes' : 'No' }}
+                            </td>
+                            <td (click)="redirect(member)" style="cursor: pointer">
+                                {{ member.stateName }}
+                            </td>
+                            <td (click)="redirect(member)" style="cursor: pointer">
+                                {{ member.timeZoneName }}
+                            </td>
+                            <td (click)="redirect(member)" style="cursor: pointer">
+                                {{ member.officeName }}
+                            </td>
+                            <td>
+                                <ng-container *ngIf="member.enableLogin">          
+                                    <span class="status-chip active">
+                                        <mat-icon class="status-icon">lock_open</mat-icon> 
+                                        <span class="status-text">Active</span>
+                                    </span>
+                                </ng-container>
+                                <ng-container *ngIf="!member.enableLogin">       
+                                    <span class="status-chip blocked">
+                                        <mat-icon class="status-icon">lock</mat-icon> 
+                                        <span class="status-text">Blocked</span>
+                                    </span>
+                                </ng-container>
+                            </td>
+                            
+                            
+                            <td>
+                                <mat-menu #menu="matMenu" class="dropdown">
+                                    <button mat-menu-item *ngIf="member.enableLogin"
+                                        (click)="blockTeamMember(member.id)">
+                                        <mat-icon class="material-symbols-outlined">block</mat-icon>
+                                        <span>Block</span>
+                                    </button>
+                                    <button mat-menu-item *ngIf="!member.enableLogin"
+                                        (click)="unblockTeamMember(member.id)">
+                                        <mat-icon class="material-symbols-outlined">lock_open</mat-icon>
+                                        <span>Unblock</span>
+                                    </button>
+                                    <button mat-menu-item (click)="openAddTeamMemberModal(member)">
+                                        <mat-icon class="material-symbols-outlined">border_color</mat-icon>
+                                        <span>Edit</span>
+                                    </button>
+                                    <button mat-menu-item (click)="deleteTeamMember(member)">
+                                        <mat-icon>delete</mat-icon>
+                                        <span>Delete</span>
+                                    </button>
+                                </mat-menu>
+                                <button mat-icon-button [matMenuTriggerFor]="menu"
+                                    class="btn btn-sm dropdown-toggle hide-arrow">
+                                    <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <app-pagination [currentPageIndex]="currentPageIndex" [totalCount]="totalCount"
+                (pageChange)="loadPagedData($event)"></app-pagination>
+        </div>
+    </div>
+</section>

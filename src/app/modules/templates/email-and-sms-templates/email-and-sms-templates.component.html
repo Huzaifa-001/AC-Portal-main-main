@@ -1,0 +1,15 @@
+<section class="section-padding">
+    <div class="container">
+      <div class="component-header">
+        <p class="title lg text-white">Templates</p>
+        <i class="material-symbols-outlined text-white">mail</i>
+      </div>
+      <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedTabChange)="onTabChanged($event)">
+        <mat-tab label="Email" [routerLink]="['/email']"></mat-tab>
+        <mat-tab label="SMS" [routerLink]="['/sms']"></mat-tab>
+      </mat-tab-group>
+      <div>
+        <router-outlet></router-outlet> <!-- This will display child components -->
+      </div>
+    </div>
+  </section>

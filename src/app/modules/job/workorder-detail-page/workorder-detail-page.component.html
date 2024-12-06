@@ -1,0 +1,251 @@
+<div class="mat-modal">
+    <div class="mat-modal-header">
+        <p class="title">Work Order</p>
+        <button type="button" class="btn-close modal-default-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="closeAddWorkOrderModal()"></button>
+    </div>
+
+    <form [formGroup]="workOrderForm">
+        <div class="mat-modal-body">
+            <div class="row">
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-1">
+                            <div class="input">
+                                <mat-label>WorkOrder Name</mat-label>
+                                <input readonly="true" matInput formControlName="name"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-1">
+                            <div class="input">
+                                <mat-label>WorkFlow</mat-label>
+                                <mat-select class="form-control form-control-sm" formControlName="workflowId"
+                                    placeholder="Select Status" (selectionChange)="onWorkflowSelectionChange($event)">
+                                    <mat-option *ngFor="let workflow of workflows" [value]="workflow?.id"
+                                        class="text-primary">{{workflow?.workFlowName}}</mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-1">
+                            <div class="input">
+                                <mat-label>Status</mat-label>
+                                <mat-select class="form-control form-control-sm" formControlName="workOrderStatus"
+                                    placeholder="Select Status" required>
+                                    <mat-option *ngFor="let status of statuses" [value]="status?.id"
+                                        class="text-primary">{{status?.statusName}}</mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-1">
+                            <div class="input">
+                                <mat-label>Assigned Team Members</mat-label>
+                                <mat-select class="form-control form-control-sm" placeholder="Assigned Team Members"
+                                    formControlName="teamMemberId" multiple>
+                                    <mat-option *ngFor="let contact of TeamMememberId" [value]="contact.id">
+                                        {{ contact.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-1">
+                            <div class="input">
+                                <mat-label>Subcontractors</mat-label>
+                                <mat-select class="form-control form-control-sm" placeholder="Sub Contractors"
+                                    formControlName="subContractorId" multiple>
+                                    <mat-option *ngFor="let contact of subcontractors" [value]="contact.id">
+                                        <!-- relatedContacts -->
+                                        {{ contact.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-1">
+                            <div class="input">
+                                <mat-label>WorkOrder Priority</mat-label>
+                                <mat-select class="form-control form-control-sm" formControlName="workOrderPriority"
+                                    placeholder="Priority" required>
+                                    <mat-option value="Low" class="text-primary">Low</mat-option>
+                                    <mat-option value="Medium" class="text-warning">Medium</mat-option>
+                                    <mat-option value="High" class="text-danger">High</mat-option>
+                                    <mat-option value="Time-Based">Time-Based</mat-option>
+                                </mat-select>
+                                <mat-error
+                                    *ngIf="workOrderForm.get('workOrderPriority').touched && workOrderForm.get('workOrderPriority').invalid">
+                                    Please select a priority
+                                </mat-error>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-1">
+                            <div class="input">
+                                <mat-label>Select Job</mat-label>
+                                <mat-select class="form-control form-control-sm" formControlName="jobId" required
+                                    placeholder="Choose a Job">
+                                    <mat-option *ngFor="let job of Jobs" [value]="job.id">
+                                        {{job.name}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error
+                                    *ngIf="workOrderForm.get('jobId')?.touched && workOrderForm.get('jobId')?.value === ''">
+                                    Please select a Job
+                                </mat-error>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-1">
+                            <div class="input">
+                                <mat-label>Start Date</mat-label>
+                                <input matInput [matDatepicker]="startDatePicker" formControlName="startDate"
+                                    class="form-control form-control-sm" required>
+                                <!-- <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle> -->
+                                <mat-datepicker #startDatePicker></mat-datepicker>
+                                <mat-error
+                                    *ngIf="workOrderForm.get('startDate')?.touched && workOrderForm.get('startDate')?.invalid">Please
+                                    select date</mat-error>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-1">
+                            <div class="input">
+                                <mat-label>Due Date</mat-label>
+                                <input matInput formControlName="dueDate" [matDatepicker]="picker"
+                                    [value]="workOrderForm.get('dueDate')?.value" class="form-control form-control-sm"
+                                    required />
+                                <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> -->
+                                <mat-datepicker #picker></mat-datepicker>
+                                <mat-error
+                                    *ngIf="workOrderForm.get('dueDate')?.touched && workOrderForm.get('dueDate')?.invalid">Please
+                                    select date</mat-error>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Fields Goes Here W'LL fetch fields display here for entity type job and based on field type we will create the field -->
+                <div class="row">
+                    <app-dynamic-field [fields]="fields" [form]="fieldsValueForm"></app-dynamic-field>
+                </div>
+
+                <div class="row">
+                    <!-- <div class="mb-3">
+                        <form [formGroup]="lineItemForm">
+                            <div class="mb-1">
+                                <div class="input">
+                                    <label>Name</label>
+                                    <input class="form-control form-control-sm" formControlName="name" />
+                                </div>
+                            </div>
+                            <div class="mb-1">
+                                <div class="input">
+                                    <label>Description</label>
+                                    <input class="form-control form-control-sm" formControlName="description" />
+                                </div>
+                            </div>
+                            <div class="mb-1">
+                                <div class="input">
+                                    <label>Quantity</label>
+                                    <input type="number" class="form-control form-control-sm"
+                                        formControlName="quantity" />
+                                </div>
+                            </div>
+                            <div class="mb-1">
+                                <div class="mt-4 text-end">
+                                    <button type="button" class="btn btn-primary btn-lg" (click)="addLineItem()">Add
+                                        Line Item</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div> -->
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="lineItems && lineItems.length > 0; else noLineItemsDataFound">
+                            <tr *ngFor="let item of lineItems; let i = index">
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.description }}</td>
+                                <td>{{ item.quantity }}</td>
+                            </tr>
+                        </tbody>
+                        <ng-template #noLineItemsDataFound>
+                            <tbody>
+                                <tr class="text-center">
+                                    <td colspan="3">No data found</td>
+                                </tr>
+                            </tbody>
+                        </ng-template>
+                    </table>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <!-- <div class="col">
+                        <div class="mb-1">
+                            <div class="mt-4 text-end">
+                                <button type="button" class="btn btn-primary btn-lg" (click)="openNotesModal()">Add
+                                    Notes</button>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <table class="table" *ngIf="notes?.length">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Content</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="notes && notes.length > 0; else noNotesDataFound">
+                            <tr *ngFor="let item of notes; let i = index">
+                                <td>{{ item.type }}</td>
+                                <td>{{ item.content }}</td>
+                            </tr>
+                        </tbody>
+                        <ng-template #noNotesDataFound>
+                            <tbody>
+                                <tr class="text-center">
+                                    <td colspan="2">No data found</td>
+                                </tr>
+                            </tbody>
+                        </ng-template>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="mat-modal-footer">
+            <div class="mt-4 text-end">
+                <button type="submit" class="btn btn-secondary btn-lg" (click)="closeAddWorkOrderModal()">Close</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,99 @@
+<section class="section-padding">
+  <div class="container">
+      <div class="card">
+          <div class="input-group justify-content-end w-auto my-2 px-3">
+              <div class="form-outline">
+                  <input type="search" [(ngModel)]="searchText" placeholder="Search By Name" id="form1"
+                      class="form-control"
+                      style="border-top-right-radius: 0; border-bottom-right-radius: 0; outline: none;" />
+              </div>
+              <button type="button" class="btn btn-primary" style="width: 40px; height: 32px;">
+                  <div class="search-input-icon">
+                      <i class="material-symbols-outlined">search</i>
+                  </div>
+              </button>
+          </div>
+          <div class="card-header">
+
+             <div class="card-title">Automations</div>  <!-- Jobs  -->
+              <div class="d-flex btns-group">
+                  <button class="btn btn-primary" (click)="openAddAutomationModal(null)">
+                      <div class="d-flex align-items-center">
+                          <i class="material-symbols-outlined">add</i>
+                          <span>Add Automation</span>
+                      </div>
+                  </button>
+              </div>
+          </div>
+          <div class="card-body px-0">
+              <table class="table striped-td" #contactWorkflowTable>
+                  <thead>
+                      <tr>
+                          <th (click)="onSort('name')" class="custom-sort-column">
+                              Name
+                              <mat-icon class="custom-icon-sort"
+                                  *ngIf="sortField === 'name' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                              <mat-icon class="custom-icon-sort"
+                                  *ngIf="sortField === 'name' && sortOrder === 'desc'">arrow_downward</mat-icon>
+                          </th>
+                          <th>
+                              Active (Yes/No)
+                          </th>
+                          <th>
+                              Conditions
+                          </th>
+                          <th>
+                              Actions
+                          </th>
+                          <th></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr
+                          *ngFor="let item of (automations | tableSearch: searchText:['name']) | customSort: sortField: sortOrder">
+                          <td style="cursor: pointer">
+                              {{ item.name }}
+                          </td>
+                          <td style="cursor: pointer">
+                              <mat-checkbox [(ngModel)]="item.isActive" (change)="markAutomationActiveOrNot(item)"></mat-checkbox>
+                          </td>
+                          
+                          <td style="cursor: pointer">
+                              <ng-container *ngFor="let status of item.conditions; last as isLast">
+                                  <b>If</b> {{ status.fieldName }}
+                                  <b>{{ status.comparison == '==' ? 'Equals to' : 'Not Equal to' }}</b> {{ status.fieldValue }}
+                                  {{ isLast ? '' : ',' }}
+                                  <br *ngIf="!isLast">
+                              </ng-container>
+                          </td>
+                          <td style="cursor: pointer">
+                              <ng-container *ngFor="let status of item.actions; last as isLast">
+                                  {{ status.name }}
+                                  {{ isLast ? '' : ',' }}
+                                  <br *ngIf="!isLast">
+                              </ng-container>
+                          </td>
+
+                          <td>
+                              <mat-menu #menu="matMenu" class="dropdown">
+                                  <button mat-menu-item (click)="openAddAutomationModal(item)">
+                                      <mat-icon class="material-symbols-outlined">border_color</mat-icon>
+                                      <span>Edit</span>
+                                  </button>
+                                  <button mat-menu-item (click)="deleteAutomation(item)" class="btn btn-sm">
+                                      <mat-icon>delete</mat-icon>
+                                      <span>Delete</span>
+                                  </button>
+                              </mat-menu>
+                              <button mat-icon-button [matMenuTriggerFor]="menu"
+                                  class="btn btn-sm dropdown-toggle hide-arrow">
+                                  <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                              </button>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</section>

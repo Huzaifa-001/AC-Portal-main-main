@@ -1,0 +1,67 @@
+@import 'variables';
+
+.title{
+    margin: 0;
+    font-size: 18px;
+    font-family: $gotham-b;
+    color: $text-dark;
+    &.sm{
+        font-size: 16px;
+    }
+    &.md{
+        font-size: 20px;
+    }
+    &.lg{
+        font-size: 24px;
+    }
+}
+.text{
+    margin: 0;
+    font-size: 14px;
+    font-family: $gotham-r;
+    color: $text;
+    
+}
+/*****************************************/
+.text-primary{
+    color: $primary;
+}
+.clr-text{
+    color: $text;
+}
+.clr-text-light{
+    color: $text-light
+}
+.clr-text-dark{
+    color: $text-dark
+}
+/*****************************************/
+@mixin font-size($size) {
+    .fs-#{$size} {
+        font-size: unquote($size + px) !important;
+    }
+}
+@include font-size(8);
+@include font-size(10);
+@include font-size(12);
+@include font-size(14);
+@include font-size(16);
+@include font-size(18);
+@include font-size(20);
+@include font-size(22);
+@include font-size(24);
+@include font-size(26);
+@include font-size(28);
+@include font-size(32);
+/*****************************************/
+.cursor-pointer{
+    cursor: pointer;
+}
+.border-right-2{
+    border-right: 2px solid #EEF2F8;
+}
+@media (min-width: 1400px){
+    .container {
+        max-width: 1500px;
+    }
+}

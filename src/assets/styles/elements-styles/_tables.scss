@@ -1,0 +1,195 @@
+@import "../variables";
+
+// .app-table {
+//   p-table {
+//     // .p-datatable-header{
+//     //     padding: 0 ;
+//     //     border: none;
+//     //     margin-bottom: 15px;
+//     // }
+//     .p-datatable-wrapper {
+//       .p-datatable-table {
+//         .p-datatable-thead, .p-datatable-tbody {
+//           tr {
+//             // th:first-of-type, td:first-of-type {
+//             //   padding-left: 15px;
+//             // }
+
+//             // th:last-of-type, td:last-of-type {
+//             //   padding-right: 15px;
+//             // }
+//             th, td{
+//                 padding: 0 10px;
+//             }
+//           }
+//         }
+
+//         .p-datatable-thead {
+//           tr {
+//             border-top: 0.854183px solid #e9eff7;
+//             border-bottom: 0.854183px solid #e9eff7;
+//             background: transparent;
+//             height: 46px;
+
+//             th {
+//                 white-space: nowrap;
+//                 > div{
+//                     display: flex;
+//                     align-items: center;
+//                     // gap: 5px;
+//                 }
+//                 p-sorticon{
+//                     .p-sortable-column-icon{
+//                         margin: 0;
+//                         margin-right: 5px;
+//                         color: inherit;
+//                         font-size: 10px;
+//                     }
+//                 }
+//               color: #8897ae;
+//               background: transparent;
+//               font-size: 14px;
+//               border-radius: 0;
+//               border: none;
+//               font-family: $gotham-m;
+//               font-weight: unset;
+//             }
+//           }
+//         }
+
+//         .p-datatable-tbody {
+//           tr {
+//             height: 50px;
+
+//             td {
+//               color: #414042;
+//               font-size: 14px;
+//               border-radius: 0;
+//               border: none;
+//               font-family: $gotham-r;
+//               // border-bottom: 0.812966px solid #F1F1F8;
+
+//                 white-space: nowrap;
+//                 max-width: 500px;
+//                 overflow: hidden;
+//                 text-overflow: ellipsis;
+//             }
+//           }
+//         }
+//       }
+//     }
+
+//     p-paginator{
+//         .p-paginator{
+//             border: none;
+//             padding: 0;
+//             // height: 95px;
+//             .p-paginator-element {
+//                 width: 30px;
+//                 min-width: 30px;
+//                 max-width: 30px;
+//                 height: 28px;
+//                 border-radius: 6px;
+//                 color: #3D4A5C;
+//                 font-family: $gotham-r;
+//                 &:focus{
+//                     box-shadow: none;
+//                 }
+//             }
+//             .p-paginator-pages{
+//                 .p-highlight{
+//                     background: #3D4A5C;
+//                     color: #fff;
+//                 }
+//             }
+//             // .p-paginator-current{
+//             //     font-weight: 400;
+//             //     font-family: $gotham-r;
+//             //     font-size: 12px;
+//             //     line-height: 15px;
+//             //     color: #45496A;
+//             // }
+//         }
+//     }
+//   }
+// }
+
+.action-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50px;
+  background: #f9fafb;
+  border: 0.854183px solid #d7dfe9;
+  color: #414042;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  i {
+    font-size: 12px;
+  }
+}
+
+.td-img{
+    width: 90px;
+    height: 40px;
+    border-radius: 6px;
+    object-fit: cover;
+    object-position: center;
+    overflow: hidden;
+    &.circle{
+      width: 40px;
+      border-radius: 50px;
+    }
+}
+
+
+.table{
+  width: 100%;
+  thead , tbody{
+      tr{
+          th:first-of-type , td:first-of-type{
+              padding-left: 20px;
+          }
+          th:last-of-type , td:last-of-type{
+              padding-right: 20px;
+          }
+      }
+  }
+  thead{
+      tr{
+          background: #F1F3F9 ;
+          height: 40px;
+          th{
+            background: #F1F3F9 ;
+              color: #8898AA;
+              font-size: 14px;
+              border-radius: 0;
+              border: none;
+              font-family: $gotham-m;
+              vertical-align: middle;
+
+          }
+      }
+  }
+  tbody{
+      tr{
+          height: 50px;
+
+          td{
+              color: #172B4D;
+              font-size: 14px;
+              border-radius: 0;
+              border: none;
+              font-family: $gotham-m;
+              vertical-align: middle;
+          }
+      }
+  }
+  &.striped-td{
+    > tbody > tr:nth-of-type(even) > *{
+      background: #F7FAFC;
+    }
+
+  }
+}

@@ -1,0 +1,372 @@
+<section class="section-padding">
+  <div class="container">
+    <div class="component-header">
+      <p class="title lg text-white">Office Locations</p>
+      <i class="material-symbols-outlined text-white">map</i>
+      <!-- <ol class="breadcrumb px-2">
+                <li class="breadcrumb-item"><a class="text-light" href="index.html">Contacts</a></li>
+                <li class="breadcrumb-item"><a class="text-light" href="#">Dashboard</a></li>
+            </ol> -->
+    </div>
+    <div class="card">
+      <div class="input-group justify-content-end w-auto my-2 px-3">
+        <div class="form-outline">
+          <input type="search" [(ngModel)]="searchText" placeholder="Search Locations" id="form1" class="form-control"
+            style="border-top-right-radius: 0; border-bottom-right-radius: 0; outline: none;" />
+        </div>
+        <button type="button" class="btn btn-primary" style="width: 40px; height: 32px;">
+          <div class="search-input-icon">
+            <i class="material-symbols-outlined">search</i>
+          </div>
+        </button>
+      </div>
+      <div class="card-header">
+        <div class="card-title">Your Office Locations</div>
+        <div class="d-flex btns-group">
+          <button class="btn btn-primary" (click)="openAddOfficeLocationModal(null)">
+            <div class="d-flex align-items-center">
+              <i class="material-symbols-outlined">add</i>
+              <span>Add Office Location</span>
+            </div>
+          </button>
+          <!-- <input
+            type="file"
+            id="csvFileInput"
+            style="display: none"
+            accept=".csv"
+            (change)="handleFileSelection($event)"
+          /> -->
+
+          <!-- <button class="btn btn-outline-primary-none">Edit</button>
+          <button class="btn btn-outline-primary-none">
+            <i class="material-symbols-outlined">unfold_more</i>
+          </button> -->
+        </div>
+      </div>
+      <div class="card-body px-0">
+        <table class="table striped-td">
+          <thead>
+            <tr>
+              <th class="custom-sort-column" (click)="onSort('officeLocationName')">Location Name <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'officeLocationName' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'officeLocationName' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th class="custom-sort-column" (click)="onSort('addressLine1')">Address #1 <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'addressLine1' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'addressLine1' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th class="custom-sort-column" (click)="onSort('addressLine2')">Address #2 <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'addressLine2' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'addressLine2' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th class="custom-sort-column" (click)="onSort('city')">City <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'city' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'city' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th class="custom-sort-column" (click)="onSort('phoneNumber')">Phone Number <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'phoneNumber' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'phoneNumber' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let officeLocation of (pagedOfficeLocations | tableSearch: searchText:['officeLocationName', 'addressLine1','addressLine2','city', 'phoneNumber']) | customSort: sortField: sortOrder">   
+              <td (click)="redirect(officeLocation)" style="cursor: pointer">
+                {{ officeLocation.officeLocationName }}
+              </td>
+              <td (click)="redirect(officeLocation)" style="cursor: pointer">
+                {{ officeLocation.addressLine1 }}
+              </td>
+              <td (click)="redirect(officeLocation)" style="cursor: pointer">
+                {{ officeLocation.addressLine2 }}
+              </td>
+              <td (click)="redirect(officeLocation)" style="cursor: pointer">
+                {{ officeLocation.city }}
+              </td>
+              <td (click)="redirect(officeLocation)" style="cursor: pointer">
+                {{ officeLocation.phoneNumber }}
+              </td>
+              <td>
+                <mat-menu #menu="matMenu" class="dropdown">
+                  <button mat-menu-item (click)="openAddOfficeLocationModal(officeLocation)">
+                    <mat-icon class="material-symbols-outlined">border_color</mat-icon>
+                    <span>Edit</span>
+                  </button>
+                  <!-- <button mat-menu-item (click)="deleteOfficeLocation(officeLocation)"
+                    class="btn btn-sm dropdown-toggle hide-arrow">
+                    <mat-icon>delete</mat-icon>
+                    <span>Delete</span>
+                  </button> -->
+                </mat-menu>
+
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="btn btn-sm dropdown-toggle hide-arrow">
+                  <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+
+
+        </table>
+      </div>
+      <!-- Pagination -->
+      <app-pagination [currentPageIndex]="currentPageIndex" [totalCount]="totalCount"
+        (pageChange)="loadPagedOfficeLocations($event)"></app-pagination>
+
+
+    </div>
+  </div>
+</section>
+
+<div class="modal fade text-start" id="locationAddModal" tabindex="-1" aria-labelledby="myModalLabel17"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel17">Add Contact</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <nav>
+          <div class="row justify-content-center">
+            <div class="col-lg-12">
+              <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+                  type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                  Personal Information
+                </button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+                  type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
+                  General Information
+                </button>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"
+            tabindex="0">
+            <div id="account-details-modern" class="" role="tabpanel" aria-labelledby="account-details-modern-trigger">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="row">
+                      <div class="col-md-6 text-center">
+                        <div class="mb-2 text-center">
+                          <img src="../assets/images/5.png" alt="users avatar"
+                            class="user-avatar users-avatar-shadow rounded-circle me-2 my-25 cursor-pointer"
+                            height="110" width="110" />
+                          <div class="mt-50">
+                            <!-- <h4>Eleanor Aguilar</h4> -->
+                            <div class="col-lg-11 text-center">
+                              <button class="btn btn-outline-secondary">
+                                Edit
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="row">
+                          <div class="mb-1 col-md-12">
+                            <label class="form-label" for="modern-username">First Name</label>
+                            <input type="text" id="modern-username" class="form-control" placeholder="johndoe" />
+                          </div>
+                          <div class="mb-1 col-md-12">
+                            <label class="form-label" for="modern-email">Last Name</label>
+                            <input type="email" id="modern-email" class="form-control" placeholder="john.doe@email.com"
+                              aria-label="john.doe" />
+                          </div>
+                          <div class="mb-1 col-md-12">
+                            <label class="form-label" for="modern-username">Company</label>
+                            <input type="text" id="modern-username" class="form-control" placeholder="johndoe" />
+                          </div>
+                          <div class="mb-1 col-md-12">
+                            <label class="form-label" for="modern-email">Mobile Number</label>
+                            <input type="email" id="modern-email" class="form-control" placeholder="john.doe@email.com"
+                              aria-label="john.doe" />
+                          </div>
+                          <div class="mb-1 col-md-12">
+                            <label class="form-label" for="modern-username">Email Adress</label>
+                            <input type="text" id="modern-username" class="form-control" placeholder="johndoe" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mt-2">
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="input-group input-group-merge">
+                              <span class="input-group-text" id="basic-addon3">
+                                <span class="material-symbols-outlined">
+                                  search
+                                </span>
+                              </span>
+                              <input id="twitter-input" type="text" class="form-control" value=""
+                                placeholder="Search for a Contact" aria-describedby="basic-addon3"
+                                aria-invalid="false" />
+                            </div>
+                          </div>
+                          <div class="col-lg-12 mt-1">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose an Office</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose a Status</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose a Status</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-12 mt-2">
+                            <h4>Additional Information</h4>
+                            <button class="btn btn-outline-secondary btn-prev" disabled>
+                              <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                              <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="input-group input-group-merge">
+                              <span class="input-group-text" id="basic-addon3">
+                                <span class="material-symbols-outlined">
+                                  search
+                                </span>
+                              </span>
+                              <input id="twitter-input" type="text" class="form-control" value=""
+                                placeholder="Search for a Team Member" aria-describedby="basic-addon3"
+                                aria-invalid="false" />
+                            </div>
+                          </div>
+                          <div class="col-lg-12 mt-1">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose a Workflow</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose a Sales Rep</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose a Subcontractor</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <label class="form-label" for="modern-username">Status</label>
+                  <div class="mb-1">
+                    <select class="form-select" id="status" aria-invalid="false">
+                      <option>Choose a Status</option>
+                      <option>Blocked</option>
+                      <option>Deactivated</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-12 mb-1">
+                  <label class="form-label" for="modern-email">Tags</label>
+                  <div class="input-group input-group-merge">
+                    <span class="input-group-text" id="basic-addon3">
+                      <span class="material-symbols-outlined"> search </span>
+                    </span>
+                    <input id="twitter-input" type="text" class="form-control" value="" placeholder="Search for a Tag"
+                      aria-describedby="basic-addon3" aria-invalid="false" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="row">
+                <div class="col-lg-12">
+                  <label class="form-label" for="modern-username">Sales Representative</label>
+                  <div class="mb-1">
+                    <select class="form-select" id="status" aria-invalid="false">
+                      <option>Choose a Sales Rep</option>
+                      <option>Blocked</option>
+                      <option>Deactivated</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <label class="form-label" for="modern-username">Source</label>
+                  <div class="mb-1">
+                    <select class="form-select" id="status" aria-invalid="false">
+                      <option>Choose a Source</option>
+                      <option>Blocked</option>
+                      <option>Deactivated</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <label class="form-label" for="modern-username">Subcontractors</label>
+                  <div class="mb-1">
+                    <select class="form-select" id="status" aria-invalid="false">
+                      <option>Choose a Subcontractor</option>
+                      <option>Blocked</option>
+                      <option>Deactivated</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                  <button class="btn btn-primary btn-next">
+                    <span class="align-middle d-sm-inline-block d-none">Next</span>
+                    <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+              ...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

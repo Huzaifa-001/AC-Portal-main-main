@@ -1,0 +1,78 @@
+
+<!-- Sidebar -->
+<div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" onmouseover="mouseOverMainMenu()"
+ onmouseleave="mouseLeaveMainMenu()" id="mainMenu">
+ <div class="navbar-header">
+     <ul class="nav navbar-nav flex-row">
+         <li class="nav-item me-auto">
+             <a href="/" class="navbar-brand">
+                 <span class="brand-logo">
+                     <img src="../assets/images/logo.png">
+                 </span>
+             </a>
+         </li>
+         <li class="nav-item nav-toggle">
+             <a href="javascript: void(0);" class="nav-link modern-nav-toggle pe-0">
+                 <i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary material-symbols-outlined"
+                     id="menuFixingIcon" onclick="collapseSideBar()">lock_open</i>
+
+                 <i class="d-block d-xl-none text-primary toggle-icon font-medium-4 material-symbols-outlined"
+                     onclick="toggleSidebar()">close</i>
+             </a>
+         </li>
+     </ul>
+ </div>
+ <div class="shadow-bottom"></div>
+ <div class="main-menu-content">
+     <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+         <li class="nav-item">
+             <a class="d-flex align-items-center" href="index.html">
+                 <i class="material-symbols-outlined">home</i>
+                 <span class="menu-title mt-5px text-primary">Dashboard</span>
+             </a>
+         </li>
+         <li class="nav-item" routerLink="/contact" routerLinkActive="active">
+             <a class="d-flex align-items-center" routerLink="/contact" routerLinkActive="active">
+                 <i class="material-symbols-outlined text-danger">mail</i>
+                 <span class="menu-title mt-5px">Contacts</span>
+             </a>
+         </li>
+         <li class="nav-item" routerLink="/jobs" routerLinkActive="active">
+             <a class="d-flex align-items-center" routerLink="/jobs" routerLinkActive="active">
+                 <i class="material-symbols-outlined text-info">work</i>
+                 <span class="menu-title mt-5px">Jobs</span>
+             </a>
+         </li>
+         <li class="nav-item">
+             <a class="d-flex align-items-center">
+                 <i class="material-symbols-outlined text-secondary">description</i>
+                 <span class="menu-title mt-5px">Projects</span>
+             </a>
+         </li>
+         <li class="nav-item">
+             <a class="d-flex align-items-center">
+                 <i class="material-symbols-outlined text-warning">chat_bubble</i>
+                 <span class="menu-title mt-5px">Analytics</span>
+             </a>
+         </li>
+         <li class="nav-item" routerLink="/calendar" routerLinkActive="active">
+             <a class="d-flex align-items-center" routerLink="/calendar" routerLinkActive="active">
+                 <i class="material-symbols-outlined text-danger">calendar_today</i>
+                 <span class="menu-title mt-5px">Calendar</span>
+             </a>
+         </li>
+         <li class="nav-item">
+             <a class="d-flex align-items-center">
+                 <i class="material-symbols-outlined text-warning">settings</i>
+                 <span class="menu-title mt-5px">Settings</span>
+             </a>
+         </li>
+         <li class="nav-item">
+            <a class="d-flex align-items-center">
+                <i class="material-symbols-outlined text-warning">locations</i>
+                <span class="menu-title mt-5px">Locations</span>
+            </a>
+        </li>
+     </ul>
+ </div>
+</div>

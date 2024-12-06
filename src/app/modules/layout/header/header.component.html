@@ -1,0 +1,154 @@
+<div class="header">
+  <div class="header-container">
+    <div class="flex-grow-1">
+      <div class="input-icon-left search-input-header">
+        <i class="material-symbols-outlined">search</i>
+        <input class="form-control" type="text" placeholder="Search" [(ngModel)]="searchKeyword"
+          (input)="onSearchInput(searchKeyword)" />
+      </div>
+      <div class="search-container">
+        <ul class="search-results" *ngIf="showResults">
+          <div class="search-Header p-2">
+            <p class="title">Search Result</p>
+            <button type="button" class="btn-close modal-default-close" (click)="showResults = !showResults"></button>
+          </div>
+          <ng-container *ngIf="searchResults.jobs.length > 0">
+            <div class="p-2">
+              <h6 class="text-primary text-uppercase">Jobs</h6>
+            </div>
+            <div class="search-result-data">
+              <li *ngFor="let job of searchResults.jobs" class="search-result" (click)="onSearchInput('')">
+                <a class="result-link" [routerLink]="'jobs/' + job.id">
+                  <h4>{{ job.name }}</h4>
+                  <!-- <p style="font-size: 10px;">{{ job.description }}</p> -->
+                </a>
+                <a class="go-icon d-flex" [routerLink]="'jobs/' + job.id">
+                  GO
+                  <span class="arrow-icon">>></span>
+                </a>
+              </li>
+            </div>
+            <hr>
+          </ng-container>
+          <ng-container *ngIf="searchResults.contacts.length > 0">
+            <div class="p-2">
+              <h6 class="text-primary text-uppercase">Contacts</h6>
+            </div>
+            <div class="search-result-data">
+              <li *ngFor="let contact of searchResults.contacts" class="search-result" (click)="onSearchInput('')">
+                <a class="result-link" [routerLink]="'contact/' + contact.id">
+                  <h4>{{ contact.name }}</h4>
+                  <!-- <p style="font-size: 10px;">{{ contact.description }}</p> -->
+                </a>
+                <a class="go-icon d-flex" [routerLink]="'contact/' + contact.id">
+                  GO
+                  <span class="arrow-icon">>></span>
+                </a>
+              </li>
+            </div>
+            <hr>
+          </ng-container>
+          <ng-container *ngIf="searchResults.workOrders.length > 0">
+
+            <div class="p-2">
+              <h6 class="text-primary text-uppercase">WorkOrders</h6>
+            </div>
+            <div class="search-result-data">
+              <li *ngFor="let workOrder of searchResults.workOrders" class="search-result" (click)="onSearchInput('')">
+                <a class="result-link" [routerLink]="['/jobs', workOrder.jobId, 'workorder']"
+                  [queryParams]="{ id: workOrder.id }">
+                  <h4>{{ workOrder.name }}</h4>
+                  <!-- <p style="font-size: 10px;">{{ workOrder.description }}</p> -->
+                </a>
+                <a class="result-link" [routerLink]="['/jobs', workOrder.jobId, 'workorder']"
+                  [queryParams]="{ id: workOrder.id }" class="go-icon d-flex">
+                  GO
+                  <span class="arrow-icon">>></span>
+                </a>
+              </li>
+
+              <li class="search-result" *ngIf="
+                searchResults.jobs.length == 0 &&
+                searchResults.contacts.length == 0 &&
+                searchResults.workOrders.length == 0 &&
+                showResults == true
+              ">
+                <p>No result found</p>
+              </li>
+            </div>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+
+    <div class="header-menu-list">
+      <div class="">
+        <mat-menu #menuJob="matMenu" class="dropdown">
+          <button mat-menu-item (click)="openAddJobModal()">
+            <!-- <mat-icon class="material-symbols-outlined"
+              >add</mat-icon> -->
+            <span>Add Job</span>
+          </button>
+          <button mat-menu-item (click)="openAddContactModal()">
+            <!-- <mat-icon class="material-symbols-outlined"
+              >add</mat-icon> -->
+            <span>Add Contact</span>
+          </button>
+          <button mat-menu-item (click)="openAddTaskModal()">
+            <!-- <mat-icon class="material-symbols-outlined"
+              >add</mat-icon> -->
+            <span>Add Task</span>
+          </button>
+        </mat-menu>
+        <button mat-icon-button [matMenuTriggerFor]="menuJob" class="btn btn-sm hide-arrow">
+          <i class="material-symbols-outlined">add_circle</i>
+        </button>
+      </div>
+      <div class="">
+        <a routerLink="/dashboard/user-activity">
+          <i class="material-symbols-outlined">assignment_turned_in</i></a>
+      </div>
+
+      <div class="notification-icon">
+        <button mat-icon-button [matMenuTriggerFor]="notificationMenu" (menuOpened)="loadNotifications()"
+          class="btn btn-sm hide-arrow">
+          <i class="material-symbols-outlined">notifications</i>
+          <span class="notification-badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+        </button>
+        <mat-menu #notificationMenu="matMenu" style="width: 350px;" class="notification-menu">
+          <app-nodificationmodal></app-nodificationmodal>
+        </mat-menu>
+      </div>
+
+      <div class="">
+        <a routerLink="/help-and-support"><i class="material-symbols-outlined">help</i></a>
+      </div>
+
+      <div class="user-avatar">
+        <button class="avatar-btn-menu d-flex flex-row align-items-center " mat-button [matMenuTriggerFor]="avatarMenu">
+          <img *ngIf="userProfilePicture; else initials" [src]="userProfilePicture">
+          <ng-template #initials>
+            <div><div class="initials">{{ user.firstName?.charAt(0) || 'A' }}{{ user.lastName?.charAt(0) || 'C' }}</div></div>
+          </ng-template>
+          <span class="px-1">
+            {{ (user.firstName || '') + ' ' + (user.lastName || '') }}
+          </span>
+        </button>        
+        <mat-menu #avatarMenu="matMenu">
+          <button mat-menu-item (click)="viewProfile()">
+            <span>View Profile</span>
+          </button>
+          <button mat-menu-item (click)="viewSubscription()">
+            <span>View Subscription</span>
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <span class="logout-option">
+              Logout
+              <i class="material-symbols-outlined text-dark">logout</i>
+            </span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+</div>

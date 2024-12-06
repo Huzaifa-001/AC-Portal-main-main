@@ -1,0 +1,54 @@
+<div class="mat-modal">
+    <div class="mat-modal-header justify-content-end p-1">
+        <button type="button" class="btn-close modal-default-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="closeAddJobsModal()"></button>
+    </div>
+    <div class="mat-modal-body">
+        <p class="event-title text-uppercase">{{eventName}}</p>
+        <p class="detail-text px-2">{{description}}</p>
+        <div class="divider"></div>
+        <div class="row text-center no-gutter">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="col-10 mb-1 d-flex justify-content-between">
+                    <p class="detail-text">Starts</p>
+                    <p class="detail-text">{{startTime | date}}</p>
+                </div>
+            </div>
+            <div class="col-12 d-flex justify-content-center">
+                <div class="col-10 mb-1 d-flex justify-content-between">
+                    <p class="detail-text">End</p>
+                    <p class="detail-text">{{endTime | date}}</p>
+                </div>
+            </div>
+            <div class="col-12 d-flex justify-content-center">
+                <div class="col-10 mb-1 d-flex justify-content-between">
+                    <p class="detail-text">Priority</p>
+                    <p class="detail-text d-flex align-items-center">
+                        <i class="material-icons px-2" style="font-size: 13px;" [ngClass]="{'text-danger': priority === 'High', 'text-warning': priority === 'Medium', 'text-success': priority === 'Low'}">flag</i>
+                       <span> {{ priority }}</span>
+                    </p>
+                </div>
+                
+            </div>
+            <div class="col-12 d-flex justify-content-center" *ngIf="priority === 'Time-Based'">
+                <div class="col-10 mb-1 d-flex justify-content-between">
+                    <p class="detail-text">Estimated Duration</p>
+                    <p class="detail-text">{{estimatedDuration}}</p>
+                </div>
+            </div>
+            <!-- <div class="col-12 d-flex justify-content-center">
+                <div class="col-10 mb-1 d-flex justify-content-between">
+                    <p class="detail-text">Location</p>
+                    <p class="detail-text">{{description}}</p>
+                </div>
+            </div> -->
+        </div>
+        <div class="divider"></div>
+
+        <div class="col-12 d-flex justify-content-center">
+            <button type="submit" class="btn submit-btn" (click)="openEventModal()">
+                Edit Event
+            </button>
+        </div>
+    </div>
+</div>

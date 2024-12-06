@@ -1,0 +1,103 @@
+<div class="actions d-flex justify-content-end my-2">
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <!-- <button class="btn btn-outline-primary text-primary btn-sm d-flex align-items-center" type="button"
+      data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+      <i class="material-symbols-outlined">unfold_more</i>
+      <span>Sorted By</span>
+    </button> -->
+    <button (click)="openAddTaskModal(null)" class="btn btn-outline-primary text-primary btn-sm d-flex align-items-center">
+        <div class="d-flex align-items-center">
+            <i class="material-symbols-outlined ">add</i>
+            <span>Add Task</span>
+        </div>
+    </button>
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+  </div>
+  <div class="card-body p-0">
+    <table class="table">
+      <thead>
+        <tr>
+            <th>Name</th>
+            <th>DISCRIPTION</th>
+            <th>ASSIGNED TO</th>
+            <th>SUB CONTRACTOR</th>
+            <th>CONTACTS</th>
+            <th>TAGS</th>
+            <th>STATUS</th>
+            <!-- <th>Notes</th> -->
+            <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="tasks.length > 0; else noDataMessage">
+            <tr *ngFor="let task of tasks">
+                <td>
+                    <div class="d-flex">{{ task.taskName }}</div>
+                    <small class="d-flex text-muted">{{ task.startDate | date }} - {{
+                        task.endDate | date }}</small>
+                </td>
+                <td>{{ task.description }}</td>
+                <td>
+                    <div
+                        *ngIf="task.relatedTeamMembers && task.relatedTeamMembers.length > 0">
+                        <span
+                            *ngFor="let teamMember of task.relatedTeamMembers; let last = last">{{
+                            teamMember.name }}{{ !last ? ', ' : '' }}</span>
+                    </div>
+                </td>
+                <td>
+                    <div
+                        *ngIf="task.relatedSubcontractors && task.relatedSubcontractors.length > 0">
+                        <span
+                            *ngFor="let contact of task.relatedSubcontractors; let last = last">{{
+                            contact.name }}{{ !last ? ', ' : '' }}</span>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="task.relatedContacts && task.relatedContacts.length > 0">
+                        <span
+                            *ngFor="let contact of task.relatedContacts; let last = last">{{
+                            contact.name }}{{ !last ? ', ' : '' }}</span>
+                    </div>
+                </td>
+                <td>{{ task.tags || '' }}</td>
+                <td>{{ task.status || '' }}</td>
+                <td>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" [matMenuTriggerFor]="TaskMenu">
+                          <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                        </button>
+                        <div class="dropdown-menu">
+                          <button mat-icon-button [matMenuTriggerFor]="TaskMenu" xPosition="before">
+                            <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                          </button>
+                          <mat-menu #TaskMenu="matMenu">
+                            <button mat-menu-item (click)="openAddTaskModal(task)">
+                              <mat-icon class="material-symbols-outlined">border_color</mat-icon>
+                              <span>Edit</span>
+                            </button>
+                            <button mat-menu-item (click)="deleteTask(task)">
+                              <mat-icon>delete</mat-icon>
+                              <span>Delete</span>
+                            </button>
+                          </mat-menu>
+                        </div>
+                      </div>
+                </td>
+            </tr>
+
+        </ng-container>
+        <ng-template #noDataMessage>
+            <tr>
+              <td colspan="6" class="text-center">No Logs available</td>
+            </tr>
+          </ng-template>
+      </tbody>
+    </table>
+  </div>
+  
+  <ng-container *ngIf="totalCount > 0">
+    <app-pagination [currentPageIndex]="currentPageIndex" [totalCount]="totalCount"
+      (pageChange)="loadTasks($event)"></app-pagination>
+  </ng-container>
+  

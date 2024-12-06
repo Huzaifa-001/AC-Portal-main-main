@@ -1,0 +1,413 @@
+<div class="mat-modal">
+  <div class="mat-modal-header">
+    <p class="title">Change Fields</p>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeDialog()"></button>
+  </div>
+  <div class="mat-modal-body">
+    <form [formGroup]="changeFieldForm">
+      <div formArrayName="fields">
+        <div *ngFor="let formmmm of fieldsFormArray.controls; let i = index" [formGroupName]="i" class="field-group">
+          <div class="row" *ngIf="modelData.TriggerRecord == 'job'">
+            <div class="col-md-5">
+              <div class="input">
+                <label>Field to Change</label>
+                <mat-select class="form-control" formControlName="selectedField" placeholder="Choose a field">
+                  <mat-option *ngFor="let field of jobFields" [value]="field.value">
+                    {{ field.label }}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="input">
+                <label>New Value</label>
+                <ng-container [ngSwitch]="formmmm.get('selectedField').value">
+                  <ng-template ngSwitchCase="StateId">
+                    <mat-select class="form-control" formControlName="newValue" placeholder="Choose a state">
+                      <mat-option [value]="null">--Clear selection--</mat-option>
+                      <mat-option *ngFor="let state of allStates" [value]="state.id">{{ state.name }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="JobStatusId">
+                    <mat-select class="form-control" formControlName="newValue" placeholder="Choose a status">
+                      <mat-option [value]="null">--Clear selection--</mat-option>
+                      <mat-option *ngFor="let status of allStatuses" [value]="status.id">{{ status.name }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="LeadSourceId">
+                    <mat-select class="form-control" formControlName="newValue" placeholder="Choose a lead source">
+                      <mat-option [value]="null">--Clear selection--</mat-option>
+                      <mat-option *ngFor="let leadSource of allLeadSources" [value]="leadSource.id">{{ leadSource.value
+                        }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="RelatedContactIds">
+                    <mat-select formControlName="newValue" class="form-control" placeholder="Choose related contacts"
+                      multiple>
+                      <mat-option *ngFor="let rl of RelatedContacts" [value]="rl.id">{{ rl.name }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="TeamMemberIds">
+                    <mat-select formControlName="newValue" class="form-control" placeholder="Choose team members"
+                      multiple>
+                      <mat-option *ngFor="let tm of TeamMembers" [value]="tm.id">{{ tm.name }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="SalesRepsentativeId">
+                    <mat-select class="form-control" formControlName="newValue"
+                      placeholder="Choose a sales representative">
+                      <mat-option [value]="null">--Clear selection--</mat-option>
+                      <mat-option *ngFor="let salesRep of allSalesReps" [value]="salesRep.id">{{ salesRep.name
+                        }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="PrimaryContactId">
+                    <mat-select class="form-control" formControlName="newValue" placeholder="Choose a primary contact">
+                      <mat-option [value]="null">--Clear selection--</mat-option>
+                      <mat-option *ngFor="let contact of allRelatedContacts" [value]="contact.id">{{ contact.name
+                        }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="OfficeLocationId">
+                    <mat-select class="form-control" formControlName="newValue" placeholder="Choose an office location">
+                      <mat-option [value]="null">--Clear selection--</mat-option>
+                      <mat-option *ngFor="let location of allOfficeLocations" [value]="location.id">{{
+                        location.officeLocationName
+                        }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="SubContractorId">
+                    <mat-select class="form-control" formControlName="newValue" placeholder="Choose a sub contractor">
+                      <mat-option [value]="null">--Clear selection--</mat-option>
+                      <mat-option *ngFor="let subcontractor of allSubcontractors" [value]="subcontractor.id">{{
+                        subcontractor.name }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="EndDate">
+                    <div class="d-flex">
+                      <input matInput type="datetime" [matDatepicker]="startDatePicker" formControlName="newValue"
+                        class="form-control form-control-sm" />
+                      <div class="date-picker">
+                        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startDatePicker></mat-datepicker>
+                      </div>
+                    </div>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="StartDate">
+                    <div class="d-flex">
+                      <input matInput type="datetime" [matDatepicker]="startDatePicker" formControlName="newValue"
+                        class="form-control form-control-sm" />
+                      <div class="date-picker">
+                        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startDatePicker></mat-datepicker>
+                      </div>
+                    </div>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="Description">
+                    <textarea matInput class="form-control" formControlName="newValue" placeholder="Description"
+                      required></textarea>
+                  </ng-template>
+
+                  <ng-template ngSwitchDefault>
+                    <div>
+                      <mat-form-field appearance="outline" class="date-picker">
+                        <input matInput formControlName="newValue" placeholder="New Value" required />
+                        <button style="border:none;background: none;" mat-icon-button matSuffix
+                          [matMenuTriggerFor]="dropdownMenu">
+                          <mat-icon>arrow_drop_down</mat-icon>
+                        </button>
+
+                        <mat-menu #dropdownMenu="matMenu">
+                          <button mat-menu-item *ngFor="let template of jobFields"
+                            (click)="appendTemplate(formmmm,formmmm.get('selectedField').value,template.value)">
+                            {{ template.label }}
+                          </button>
+                        </mat-menu>
+                      </mat-form-field>
+                    </div>
+                  </ng-template>
+
+                </ng-container>
+              </div>
+            </div>
+            <div class="col-md-2 d-flex align-items-end justify-content-around">
+              <div class="input">
+                <label></label>
+
+                <button type="button" class="form-control" class="btn btn-danger"
+                  (click)="removeField(i)"><mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="modelData.TriggerRecord == 'contact'">
+            <div class="col-md-5">
+              <div class="input">
+                <label>Field to Change</label>
+                <mat-select class="form-control" formControlName="selectedField" placeholder="Choose a field">
+                  <mat-option *ngFor="let field of contactFields" [value]="field.value">
+                    {{ field.label }}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="input">
+                <label>New Value</label>
+                <ng-container [ngSwitch]="formmmm.get('selectedField').value">
+                  <ng-template ngSwitchCase="StateId">
+                    <mat-select class="form-control" formControlName="newValue" placeholder="Choose a state">
+                      <mat-option [value]="null">--Clear selection--</mat-option>
+                      <mat-option *ngFor="let state of allStates" [value]="state.id">{{ state.name }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="StatusId">
+                    <mat-select class="form-control" formControlName="newValue" placeholder="Choose a status">
+                      <mat-option [value]="null">--Clear selection--</mat-option>
+                      <mat-option *ngFor="let status of allStatuses" [value]="status.id">{{ status.name }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="RelatedContactIds">
+                    <mat-select formControlName="newValue" class="form-control" placeholder="Choose related contacts"
+                      multiple>
+                      <mat-option *ngFor="let rl of RelatedContacts" [value]="rl.id">{{ rl.name }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="TeamMemberIds">
+                    <mat-select formControlName="newValue" class="form-control" placeholder="Choose team members"
+                      multiple>
+                      <mat-option *ngFor="let tm of TeamMembers" [value]="tm.id">{{ tm.name }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="SourceId">
+                    <mat-select class="form-control" formControlName="newValue" placeholder="Choose a lead source">
+                      <mat-option [value]="null">--Clear selection--</mat-option>
+                      <mat-option *ngFor="let leadSource of allLeadSources" [value]="leadSource.id">{{ leadSource.value
+                        }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="SalesRepId">
+                    <mat-select class="form-control" formControlName="newValue"
+                      placeholder="Choose a sales representative">
+                      <mat-option [value]="null">--Clear selection--</mat-option>
+                      <mat-option *ngFor="let salesRep of allSalesReps" [value]="salesRep.id">{{ salesRep.name
+                        }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="Description">
+                    <textarea matInput class="form-control" formControlName="newValue" placeholder="Description"
+                      required></textarea>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="PrimaryContactId">
+                    <mat-select class="form-control" formControlName="newValue" placeholder="Choose a primary contact">
+                      <mat-option [value]="null">--Clear selection--</mat-option>
+                      <mat-option *ngFor="let contact of allRelatedContacts" [value]="contact.id">{{ contact.name
+                        }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="OfficeLocationId">
+                    <mat-select class="form-control" formControlName="newValue" placeholder="Choose an office location">
+                      <mat-option [value]="null">--Clear selection--</mat-option>
+                      <mat-option *ngFor="let location of allOfficeLocations" [value]="location.id">{{
+                        location.officeLocationName
+                        }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="SubContractorId">
+                    <mat-select class="form-control" formControlName="newValue" placeholder="Choose a sub contractor">
+                      <mat-option [value]="null">--Clear selection--</mat-option>
+                      <mat-option *ngFor="let subcontractor of allSubcontractors" [value]="subcontractor.id">{{
+                        subcontractor.name }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="EndDate">
+                    <div class="d-flex">
+                      <input matInput type="datetime" [matDatepicker]="startDatePicker" formControlName="newValue"
+                        class="form-control form-control-sm" />
+                      <div class="date-picker">
+                        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startDatePicker></mat-datepicker>
+                      </div>
+                    </div>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="StartDate">
+                    <div class="d-flex">
+                      <input matInput type="datetime" [matDatepicker]="startDatePicker" formControlName="newValue"
+                        class="form-control form-control-sm" />
+                      <div class="date-picker">
+                        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startDatePicker></mat-datepicker>
+                      </div>
+                    </div>
+                  </ng-template>
+
+                  <ng-template ngSwitchDefault>
+                    <div>
+                      <mat-form-field appearance="outline" class="date-picker">
+                        <input matInput formControlName="newValue" placeholder="New value" required />
+                        <button style="border:none;background: none;" mat-icon-button matSuffix
+                          [matMenuTriggerFor]="dropdownMenu">
+                          <mat-icon>arrow_drop_down</mat-icon>
+                        </button>
+
+                        <mat-menu #dropdownMenu="matMenu">
+                          <button mat-menu-item *ngFor="let template of contactFields"
+                            (click)="appendTemplate(formmmm,formmmm.get('selectedField').value,template.value)">
+                            {{ template.label }}
+                          </button>
+                        </mat-menu>
+                      </mat-form-field>
+                    </div>
+                  </ng-template>
+
+                </ng-container>
+              </div>
+            </div>
+            <div class="col-md-2 d-flex align-items-end justify-content-around">
+              <div class="input">
+                <label></label>
+                <button type="button" class="form-control" class="btn btn-danger"
+                  (click)="removeField(i)"><mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="modelData.TriggerRecord == 'workorder'">
+            <div class="col-md-5">
+              <div class="input">
+                <label>Field to Change</label>
+                <mat-select class="form-control" formControlName="selectedField" placeholder="Choose a field">
+                  <mat-option *ngFor="let field of workorderFields" [value]="field.value">
+                    {{ field.label }}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="input">
+                <label>New Value</label>
+                <ng-container [ngSwitch]="formmmm.get('selectedField').value">
+                  <ng-template ngSwitchCase="WorkOrderPriority">
+                    <mat-select class="form-control" formControlName="newValue" placeholder="Choose a state">
+                      <mat-option [value]="null">--Clear selection--</mat-option>
+                      <mat-option *ngFor="let state of allStates" [value]="state.id">{{ state.name }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="TeamMemberIds">
+                    <mat-select formControlName="newValue" class="form-control" placeholder="Choose team members"
+                      multiple>
+                      <mat-option *ngFor="let tm of TeamMembers" [value]="tm.id">{{ tm.name }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="Description">
+                    <textarea matInput class="form-control" formControlName="newValue" placeholder="Description"
+                      required></textarea>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="WorkOrderStatus">
+                    <mat-select class="form-control" formControlName="newValue" placeholder="Choose a status">
+                      <mat-option [value]="null">--Clear selection--</mat-option>
+                      <mat-option *ngFor="let status of allStatuses" [value]="status.id">{{ status.name }}</mat-option>
+                    </mat-select>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="DueDate">
+                    <div class="d-flex">
+                      <input matInput type="datetime" [matDatepicker]="startDatePicker" formControlName="newValue"
+                        class="form-control form-control-sm" />
+                      <div class="date-picker">
+                        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startDatePicker></mat-datepicker>
+                      </div>
+                    </div>
+                  </ng-template>
+
+                  <ng-template ngSwitchCase="StartDate">
+                    <div class="d-flex">
+                      <input matInput type="datetime" [matDatepicker]="startDatePicker" formControlName="newValue"
+                        class="form-control form-control-sm" />
+                      <div class="date-picker">
+                        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startDatePicker></mat-datepicker>
+                      </div>
+                    </div>
+                  </ng-template>
+
+                  <ng-template ngSwitchDefault>
+                    <div>
+                      <mat-form-field appearance="outline" class="date-picker">
+                        <input matInput formControlName="newValue" placeholder="New Value" required />
+                        <button style="border:none;background: none;" mat-icon-button matSuffix
+                          [matMenuTriggerFor]="dropdownMenu">
+                          <mat-icon>arrow_drop_down</mat-icon>
+                        </button>
+
+                        <mat-menu #dropdownMenu="matMenu">
+                          <button mat-menu-item *ngFor="let template of workorderFields"
+                            (click)="appendTemplate(formmmm,formmmm.get('selectedField').value,template.value)">
+                            {{ template.label }}
+                          </button>
+                        </mat-menu>
+                      </mat-form-field>
+                    </div>
+                  </ng-template>
+
+                </ng-container>
+              </div>
+            </div>
+            <div class="col-md-2 d-flex align-items-end justify-content-around">
+              <div class="input">
+                <label></label>
+
+                <button type="button" class="form-control" class="btn btn-danger"
+                  (click)="removeField(i)"><mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3">
+        <button type="button" class="btn btn-secondary" (click)="addField()">Add Field</button>
+      </div>
+    </form>
+  </div>
+  <div class="mat-modal-footer">
+    <div class="d-flex justify-content-end align-items-center">
+      <div class="mt-4 text-end px-2">
+        <button type="button" class="btn btn-outline-secondary btn-lg" (click)="closeDialog()">
+          Cancel
+        </button>
+      </div>
+      <div class="mt-4 text-end">
+        <button type="button" (click)="onSubmit()" class="btn btn-primary btn-lg">
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

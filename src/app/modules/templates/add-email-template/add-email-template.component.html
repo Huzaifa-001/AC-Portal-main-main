@@ -1,0 +1,46 @@
+<div class="mat-modal">
+  <div class="mat-modal-header">
+    <p class="title">{{ data.FormTitle }}</p>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeDialog()"></button>
+  </div>
+  <form [formGroup]="emailTemplateForm">
+    <div class="mat-modal-body">
+      <div class="row">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="input">
+              <label>Name</label>
+              <input type="text" class="form-control" formControlName="name" placeholder="Name" required>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="input">
+              <label>Subject</label>
+              <input type="text" class="form-control" formControlName="subject" placeholder="Subject" required>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="input">
+              <label>Body</label>
+              <textarea class="form-control" formControlName="body" rows="5" placeholder="Body" required></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mat-modal-footer">
+      <div class="d-flex justify-content-end align-items-center">
+        <div class="mt-4 text-end px-2">
+          <button type="button" class="btn btn-outline-secondary btn-lg" (click)="closeDialog()">
+            Cancel
+          </button>
+        </div>
+        <div class="mt-4 text-end">
+          <button type="button" (click)="onSubmit()" class="btn btn-primary btn-lg">
+            {{ data.Request_Type }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

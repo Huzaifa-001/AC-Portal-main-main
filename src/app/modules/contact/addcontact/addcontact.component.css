@@ -1,0 +1,24 @@
+/* .modal-dialog {
+ 
+          width: auto;
+          height: 700px;
+ 
+        }
+ 
+.modal-header { 
+    padding:16px 16px;
+ 
+    color:#FFF;
+
+ 
+ } */
+
+
+ .success-snackbar {
+  background-color: green;
+  color: white;
+}
+.error-snackbar {
+  background-color: red;
+  color: white;
+}

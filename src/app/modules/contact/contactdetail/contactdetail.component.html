@@ -1,0 +1,466 @@
+<!-- Content -->
+
+<section class="section-padding">
+  <div class="container">
+    <div class="component-header">
+      <p class="title lg text-white">Contacts</p>
+      <i class="material-symbols-outlined text-white">email</i>
+      /
+      <ol class="breadcrumb px-2 py-0 my-0">
+        <li class="breadcrumb-item">
+          <p class="title lg text-white">
+            {{ contact?.firstName + " " + contact?.lastName }}
+          </p>
+        </li>
+      </ol>
+      <!-- <ol class="breadcrumb px-2">
+                  <li class="breadcrumb-item"><a class="text-light" href="index.html">Contacts</a></li>
+                  <li class="breadcrumb-item"><a class="text-light" href="#">Dashboard</a></li>
+              </ol> -->
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <section>
+          <div class="row match-height">
+            <div class="col-col-12">
+              <div class="card position-relative">
+                <div class="row">
+                  <div class="col-md-12 text-center position-absolute absolutd_col">
+                    <div class="mb-2 text-center">
+                      <img
+                        src="{{ contact?.picUrl ?? 'assets/images/5.png' }}"
+                        alt="users avatar"
+                        class="user-avatar users-avatar-shadow border_profile rounded-circle me-2 my-25 cursor-pointer"
+                        height="110"
+                        width="110"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="card-title mt-3 position-relative">
+                  <div class="col-12 d-flex align-items-center justify-content-end position-absolute" style="z-index: 1000;">
+                    <mat-menu #menuJob="matMenu" class="dropdown">
+                      <button mat-menu-item (click)="openAddContactModal(contact)">
+                        <mat-icon class="material-symbols-outlined"
+                          >border_color</mat-icon>
+                        <span>Edit</span>
+                      </button>
+                    </mat-menu>
+                    <button mat-icon-button
+                            [matMenuTriggerFor]="menuJob"
+                            class="btn btn-sm hide-arrow">
+                      <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-header p-0 d-block">
+                  <table class="table mt-4">
+                    <tbody>
+                      <tr>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            Name
+                          </h6>
+                        </td>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            Compnay
+                          </h6>
+                        </td>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            Phone Number
+                          </h6>
+                        </td>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            Email
+                          </h6>
+                        </td>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            Website
+                          </h6>
+                        </td>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            Zip Code
+                          </h6>
+                        </td>
+                      </tr>
+                      <tr *ngIf="contact != null || contact != undefined">
+                        <td class="text-capitalize py-0">
+                          <small>{{
+                            contact?.firstName + " " + contact?.lastName
+                          }}</small>
+                        </td>
+                        <td class="py-0">
+                          <small>{{ contact?.company }}</small>
+                        </td>
+                        <td class="py-0">
+                          <small>{{
+                            contact?.phoneNumbers[0]?.phoneNumber
+                          }}</small>
+                        </td>
+                        <td class="py-0">
+                          <small class="text-capitalize">{{
+                            contact?.email
+                          }}</small>
+                        </td>
+                        <td class="py-0">
+                          <small>{{ contact?.website }}</small>
+                        </td>
+                        <td class="py-0">
+                          <small>{{ contact?.zipCode }}</small>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            Adress
+                          </h6>
+                        </td>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            Start Date
+                          </h6>
+                        </td>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            Project
+                          </h6>
+                        </td>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            Sales Rep
+                          </h6>
+                        </td>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            Source
+                          </h6>
+                        </td>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            Sub Contractor
+                          </h6>
+                        </td>
+                      </tr>
+                      <tr *ngIf="contact != null || contact != undefined">
+                        <td class="text-capitalize py-0">
+                          <small>{{
+                            contact?.addressLine1 +
+                              " " +
+                              contact?.addressLine2 +
+                              " " +
+                              contact?.city
+                          }}</small>
+                        </td>
+                        <td class="py-0">
+                          <small>{{
+                            contact?.startDate | date : "dd/MM/yyyy h:mm a"
+                          }}</small>
+                        </td>
+                        <td class="py-0">
+                          <small>Project Goes here</small>
+                        </td>
+                        <td class="py-0">
+                          <ng-container>
+                            <div class="avatar-group">
+                              <div
+                                data-bs-toggle="tooltip"
+                                data-popup="tooltip-custom"
+                                data-bs-placement="top"
+                                class="avatar pull-up my-0"
+                                title=""
+                                data-bs-original-title="Lilian Nenez"
+                              >
+                                <!-- <img
+                                  src="../../../assets/images/sm-5.jpeg"
+                                  alt="Avatar"
+                                  height="26"
+                                  width="26"
+                                /> -->
+                              </div>
+                              <small>{{ contact?.salesRep?.name }}</small>
+                            </div>
+                          </ng-container>
+                        </td>
+                        <td class="py-0">
+                          <small>John Aston</small>
+                        </td>
+                        <td class="py-0">
+                          <small>{{ contact?.subContractor?.name }}</small>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            office
+                          </h6>
+                        </td>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            End Date
+                          </h6>
+                        </td>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            Status
+                          </h6>
+                        </td>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            Assigned To
+                          </h6>
+                        </td>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            Tags
+                          </h6>
+                        </td>
+                        <td class="py-0 border-0">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            Related contacts
+                          </h6>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-capitalize py-0">
+                          <small>{{ contact?.officeLocation?.name }}</small>
+                        </td>
+                        <td class="py-0">
+                          <small>{{
+                            contact?.endDate | date : "dd/MM/yyyy h:mm a"
+                          }}</small>
+                        </td>
+                        <td class="py-0">
+                          <small>{{ contact?.status?.statusName }}</small>
+                        </td>
+                        <td class="py-0">
+                          <ng-container
+                            *ngFor="
+                              let c of contact?.teamMembers;
+                              let last = last
+                            "
+                          >
+                            <a
+                              *ngIf="!last"
+                              (click)="openRelatedContactModal(c)"
+                              ><u>{{ c.firstName }}</u
+                              >,</a
+                            >
+                            <a *ngIf="last" (click)="openRelatedContactModal(c)"
+                              ><u>{{ c.firstName }}</u></a
+                            >
+                          </ng-container>
+                        </td>
+                        <td class="py-0">
+                          <ng-container
+                            *ngFor="let t of contact?.tags; let last = last"
+                          >
+                            <small *ngIf="!last">{{ t.tag }},</small>
+                            <small *ngIf="last">{{ t.tag }}</small>
+                          </ng-container>
+                        </td>
+                        <td class="py-0">
+                          <ng-container
+                            *ngFor="
+                              let c of contact?.relatedContacts;
+                              let last = last
+                            "
+                          >
+                            <a
+                              style="cursor: pointer"
+                              *ngIf="!last"
+                              (click)="openRelatedContactModal(c)"
+                              ><u>{{ " " + c.firstName }}</u
+                              >,</a
+                            >
+                            <a
+                              style="cursor: pointer"
+                              *ngIf="last"
+                              (click)="openRelatedContactModal(c)"
+                              ><u>{{ " " + c.firstName }}</u></a
+                            >
+                          </ng-container>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="py-0 border-0" *ngFor="let item of contact?.customFieldValues">
+                          <h6 class="d-flex text-primary text-uppercase mt-1">
+                            {{ item.fieldName }}
+                          </h6>
+                          <small>
+                            {{ item.fieldActualValue }}
+                          </small>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- <table class="table mt-3">
+                    <thead>
+                      <tr>
+                        <th class="text-capitalize p-2">
+                          <a href="#"
+                            ><small class="bg-white p-1 rounded"
+                              >Logbook</small
+                            ></a
+                          >
+                        </th>
+                        <th class="text-capitalize p-2">
+                          <a href="#"
+                            ><small class="bg-white p-1 rounded">Jobs</small></a
+                          >
+                        </th>
+                        <th class="text-capitalize p-2">
+                          <a href="#"
+                            ><small class="bg-white p-1 rounded"
+                              >Tasks</small
+                            ></a
+                          >
+                        </th>
+                        <th class="text-capitalize p-2">
+                          <a href="#"
+                            ><small class="bg-white p-1 rounded"
+                              >Attachments</small
+                            ></a
+                          >
+                        </th>
+                        <th class="text-capitalize p-2">
+                          <a href="#"
+                            ><small class="bg-white p-1 rounded"
+                              >Photos</small
+                            ></a
+                          >
+                        </th>
+                        <th class="text-capitalize p-2">
+                          <a href="#"
+                            ><small class="bg-white p-1 rounded"
+                              >Financials</small
+                            ></a
+                          >
+                        </th>
+                        <th class="text-capitalize p-2">
+                          <a href="#"
+                            ><small class="bg-white p-1 rounded"
+                              >Forms</small
+                            ></a
+                          >
+                        </th>
+                      </tr>
+                    </thead>
+                  </table> -->
+
+                  <nav
+                    class="navbar navbar-expand-lg navbar-light"
+                    style="background: #f1f3f9"
+                  >
+                    <div class="container-fluid d-block">
+                      <ul class="nav d-flex justify-content-around">
+                        <li class="nav-item">
+                          <a
+                            class="nav-link btn btn-link text-capitalize"
+                            routerLink="/contact/{{ contactId }}/logbook"
+                            routerLinkActive="active"
+                          >
+                            Logbook
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a
+                            class="nav-link btn btn-link text-capitalize"
+                            routerLink="/contact/{{ contactId }}/jobs"
+                            routerLinkActive="active"
+                          >
+                            Jobs
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a
+                            class="nav-link btn btn-link text-capitalize"
+                            routerLink="/contact/{{ contactId }}/tasks"
+                            routerLinkActive="active"
+                          >
+                          Tasks
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a
+                            class="nav-link btn btn-link text-capitalize"
+                            routerLink="/contact/{{ contactId }}/events"
+                            routerLinkActive="active"
+                          >
+                            Events
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a
+                            class="nav-link btn btn-link text-capitalize"
+                            routerLink="/contact/{{ contactId }}/attachments"
+                            routerLinkActive="active"
+                          >
+                            Attachments
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a
+                            class="nav-link btn btn-link text-capitalize"
+                            routerLink="/contact/{{ contactId }}/photos"
+                            routerLinkActive="active"
+                          >
+                            Photos
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a
+                            class="nav-link btn btn-link text-capitalize"
+                            routerLink="/contact/{{ contactId }}/financials"
+                            routerLinkActive="active"
+                          >
+                            Financials
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a
+                            class="nav-link btn btn-link text-capitalize"
+                            routerLink="/contact/{{ contactId }}/forms"
+                            routerLinkActive="active"
+                          >
+                            Forms
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </nav>
+
+                  <!-- <div class="card-title my-2">
+                    <div class="text-white">spacing</div>
+                  </div> -->
+                  <!-- <div class="actions d-flex justify-content-end my-2">
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <button
+                      class="btn btn-outline-primary text-primary btn-sm d-flex align-items-center"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="true"
+                    >
+                      <i class="material-symbols-outlined">unfold_more</i>
+                      <span>Sorted By</span>
+                    </button>
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                  </div> -->
+                </div>
+                <router-outlet></router-outlet>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="sidenav-overlay"></div>
+<!-- / Content -->

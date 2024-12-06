@@ -1,0 +1,54 @@
+<section class="section-padding">
+    <div class="container">
+        <div class="component-header">
+            <p class="title lg text-white">Help And Support</p>
+            <i class="material-symbols-outlined text-white">help</i>
+            <!-- <ol class="breadcrumb px-2">
+                  <li class="breadcrumb-item"><a class="text-light" href="index.html">Contacts</a></li>
+                  <li class="breadcrumb-item"><a class="text-light" href="#">Dashboard</a></li>
+              </ol> -->
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-body px-0">
+                    <div class="help-support">
+                        <h2 class="section-title">Help and Support</h2>
+                        <p class="section-subtitle">Find answers to frequently asked questions.</p>
+                      
+                        <!-- Frequently Asked Questions -->
+                        <div class="faq-list">
+                            <mat-accordion>
+                                <mat-expansion-panel *ngFor="let faq of faqs">
+                                  <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                      {{ faq.question }}
+                                    </mat-panel-title>
+                                  </mat-expansion-panel-header>
+                                  <p class="faq-answer">
+                                    {{ faq.answer }}
+                                  </p>
+                                </mat-expansion-panel>
+                              </mat-accordion>
+                          </div>
+                      
+                        <!-- Contact Information -->
+                        <div class="contact-info">
+                          <h3 class="section-subtitle">Contact Information</h3>
+                          <p>If you need further assistance, you can reach us at:</p>
+                          <p>Email: support@example.com</p>
+                          <p>Phone: +1 (123) 456-7890</p>
+                        </div>
+                      
+                        <!-- Submitting a Support Request -->
+                        <div class="support-request">
+                          <h3 class="section-subtitle">Submitting a Support Request</h3>
+                          <p>If you have a specific issue that requires assistance, you can submit a support request by...</p>
+                          <p>Please provide as much detail as possible in your request so that we can help you effectively.</p>
+                        </div>
+                      </div>
+                      
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

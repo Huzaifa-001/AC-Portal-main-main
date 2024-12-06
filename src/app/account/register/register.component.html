@@ -1,0 +1,137 @@
+<div class="app-content h-100vh m-0">
+  <div class="content-overlay"></div>
+  <div class="content-wrapper m-0 p-0">
+    <div class="content-header row"></div>
+    <div class="content-body">
+      <div class="auth-wrapper auth-v2">
+        <div class="auth-inner row m-0">
+          <div class="d-none d-lg-flex col-lg-6 align-items-center p-5 h-100vh bg-primary">
+            <div class="row">
+              <span class="brand-logo img-container">
+                <img class="logo" src="../../../assets/images/logo2.jpg" />
+              </span>
+              <div class="w-100 text-center px-5 left-auth-box row" style="margin-top: 5rem">
+                <h6>Already have an Account?</h6>
+                <a style="margin-top: 1rem; text-decoration: none" [routerLink]="['/login']">Sign In</a>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex col-lg-6 align-items-center auth-bg px-2 p-lg-5">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto right-auth-box sm-content-center">
+              <!-- sm-content-center is not common making issues in register bcz of many fields -->
+              <h2 class="card-title fw-bold mb-1">Register</h2>
+              <form [formGroup]="registrationForm" (ngSubmit)="register()" novalidate class="auth-register-form mt-2">
+                <div class="mb-1">
+                  <label class="form-label" for="firstName">First Name <span class="text-danger">*</span></label>
+                  <input formControlName="firstName" class="form-control" id="firstName" type="text" name="firstName"
+                    placeholder="First Name" aria-describedby="firstName" tabindex="2" />
+                  <div *ngIf="
+                      registrationForm.get('firstName').hasError('required') &&
+                      registrationForm.get('firstName').touched
+                    ">
+                    <small class="text-danger">First Name is required</small>
+                  </div>
+                </div>
+                <div class="mb-1">
+                  <label class="form-label" for="lastName">Last Name <span class="text-danger">*</span></label>
+                  <input formControlName="lastName" class="form-control" id="lastName" type="text" name="lastName"
+                    placeholder="Last Name" aria-describedby="lastName" tabindex="2" />
+                  <div *ngIf="
+                      registrationForm.get('lastName').hasError('required') &&
+                      registrationForm.get('lastName').touched
+                    ">
+                    <small class="text-danger">Last Name is required</small>
+                  </div>
+                </div>
+                <div class="mb-1">
+                  <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
+                  <input formControlName="email" class="form-control" id="email" type="text" name="email"
+                    placeholder="john@example.com" aria-describedby="email" tabindex="2" />
+                  <div *ngIf="
+                      registrationForm.get('email').hasError('required') &&
+                      registrationForm.get('email').touched
+                    ">
+                    <small class="text-danger">Email is required</small>
+                  </div>
+                </div>
+                <div class="mb-1">
+                  <label class="form-label" for="companyName">Company Name <span class="text-danger">*</span></label>
+                  <input formControlName="companyName" class="form-control" id="companyName" type="text"
+                    name="companyName" placeholder="Company Name" aria-describedby="companyName" tabindex="2" />
+                  <div *ngIf="
+                      registrationForm
+                        .get('companyName')
+                        .hasError('required') &&
+                      registrationForm.get('companyName').touched
+                    ">
+                    <small class="text-danger">Company Name is required</small>
+                  </div>
+                </div>
+
+                <div class="mb-1">
+                  <label class="form-label" for="password">Password <span class="text-danger">*</span></label>
+                  <div class="input-group input-group-merge form-password-toggle">
+                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                      class="form-control form-control-merge" id="password" tabindex="2"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      aria-describedby="password" />
+
+                    <span class="input-group-text cursor-pointer">
+                      <i class="material-symbols-outlined" (click)="toggleShowPassword()">
+                        {{ showPassword ? "visibility" : "visibility_off" }}
+                      </i>
+                    </span>
+                  </div>
+                  <div *ngIf="
+                      registrationForm.get('password').hasError('required') &&
+                      registrationForm.get('password').touched
+                    ">
+                    <small class="text-danger">Password is required</small>
+                  </div>
+                </div>
+                <div class="mb-1">
+                  <label class="form-label" for="confirmPassword">Confirm Password <span
+                      class="text-danger">*</span></label>
+                  <div class="input-group input-group-merge form-password-toggle">
+                    <input [type]="showPassword ? 'text' : 'password'" formControlName="confirmPassword"
+                      class="form-control form-control-merge" id="confirmPassword" tabindex="2"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      aria-describedby="confirmPassword" />
+
+                    <span class="input-group-text cursor-pointer">
+                      <i class="material-symbols-outlined" (click)="toggleShowPassword()">
+                        {{ showPassword ? "visibility" : "visibility_off" }}
+                      </i>
+                    </span>
+                  </div>
+                  <!-- Display the error message for passwords not matched -->
+                  <div *ngIf="
+                      registrationForm
+                        .get('confirmPassword')
+                        .hasError('passwordsNotMatched')
+                    ">
+                    <small class="text-danger">Passwords do not match</small>
+                  </div>
+                  <!-- Display the error message for required field -->
+                  <div *ngIf="
+                      registrationForm
+                        .get('confirmPassword')
+                        .hasError('required')
+                    ">
+                    <small class="text-danger">Confirm Password is required</small>
+                  </div>
+                </div>
+                <div class="mb-1">
+                  <button type="submit" class="btn btn-primary w-100" tabindex="5" style="height: 60px;">
+                    Sign Up
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sidenav-overlay"></div>

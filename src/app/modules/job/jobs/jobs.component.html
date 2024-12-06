@@ -1,0 +1,183 @@
+<section class="section-padding">
+  <div class="container">
+    <div class="component-header">
+      <p class="title lg text-white">Jobs</p>
+      <i class="material-symbols-outlined text-white">work</i>
+      <!-- <ol class="breadcrumb px-2">
+              <li class="breadcrumb-item"><a class="text-light" href="index.html">Contacts</a></li>
+              <li class="breadcrumb-item"><a class="text-light" href="#">Dashboard</a></li>
+          </ol> -->
+    </div>
+    <div class="card">
+      <div class="input-group justify-content-end w-auto my-2 px-3">
+        <div class="form-outline">
+          <input type="search" [(ngModel)]="searchText" placeholder="Search Jobs" id="form1" class="form-control"
+            style="border-top-right-radius: 0; border-bottom-right-radius: 0; outline: none;" />
+        </div>
+        <button type="button" class="btn btn-primary" style="width: 40px; height: 32px;">
+          <div class="search-input-icon">
+            <i class="material-symbols-outlined">search</i>
+          </div>
+        </button>
+      </div>
+      <div class="card-header">
+        <div class="card-title">Your Jobs</div>
+        <div class="actions d-flex">
+          <button class="btn btn-primary btn-sm" (click)="openAddJobsModal(null)">
+            <div class="d-flex align-items-center">
+              <i class="material-symbols-outlined">add</i>
+              <span>Add Jobs</span>
+            </div>
+          </button>
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <button class="btn btn-outline-primary btn-sm d-flex align-items-center" type="button"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <span (click)="exportTable()">Export Jobs</span>
+          </button>
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <table class="table" #myTable>
+          <thead>
+            <tr>
+              <th class="custom-sort-column" (click)="onSort('name')">
+                JOB NAME
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'name' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'name' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th class="custom-sort-column" (click)="onSort('primaryContactName')">
+                PRIMARY CONTACT
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'primaryContactName' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'primaryContactName' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th class="custom-sort-column" (click)="onSort('workFlow')">
+                WORKFLOW
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'workFlow' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'workFlow' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th class="custom-sort-column" (click)="onSort('jobStatus')">
+                Status
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'jobStatus' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'jobStatus' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th class="custom-sort-column" (click)="onSort('salesRepName')">
+                Sales Rep
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'salesRepName' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'salesRepName' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th>Assign To</th>
+              <th class="custom-sort-column" (click)="onSort('address1')">
+                Address
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'address1' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'address1' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="Jobs.length > 0; else noDataMessage">
+
+              <tr
+                *ngFor="let Job of  (Jobs | tableSearch: searchText:['name', 'primaryContactName','workFlow','jobStatus','salesRepName','address1']) | customSort: sortField: sortOrder">
+                <td (click)="redirect(Job)" style="cursor: pointer">
+                  <div class="d-flex">{{ Job.name }}</div>
+                </td>
+                <td (click)="redirect(Job)" style="cursor: pointer">
+                  {{ Job.primaryContactName }}
+                </td>
+                <td (click)="redirect(Job)" style="cursor: pointer">
+                  {{ Job.workFlow }}
+                </td>
+                <td (click)="redirect(Job)" style="cursor: pointer">
+                  <div class="d-flex">
+                    <!-- <i class="material-symbols-outlined text-success icon-size-dot">
+                    radio_button_checked
+                  </i> -->
+                    &nbsp; {{ Job.jobStatus }}
+                  </div>
+                </td>
+                <td (click)="redirect(Job)" style="cursor: pointer">
+                  {{ Job?.salesRepName }}
+                </td>
+                <td (click)="redirect(Job)" style="cursor: pointer">
+                  <div class="avatar-group">
+                    <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+                      class="avatar pull-up my-0" title="" data-bs-original-title="Lilian Nenez">
+                      <img src="../assets/images/sm-5.jpeg" alt="Avatar" height="26" width="26" />
+                    </div>
+                    <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+                      class="avatar pull-up my-0" title="" data-bs-original-title="Alberto Glotzbach">
+                      <img src="../assets/images/sm-6.jpeg" alt="Avatar" height="26" width="26" />
+                    </div>
+                    <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+                      class="avatar pull-up my-0" title="" data-bs-original-title="Alberto Glotzbach">
+                      <img src="../assets/images/sm-5.jpeg" alt="Avatar" height="26" width="26" />
+                    </div>
+                  </div>
+                </td>
+                <td (click)="redirect(Job)" style="cursor: pointer">
+                  {{ Job.address1 + "," + Job.address2 }}
+                </td>
+                <td>
+                  <div class="dropdown">
+                    <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" [matMenuTriggerFor]="menu">
+                      <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                    </button>
+                    <div class="dropdown-menu">
+                      <button mat-icon-button [matMenuTriggerFor]="menu" xPosition="before">
+                        <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <a type="button" mat-menu-item routerLink="/jobs/{{ Job.id }}/tasks">
+                          <mat-icon class="material-symbols-outlined">work</mat-icon>
+                          <span>Tasks</span>
+                        </a>
+                        <button mat-menu-item (click)="openAddJobsModal(Job)">
+                          <mat-icon class="material-symbols-outlined">border_color</mat-icon>
+                          <span>Edit</span>
+                        </button>
+                        <button mat-menu-item (click)="deleteJobClick(Job)">
+                          <mat-icon>delete</mat-icon>
+                          <span>Delete</span>
+                        </button>
+                      </mat-menu>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+            </ng-container>
+            <ng-template #noDataMessage>
+              <tr>
+                <td colspan="6" class="text-center">No jobs found</td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </div>
+      <ng-container *ngIf="totalCount > 0">
+          <app-pagination
+  [currentPageIndex]="currentPageIndex"
+  [pageSize]="pageSize"
+  [totalCount]="totalCount"
+  (pageChange)="loadPagedData($event)">
+</app-pagination>
+
+      </ng-container>
+    </div>
+  </div>
+</section>
+<div class="sidenav-overlay"></div>

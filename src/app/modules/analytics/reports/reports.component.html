@@ -1,0 +1,221 @@
+<section class="section-padding">
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Your Reports</div>
+        <div class="actions d-flex">
+          <button
+            class="btn btn-primary btn-sm"
+            (click)="openAddReports()"
+          >
+            <div class="d-flex align-items-center" >
+              <i class="material-symbols-outlined">add</i>
+              <span> Add Reports</span>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="input-group mb-3">
+          <!-- Search Bar -->
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search by report name"
+            [(ngModel)]="searchText"
+            (ngModelChange)="applyFilters()"
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="search-button"
+            (click)="applyFilters()"
+          >
+            Search
+          </button>
+        </div>
+
+        <div class="row">
+          <!-- Filter options -->
+          <div class="col-md-2">
+            <label for="ownerFilter">Owner:</label>
+            <select
+              class="form-control"
+              id="ownerFilter"
+              [(ngModel)]="selectedOwner"
+              (ngModelChange)="applyFilters()"
+            >
+              <option value="">All</option>
+              <option *ngFor="let owner of uniqueOwners" [ngValue]="owner">
+                {{ owner }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label for="typeFilter">Report Type:</label>
+            <select
+              class="form-control"
+              id="typeFilter"
+              [(ngModel)]="selectedReportType"
+              (ngModelChange)="applyFilters()"
+            >
+              <option value="">All</option>
+              <option *ngFor="let type of uniqueReportTypes" [ngValue]="type">
+                {{ type }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label for="sharedWithFilter">Shared With:</label>
+            <select
+              class="form-control"
+              id="sharedWithFilter"
+              [(ngModel)]="selectedSharedWith"
+              (ngModelChange)="applyFilters()"
+            >
+              <option value="">All</option>
+              <option
+                *ngFor="let sharedWith of uniqueSharedWith"
+                [ngValue]="sharedWith"
+              >
+                {{ sharedWith }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="dateFilter">Date Created:</label>
+            <input
+              type="date"
+              class="form-control"
+              id="dateFilterStart"
+              [(ngModel)]="startDate"
+              (ngModelChange)="applyFilters()"
+            />
+          </div>
+          <div class="col-md-3">
+            <button class="btn btn-primary mt-4" (click)="resetFilters()">
+              Reset Filters
+            </button>
+          </div>
+        </div>
+
+        <table class="table" #myTable>
+          <thead>
+            <tr>
+              <th>NAME</th>
+              <th>OWNER</th>
+              <th>REPORT TYPE</th>
+              <th>DESCRIPTION</th>
+              <th>SHARED WITH</th>
+              <th>DATE CREATED</th>
+              <th>ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let report of paginatedReports">
+              <td (click)="redirect(report)" style="cursor: pointer">
+                <div class="d-flex">{{ report.name }}</div>
+              </td>
+              <td (click)="redirect(report)" style="cursor: pointer">
+                {{ report.owner }}
+              </td>
+              <td (click)="redirect(report)" style="cursor: pointer">
+                {{ report.reportType }}
+              </td>
+              <td (click)="redirect(report)" style="cursor: pointer">
+                <div class="d-flex">
+                  {{ report.description }}
+                </div>
+              </td>
+              <td (click)="redirect(report)" style="cursor: pointer">
+                {{ report.sharedWith.join(", ") }}
+              </td>
+              <td (click)="redirect(report)" style="cursor: pointer">
+                {{ report.dateCreated | date }}
+              </td>
+              <td>
+                <div class="dropdown">
+                  <button
+                    type="button"
+                    class="btn btn-sm dropdown-toggle hide-arrow"
+                    [matMenuTriggerFor]="menu"
+                  >
+                    <mat-icon class="material-symbols-outlined"
+                      >more_vert</mat-icon
+                    >
+                  </button>
+                  <div class="dropdown-menu">
+                    <button
+                      mat-icon-button
+                      [matMenuTriggerFor]="menu"
+                      xPosition="before"
+                    >
+                      <mat-icon class="material-symbols-outlined"
+                        >more_vert</mat-icon
+                      >
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button
+                        mat-menu-item
+                        (click)="openAddReports()"
+                      >
+                        <mat-icon class="material-symbols-outlined"
+                          >border_color</mat-icon
+                        >
+                        <span>Edit</span>
+                      </button>
+                      <button mat-menu-item (click)="deleteReportClick(report)">
+                        <mat-icon>content_copy</mat-icon>
+                        <span>Duplicate</span>
+                      </button>
+                      <button mat-menu-item (click)="deleteReportClick(report)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                      </button>
+                    </mat-menu>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        
+      </div>
+      <!-- Table markup -->
+      <!-- ... (existing table code) ... -->
+
+      <!-- Pagination -->
+      <section class="px-3">
+        <div class="row">
+          <div class="col-sm-12 d-flex justify-content-end">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination mt-2">
+                <li class="page-item prev-item">
+                  <a class="page-link" type="button" style="height: 30px; width: 30px;" (click)="!isFirstPage && onPageChange(currentPage - 1)">
+                    <mat-icon class="material-icons" style="font-size: 20px;">chevron_left</mat-icon>
+                  </a>
+                </li>
+                <li class="page-item" *ngFor="let page of getTotalPages(); let i = index">
+                  <a class="page-link" style="height: 30px; width: 30px;" type="button" [ngClass]="{ 'active': i + 1 === currentPage }" (click)="onPageChange(i + 1)">
+                    {{ i + 1 }}
+                  </a>
+                </li>
+                <li class="page-item next-item">
+                  <a class="page-link" type="button"style="height: 30px; width: 30px;" (click)="!isLastPage && onPageChange(currentPage + 1)">
+                    <mat-icon class="material-icons" style="font-size: 20px;" >chevron_right</mat-icon>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </section>
+      
+      
+      
+      
+      
+    </div>
+  </div>
+</section>

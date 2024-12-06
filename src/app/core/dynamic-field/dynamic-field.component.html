@@ -1,0 +1,62 @@
+<form [formGroup]="form">
+    <div class="row">
+        <div class="col-md-3" *ngFor="let field of fields">
+            <div [ngSwitch]="field.fieldType">
+                <div class="input" *ngSwitchCase="fieldTypes.Text">
+                    <mat-label>{{field.fieldName}}<span *ngIf="field.isRequired"
+                            class="text-danger">*</span></mat-label>
+                    <input matInput [formControlName]="field.id.toString()" placeholder="Enter {{field.fieldName}}" type="text" class="form-control " />
+                </div>
+                <div class="input" *ngSwitchCase="fieldTypes.Number">
+                    <mat-label>{{field.fieldName}}<span *ngIf="field.isRequired"
+                            class="text-danger">*</span></mat-label>
+                    <input matInput [formControlName]="field.id.toString()" type="number" placeholder="Enter {{field.fieldName}}" class="form-control " />
+                </div>
+                <div class="input" *ngSwitchCase="fieldTypes.Currency">
+                    <mat-label>{{field.fieldName}}<span *ngIf="field.isRequired"
+                            class="text-danger">*</span></mat-label>
+                    <input matInput [formControlName]="field.id.toString()" placeholder="Enter {{field.fieldName}}" type="number" class="form-control " />
+                </div>
+                <div class="input" *ngSwitchCase="fieldTypes.Date">
+                    <mat-label>{{field.fieldName}}<span *ngIf="field.isRequired"
+                            class="text-danger">*</span></mat-label>
+                    <div class="d-flex">
+                        <input matInput type="datetime" placeholder="Enter {{field.fieldName}}" [matDatepicker]="startDatePicker"
+                            [formControlName]="field.id.toString()" class="form-control form-control-sm" />
+                        <div class="date-picker">
+                            <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #startDatePicker></mat-datepicker>
+                        </div>
+                    </div>
+                </div>
+                <div class="input" *ngSwitchCase="fieldTypes.Dropdown">
+                    <mat-label>{{field.fieldName}}<span *ngIf="field.isRequired"
+                            class="text-danger">*</span></mat-label>
+                    <ng-container *ngIf="!field.multiSelect; else multiSelectDropdown">
+                        <mat-select class="form-control " placeholder="Select {{field.fieldName}}" [formControlName]="field.id.toString()">
+                            <mat-option *ngFor="let option of field.options" [value]="option.id">{{option.value}}
+                            </mat-option>
+                        </mat-select>
+                    </ng-container>
+                    <ng-template #multiSelectDropdown>
+                        <mat-select class="form-control " placeholder="Select {{field.fieldName}}" [formControlName]="field.id.toString()" multiple>
+                            <mat-option *ngFor="let option of field.options" [value]="option.id">{{option.value}}
+                            </mat-option>
+                        </mat-select>
+                    </ng-template>
+                </div>
+
+                <div class="input" *ngSwitchCase="fieldTypes.Boolean">
+                    <mat-label>{{field.fieldName}}<span *ngIf="field.isRequired"
+                            class="text-danger">*</span></mat-label>
+                    <mat-checkbox [formControlName]="field.id.toString()"></mat-checkbox>
+                </div>
+                <!-- Add more cases as necessary -->
+            </div>
+            <mat-error *ngIf="form.get(field.id.toString())?.invalid && form.get(field.id.toString())?.touched">
+                <span *ngIf="form.get(field.id.toString())?.hasError('required')">{{field.fieldName}} is
+                    required</span>
+            </mat-error>
+        </div>
+    </div>
+</form>

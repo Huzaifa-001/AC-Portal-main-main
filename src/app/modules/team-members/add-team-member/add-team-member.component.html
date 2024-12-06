@@ -1,0 +1,132 @@
+<div class="mat-modal">
+  <div class="mat-modal-header">
+    <p class="title">{{ updateData?.FormTitle }}</p>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeDailog()"></button>
+  </div>
+  <form [formGroup]="teamMemberForm" (ngSubmit)="onSubmit()">
+    <div class="mat-modal-body">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="input">
+            <label>First Name <small class="text-danger">*</small></label>
+            <input class="form-control" formControlName="firstName" placeholder="Enter first name" />
+            <mat-error
+              *ngIf="teamMemberForm.get('firstName')?.touched && teamMemberForm.get('firstName')?.hasError('required')">
+              Please enter a first name
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input">
+            <label>Last Name</label>
+            <input class="form-control" formControlName="lastName" placeholder="Enter last name" />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input">
+            <label>Email <small class="text-danger">*</small></label>
+            <input autocomplete="off" autocorrect="off" spellcheck="false" formControlName="email" type="email" class="form-control" placeholder="Enter email" />
+            <mat-error
+              *ngIf="teamMemberForm.get('email')?.touched && teamMemberForm.get('email')?.hasError('required')">
+              Please enter an email
+            </mat-error>
+            <mat-error *ngIf="teamMemberForm.get('email')?.hasError('email')">
+              Invalid email format
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-6" *ngIf="!updateData?.id">
+          <div class="input">
+            <label>Password <small class="text-danger">*</small></label>
+            <input autocomplete="off" autocorrect="off" spellcheck="false" formControlName="password" type="password"
+              class="form-control" placeholder="Enter password" />
+            <mat-error
+              *ngIf="teamMemberForm.get('password')?.touched && teamMemberForm.get('password')?.hasError('required')">
+              Please enter a password
+            </mat-error>
+            <mat-error *ngIf="teamMemberForm.get('password')?.hasError('minlength')">
+              Password must be at least 8 characters long
+            </mat-error>
+            <mat-error *ngIf="teamMemberForm.get('password')?.hasError('maxlength')">
+              Password cannot be longer than 16 characters
+            </mat-error>
+            <mat-error *ngIf="teamMemberForm.get('password')?.hasError('passwordStrength')">
+              Password must contain at least one uppercase letter, one number, and one special character
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input">
+            <label>Office Location</label>
+            <mat-select class="form-control" formControlName="businessLocation" placeholder="Choose an office">
+              <mat-option *ngFor="let ofc of officeLocations" [value]="ofc.id">
+                {{ ofc.name }}
+              </mat-option>
+            </mat-select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input">
+            <label>Timezone</label>
+            <mat-select formControlName="timeZone" class="form-control" placeholder="Choose Timezone">
+              <mat-option *ngFor="let zone of timeZones" [value]="zone.id">
+                {{ zone.name }}
+              </mat-option>
+            </mat-select>
+          </div>
+        </div>
+        <!-- <div class="col-md-6">
+          <div class="input">
+            <label>Address Line 1</label>
+            <input formControlName="addressLine1" class="form-control" placeholder="Enter address line 1" />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input">
+            <label>Address Line 2</label>
+            <input formControlName="addressLine2" class="form-control" placeholder="Enter address line 2" />
+          </div>
+        </div> -->
+        <div class="col-md-6">
+          <div class="input">
+            <label>State <small class="text-danger">*</small></label>
+            <mat-select class="form-control" formControlName="state" placeholder="Choose a state">
+              <mat-option *ngFor="let state of states" [value]="state.id">
+                {{ state.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="teamMemberForm.get('state')?.touched && teamMemberForm.get('state')?.hasError('required')">
+              Please choose a state
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input">
+            <label>Subcontractor</label>
+            <mat-checkbox formControlName="isSubContractor"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input">
+            <label>Enable Login</label>
+            <mat-checkbox formControlName="enableLogin"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-md-6" *ngIf="updateData?.id">
+          <div class="input">
+            <label>Is Team Member</label>
+            <mat-checkbox formControlName="isTeamMember"></mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mat-modal-footer">
+      <div class="mt-4 text-end">
+        <button type="submit" class="btn btn-primary btn-lg">
+          {{ updateData?.Request_Type ?? "Save" }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,67 @@
+<div class="mat-modal">
+    <div class="mat-modal-header">
+        <p class="title">{{ this.updateData.FormTitle }}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="onCancelClick()"></button>
+    </div>
+    <form [formGroup]="workFlowForm">
+        <div class="mat-modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-1">
+                        <mat-label>WorkFlow Name</mat-label>
+                        <input matInput class="form-control" formControlName="workFlowName" placeholder="workFlow Name"
+                            required />
+                        <mat-error *ngIf="workFlowForm.get('workFlowName').touched && workFlowForm.get('workFlowName').invalid">
+                            Please enter a workFlow name
+                        </mat-error>
+                    </div>
+                    <div class="mb-1">
+                        <mat-label>Access</mat-label>
+                        <mat-select class="form-control form-control-sm" placeholder="Access" formControlName="isAccessable">
+                            <mat-option [value]="true">Everyone</mat-option>
+                            <mat-option [value]="false">Assigned Only</mat-option>
+                        </mat-select>
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="statuses">Statuses</label>
+                        <mat-form-field  class="form-control form-control-sm"  appearance="fill">
+                            <mat-chip-grid #chipGrid aria-label="Enter statuses">
+                                <mat-chip-row *ngFor="let status of statuses" (removed)="remove(status)"
+                                    [editable]="true" (edited)="edit(status, $event)"
+                                    [aria-description]="'press enter to edit ' + status.statusName">
+                                    {{ status.statusName }}
+                                    <button matChipRemove [attr.aria-label]="'remove ' + status.statusName">
+                                        <mat-icon>cancel</mat-icon>
+                                    </button>
+                                </mat-chip-row>
+                                <input class="form-control form-control-sm" placeholder="New status..." [matChipInputFor]="chipGrid"
+                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                    [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)" />
+                            </mat-chip-grid>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="mb-1">
+                        <div class="form-check">
+                            <input class="form-check-input" id="register-isVisible" type="checkbox"
+                                tabindex="4" formControlName="isVisible"/>
+                            <label class="form-check-label" for="register-isVisible">Visible</label>
+                        </div>
+                        <!-- <mat-error *ngIf="workFlowForm.get('isVisible').touched && workFlowForm.get('isVisible').invalid">
+                            Please select a workFlow type
+                        </mat-error> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mat-modal-footer">
+            <div class="mt-4 text-end">
+                <button type="submit" class="btn btn-primary btn-lg" (click)="onSubmit()">
+                    {{ this.updateData.Request_Type }}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

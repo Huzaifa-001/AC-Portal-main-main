@@ -1,0 +1,46 @@
+/* Basic styling for the Help and Support page */
+.help-support {
+    padding: 20px;
+  }
+  
+  .section-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .section-subtitle {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+  
+  .faq-item {
+    margin-bottom: 20px;
+  }
+  
+  .faq-question {
+    font-weight: bold;
+  }
+  
+  .contact-info,
+  .support-request {
+    margin-top: 30px;
+  }
+  
+  /* Optional: Style the breadcrumb and other elements */
+  /* .breadcrumb {
+    margin-bottom: 20px;
+  }
+  
+  .breadcrumb-item {
+    display: inline-block;
+    margin-right: 5px;
+  }
+  
+  .material-symbols-outlined {
+    font-size: 20px;
+    vertical-align: middle;
+    margin-left: 10px;
+    cursor: pointer;
+  } */
+  

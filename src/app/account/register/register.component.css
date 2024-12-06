@@ -1,0 +1,18 @@
+.img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .logo {
+    width: 30vw;
+    height: 30vh;
+  }
+  
+  mat-dialog-content.mat-mdc-dialog-content.mdc-dialog__content {
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  

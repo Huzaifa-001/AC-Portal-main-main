@@ -1,0 +1,32 @@
+.card-board {
+    min-width: 240px; border-radius: 3px; margin: 10px;
+    padding: 10px;
+    box-shadow: 0px 0px 9px 0px #00000045;
+}
+
+.card-board .card-body {
+    padding: 0px;
+}
+.card-board .card-header {
+    padding: 0px;
+    background-color: transparent;
+}
+
+.card-board .card-header .card-title {
+    font-size: 1.2rem;
+    color: white;
+}
+
+.card-items {
+    border-radius: 3px;
+    box-shadow: 0px 0px 9px 0px #00000045;
+    width: 220px; 
+    height: auto;
+    justify-content: space-between;
+    font-size: 9px;
+    font-family: normal normal normal 9px/1px Gotham;
+}
+
+.fs-11px {
+    font-size: 12px !important;
+}

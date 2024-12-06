@@ -1,0 +1,305 @@
+<section class="section-padding">
+    <div class="container">
+        <div class="component-header">
+            <p class="title lg text-white">Boards</p>
+            <i class="material-symbols-outlined text-white">description</i>
+            <span class="text-white lg">/ </span>
+            <p class="title lg text-white">{{ board?.projectName }}</p>
+        </div>
+        <div class="d-flex justify-content-start" style="background: transparent">
+            <div class="p-2">
+                <i class="material-icons text-muted cursor-pointer"
+                    style="color: #e9e6e6 !important; text-shadow: 0 0 4px #353535ab" [matMenuTriggerFor]="menuboard">
+                    <mat-icon>more_vert</mat-icon>
+                </i>
+                <mat-menu #menuboard="matMenu">
+                    <button mat-menu-item (click)="openBoardsModal(board)">Edit</button>
+                    <button mat-menu-item (click)="deleteBoardClick(board)">
+                        Delete
+                    </button>
+                </mat-menu>
+            </div>
+            <div class="col-md-2 px-2">
+                <div class="input">
+                    <mat-select class="form-control" placeholder="select a Location" [(ngModel)]="selectedLocations"
+                        [ngModelOptions]="{ standalone: true }" (ngModelChange)="filterProjects()" multiple>
+                        <mat-option *ngFor="let location of Locations" [value]="location">
+                            {{ location.name }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
+            <div class="col-md-2 px-2">
+                <div class="input">
+                    <mat-select class="form-control" required placeholder="select a Sales Rep"
+                        [(ngModel)]="selectedsalesReps" [ngModelOptions]="{ standalone: true }"
+                        (ngModelChange)="filterProjects()" multiple>
+                        <mat-option *ngFor="let location of salesReps" [value]="location">
+                            {{ location.name }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
+            <div class="col-md-2 px-2">
+                <div class="input">
+                    <mat-select class="form-control" required placeholder="select a Subcontractor"
+                        [(ngModel)]="selectedsubcontractors" [ngModelOptions]="{ standalone: true }"
+                        (ngModelChange)="filterProjects()" multiple>
+                        <mat-option *ngFor="let location of subcontractors" [value]="location">
+                            {{ location.name }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
+            <div class="col-md-2 px-2">
+                <div class="input">
+                    <mat-select class="form-control" required placeholder="select a Team Members"
+                        [(ngModel)]="selectedteamMembers" [ngModelOptions]="{ standalone: true }"
+                        (ngModelChange)="filterProjects()" multiple>
+                        <mat-option *ngFor="let location of teamMembers" [value]="location">
+                            {{ location.name }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
+            <div class="col-md-2 p-2">
+                <a type="button" class="text-white" style="text-decoration: none"
+                    (click)="openAutomationModal(board.projectType)">Automation</a>
+            </div>
+        </div>
+        <div class="card" [ngStyle]="{
+        'background-size': 'cover',
+        'background-position': 'center',
+        'background-image': board?.backgroundImageUrl
+          ? 'url(' + board?.backgroundImageUrl + ')'
+          : 'none'
+      }">
+            <div class="card-body" style="min-height: 90vh">
+                <div class="row">
+                    <div class="col-md-12" style="overflow-x: scroll; min-height: 80vh">
+                        <div class="card-deck d-flex g-3" cdkDropListGroup>
+                            <div *ngFor="let status of projectStatuses; let i = index" cdkDropList
+                                [cdkDropListData]="status.items" [id]="i.toString()"
+                                (cdkDropListDropped)="onDragDrop($event)">
+                                <div class="card card-board" [ngStyle]="{ 'background-color': board?.projectColor }">
+                                    <div class="card-header mb-4 p-0 flex-column align-items-stretch">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="card-title text-muted" style="
+                                                color: #e9e6e6 !important;
+                                                text-shadow: 0 0 4px #353535ab; ">
+                                                {{ status.name }}
+                                            </div>
+                                            <div>
+                                                <i class="material-icons text-muted cursor-pointer"
+                                                    style="transform: rotate(90deg)"
+                                                    [matMenuTriggerFor]="menuStatusboard">more_vert</i>
+                                                <mat-menu #menuStatusboard="matMenu">
+                                                    <button mat-menu-item (click)="updateBoardStatus(status)">
+                                                        Edit
+                                                    </button>
+                                                    <button mat-menu-item (click)="deleteBoardStatusClick(status)">
+                                                        Delete
+                                                    </button>
+                                                </mat-menu>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="text-muted fs-10px mb-0">
+                                                Total: {{ status.total }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="flexible-card-layout">
+                                            <ng-container *ngIf="!status.disabled">
+                                                <div *ngFor="let item of status?.items">
+                                                    <div class="card card-items mb-4 p-2"
+                                                        (click)="redirect(item, board.projectType)"
+                                                        style="cursor: move !important" cdkDrag [cdkDragData]="item">
+
+                                                        <p 
+                                                        style="font-weight: bold !important;" 
+                                                        class="text-muted fs-10px mb-2 job">
+                                                        {{ item.titleToDisplay }}
+                                                        </p>
+
+                                                        <p class="text-muted fs-8px mb-0">
+                                                            State: {{ item.stateName ?? "" }}
+                                                        </p>
+
+                                                        <p class="text-muted fs-8px mb-0">
+                                                            Zip Code:
+                                                            {{
+                                                            board.projectType == "contact"
+                                                            ? item.zipCode
+                                                            : item.zip ?? ""
+                                                            }}
+                                                        </p>
+                                                        <p class="text-muted fs-8px mb-0">
+                                                            Tasks Completed: {{ item?.taskCount?.completedCount }} /
+                                                            {{item?.taskCount?.completedCount +
+                                                            item?.taskCount?.notCompletedCount}}
+                                                        </p>
+                                                        <div
+                                                            class="text-muted fs-8px mb-0 d-flex justify-content-between">
+                                                            <span class="d-flex align-items-center">
+                                                                <i
+                                                                    class="material-symbols-outlined text-muted fs-10px">access_time</i>
+                                                                <span class="text-muted fs-8px">{{
+                                                                    item.daysWithInStatus ?? 0
+                                                                    }}</span>
+                                                            </span>
+                                                            <span class="d-flex align-items-center">
+                                                                <i
+                                                                    class="material-symbols-outlined text-muted fs-10px">group</i>
+                                                                <span class="text-muted fs-8px">
+                                                                    {{
+                                                                    item.teamMememberId?.length ??
+                                                                    item.teamMembers?.length ??
+                                                                    0
+                                                                    }}
+                                                                </span>
+                                                            </span>
+                                                            <span class="d-flex align-items-center">
+                                                                <i
+                                                                    class="material-symbols-outlined text-muted fs-10px">calendar_today</i>
+                                                                <span class="text-muted fs-8px">{{ item.endDate | date
+                                                                    }}
+                                                                </span>
+                                                            </span>
+                                                            <span>
+                                                                <div class="p-2">
+                                                                    <div data-bs-toggle="tooltip"
+                                                                        [matMenuTriggerFor]="itemAssingneeAndSalesRep"
+                                                                        data-popup="tooltip-custom"
+                                                                        data-bs-placement="top"
+                                                                        class="avatar pull-up my-0" title=""
+                                                                        data-bs-original-title="Lilian Nenez">
+                                                                        <img src="../assets/images/sm-5.jpeg"
+                                                                            alt="Avatar" height="26" width="26" />
+                                                                    </div>
+                                                                    <mat-menu #itemAssingneeAndSalesRep="matMenu">
+                                                                        <button mat-menu-item
+                                                                            [matMenuTriggerFor]="assignees"
+                                                                            [disabled]="item.teamMembers?.length <= 0">Assignee</button>
+                                                                        <button mat-menu-item
+                                                                            [matMenuTriggerFor]="salesRepresentatives"
+                                                                            [disabled]="item?.salesReps?.name == null">Sales
+                                                                            Representative</button>
+                                                                    </mat-menu>
+                                                                    <mat-menu #assignees="matMenu">
+                                                                        <button mat-menu-item
+                                                                            *ngFor="let mmbr of item.teamMembers">{{
+                                                                            mmbr.name }}</button>
+                                                                    </mat-menu>
+
+                                                                    <mat-menu #salesRepresentatives="matMenu">
+                                                                        <button *ngIf="item?.salesReps?.name"
+                                                                            mat-menu-item>{{ item.salesReps?.name
+                                                                            }}</button>
+                                                                    </mat-menu>
+                                                                </div>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                            <ng-container *ngIf="status.disabled">
+                                                <div *ngFor="let item of status?.items">
+                                                    <div class="card card-items mb-4 p-2"
+                                                        (click)="redirect(item, board.projectType)">
+
+                                                        <p 
+                                                        style="font-weight: bold !important;" 
+                                                        class="text-muted fs-10px mb-2 job">
+                                                        {{ item.titleToDisplay }} {{status.disabled}}
+                                                        </p>
+
+                                                        <p class="text-muted fs-8px mb-0">
+                                                            State: {{ item.stateName }}
+                                                        </p>
+                                                        <p class="text-muted fs-8px mb-0">
+                                                            Zip Code:
+                                                            {{
+                                                            board.projectType == "contact"
+                                                            ? item.zipCode
+                                                            : item.zip ?? ""
+                                                            }}
+                                                        </p>
+                                                        <p class="text-muted fs-8px mb-0">
+                                                            Tasks Completed: {{ item?.taskCount?.completedCount }} /
+                                                            {{item?.taskCount?.completedCount +
+                                                            item?.taskCount?.notCompletedCount}}
+                                                        </p>
+                                                        <div
+                                                            class="text-muted fs-8px mb-0 d-flex justify-content-between">
+                                                            <span class="d-flex align-items-center">
+                                                                <i
+                                                                    class="material-symbols-outlined text-muted fs-10px">access_time</i>
+                                                                <span class="text-muted fs-8px">{{
+                                                                    item.daysWithInStatus ?? 0 }}
+                                                                </span>
+                                                            </span>
+                                                            <span class="d-flex align-items-center">
+                                                                <i
+                                                                    class="material-symbols-outlined text-muted fs-10px">group</i>
+                                                                <span class="text-muted fs-8px">{{
+                                                                    item.teamMememberId?.length ??
+                                                                    item.teamMembers?.length ??
+                                                                    0
+                                                                    }}</span>
+                                                            </span>
+                                                            <span class="d-flex align-items-center">
+                                                                <i
+                                                                    class="material-symbols-outlined text-muted fs-10px">calendar_today</i>
+                                                                <span class="text-muted fs-8px">{{
+                                                                    item.endDate | date
+                                                                    }}</span>
+                                                            </span>
+                                                            <span>
+                                                                <div class="p-2">
+                                                                    <div data-bs-toggle="tooltip"
+                                                                        [matMenuTriggerFor]="itemAssingneeAndSalesRep1"
+                                                                        data-popup="tooltip-custom"
+                                                                        data-bs-placement="top"
+                                                                        class="avatar pull-up my-0" title=""
+                                                                        data-bs-original-title="Lilian Nenez">
+                                                                        <img src="../assets/images/sm-5.jpeg"
+                                                                            alt="Avatar" height="26" width="26" />
+                                                                    </div>
+                                                                    <mat-menu #itemAssingneeAndSalesRep1="matMenu">
+                                                                        <button mat-menu-item
+                                                                            [matMenuTriggerFor]="assignees"
+                                                                            [disabled]="item.teamMembers?.length <= 0">Assignee</button>
+                                                                        <button mat-menu-item
+                                                                            [matMenuTriggerFor]="salesRepresentatives"
+                                                                            [disabled]="item?.salesReps?.name == null">Sales
+                                                                            Representative</button>
+                                                                    </mat-menu>
+                                                                    <mat-menu #assignees="matMenu">
+                                                                        <button mat-menu-item
+                                                                            *ngFor="let mmbr of item.teamMembers">{{
+                                                                            mmbr.name }}</button>
+                                                                    </mat-menu>
+                                                                    <mat-menu #salesRepresentatives="matMenu">
+                                                                        <button *ngIf="item?.salesReps?.name"
+                                                                            mat-menu-item>{{ item.salesReps?.name
+                                                                            }}</button>
+                                                                    </mat-menu>
+                                                                </div>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

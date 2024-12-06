@@ -1,0 +1,101 @@
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            Tasks
+        </div>
+        <div class="actions d-flex">
+            <button (click)="openAddTaskModal(null)"
+                class="btn btn-primary btn-sm">
+                <div class="d-flex align-items-center">
+                    <i class="material-symbols-outlined ">add</i>
+                    <span>Add Task</span>
+                </div>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>DISCRIPTION</th>
+                    <th>ASSIGNED TO</th>
+                    <th>SUB CONTRACTOR</th>
+                    <th>CONTACTS</th>
+                    <th>TAGS</th>
+                    <th>STATUS</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let task of tasks">
+                    <td>
+                        <div class="d-flex">{{ task.taskName }}</div>
+                        <small class="d-flex text-muted">{{ task.startDate |
+                            date }} - {{
+                            task.endDate | date }}</small>
+                    </td>
+                    <td>{{ task.description }}</td>
+                    <td>
+                        <div
+                            *ngIf="task.relatedTeamMembers && task.relatedTeamMembers.length > 0">
+                            <span
+                                *ngFor="let teamMember of task.relatedTeamMembers; let last = last">{{
+                                teamMember.name }}{{ !last ? ', ' : '' }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div
+                            *ngIf="task.relatedSubcontractors && task.relatedSubcontractors.length > 0">
+                            <span
+                                *ngFor="let contact of task.relatedSubcontractors; let last = last">{{
+                                contact.name }}{{ !last ? ', ' : '' }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div
+                            *ngIf="task.relatedContacts && task.relatedContacts.length > 0">
+                            <span
+                                *ngFor="let contact of task.relatedContacts; let last = last">{{
+                                contact.name }}{{ !last ? ', ' : '' }}</span>
+                        </div>
+                    </td>
+                    <td>{{ task.tags || '' }}</td>
+                    <td>{{ task.status || '' }}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button"
+                                class="btn btn-sm dropdown-toggle hide-arrow"
+                                [matMenuTriggerFor]="TaskMenu">
+                                <mat-icon
+                                    class="material-symbols-outlined">more_vert</mat-icon>
+                            </button>
+                            <div class="dropdown-menu">
+                                <button mat-icon-button
+                                    [matMenuTriggerFor]="TaskMenu"
+                                    xPosition="before">
+                                    <mat-icon
+                                        class="material-symbols-outlined">more_vert</mat-icon>
+                                </button>
+                                <mat-menu #TaskMenu="matMenu">
+                                    <button mat-menu-item
+                                        (click)="openAddTaskModal(task)">
+                                        <mat-icon
+                                            class="material-symbols-outlined">border_color</mat-icon>
+                                        <span>Edit</span>
+                                    </button>
+                                    <button mat-menu-item
+                                        (click)="deleteTask(task)">
+                                        <mat-icon>delete</mat-icon>
+                                        <span>Delete</span>
+                                    </button>
+                                </mat-menu>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="py-4 w-100"></div>

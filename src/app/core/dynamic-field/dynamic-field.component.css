@@ -1,0 +1,46 @@
+
+input::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+  
+  input[type="date"]::-webkit-input-placeholder {
+    visibility: hidden !important;
+  }
+  
+  ::ng-deep .mat-focused .mat-form-field-label {
+    /*change color of label*/
+    color: white !important;
+  }
+  
+  ::ng-deep.mat-form-field-underline {
+    /*change color of underline*/
+    background-color: white !important;
+  }
+  
+  ::ng-deep.mat-form-field-ripple {
+    /*change color of underline when focused*/
+    background-color: white !important;
+  }
+  
+  ::ng-deep .mat-form-field-label {
+    /*change color of label*/
+    color: white !important;
+  }
+  
+  mat-datepicker-toggle {
+    color: white !important;
+  }
+  
+  .date-picker {
+    background-color: #1976d2;
+    border-radius: 0px 5px 5px 0px;
+    height: 40px;
+    width: auto;
+  }
+  
+  #divider {
+    height: 2px;
+    width: 80%;
+    background: blue;
+    background: linear-gradient(90deg, hsl(0, 0%, 100%), hsl(0, 1%, 38%), hsl(0, 0%, 100%));
+  }

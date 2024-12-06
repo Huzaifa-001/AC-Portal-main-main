@@ -1,0 +1,27 @@
+<section class="px-3" *ngIf="totalCount > 0">
+  <div class="row">
+    <div class="col-sm-12 d-flex justify-content-end">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination mt-2">
+          <li class="page-item prev-item">
+            <a class="page-link" type="button" (click)="!(currentPageIndex == 1) && onPageChange(currentPageIndex - 1)">
+              <mat-icon class="material-icons">chevron_left</mat-icon>
+            </a>
+          </li>
+          <li class="page-item" *ngFor="let page of getTotalPages(); let i = index">
+            <a class="page-link page-numb" type="button" (click)="onPageChange(i + 1)"
+              [ngClass]="{ 'active': i + 1 === currentPageIndex }">
+              {{ page }}
+            </a>
+          </li>
+          <li class="page-item next-item">
+            <a class="page-link" type="button"
+              (click)="!(currentPageIndex == totalPages) && onPageChange(currentPageIndex + 1)">
+              <mat-icon class="material-icons">chevron_right</mat-icon>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>

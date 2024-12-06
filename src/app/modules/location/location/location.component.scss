@@ -1,0 +1,7 @@
+::ng-deep{
+    .app-component{
+        &::before{
+            height: 350px;
+        }
+    }
+}

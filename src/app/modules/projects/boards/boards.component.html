@@ -1,0 +1,121 @@
+<section class="section-padding">
+    <div class="container">
+        <div class="component-header">
+            <p class="title lg text-white">Boards</p>
+            <i class="material-symbols-outlined text-white">description</i>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="card-header mb-4 p-0">
+                    <div class="card-title d-flex align-items-center">
+                        <i *ngIf="!isMainFolder" class="material-symbols-outlined icon-go-back"
+                            (click)="loadFoldersBoardAndChildFolders(previousFolderId)">
+                            keyboard_arrow_left
+                        </i>
+                        <span class="px-2">Folders </span>
+                    </div>
+                    <div class="actions d-flex">
+                        <a type="button" class="btn btn-outline-primary d-flex align-items-center nav-link fs-12px"
+                            (click)="openFoldersModal(null)">
+                            <i class="material-symbols-outlined">add</i>
+                            <span>Add Folder</span>
+                        </a>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    </div>
+                </div>
+
+                <div class="row g-4 p-2" cdkDropListGroup>
+                    <ng-container *ngIf="folders.length > 0; else nofolders">
+                        <ng-container *ngFor="let folder of folders">
+                            <section
+                                class="col-lg-3 col-sm-6 col-12 mb-2 d-flex justify-content-center align-items-center"
+                                cdkDropList [cdkDropListData]="folder"
+                                (cdkDropListDropped)="onDragDrop($event, folder.id)">
+                                <article class="card card-folder" cdkDrag [cdkDragData]="folder.id"
+                                    (click)="loadFoldersBoardAndChildFolders(folder.id)">
+                                    <div class="folder" [ngStyle]="{'color': folder.color}"> <mat-icon>folder</mat-icon>
+                                    </div>
+                                    <div class="card-body p-2 m-0">
+                                        <span class="text-muted">{{folder.name}}</span>
+                                    </div>
+                                </article>
+                            </section>
+                        </ng-container>
+                    </ng-container>
+                    <ng-template #nofolders>
+                        <div class="col-12">
+                            <div class="card-text text-center">
+                                <p class="d-flex align-items-center justify-content-center fs-10px">
+                                    <i class="material-symbols-outlined" style="font-size: 12px;">info</i>
+                                    No folders found. Click <span style="cursor: pointer;" class="text-primary px-1"
+                                        (click)="openFoldersModal(null)">
+                                        here </span> to add new folder
+                                </p>
+                            </div>
+                        </div>
+                    </ng-template>
+
+
+                </div>
+
+                <hr>
+
+                <div class="card-header mb-4 p-0">
+                    <div class="card-title">Boards</div>
+                    <div class="actions d-flex">
+                        <button class="btn btn-primary btn-sm" (click)="openBoardsModal(null)">
+                            <div class="d-flex align-items-center">
+                                <i class="material-symbols-outlined text-white">description</i>
+                                <span>Add Boards</span>
+                            </div>
+                        </button>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    </div>
+                </div>
+
+                <div class="row g-4 p-2">
+                    <ng-container *ngIf="boards.length > 0; else noboards">
+                        <ng-container *ngFor="let board of boards">
+                            <section class="col-lg-3 col-sm-6 col-12 d-flex justify-content-center align-items-center">
+                                <article class="card card-board" (click)="goToBoard(board.id)">
+                                    <div class="tube" [ngStyle]="{'background-color': board.projectColor}"></div>
+                                    <div class="card-body p-2 m-0">
+                                        <header class="text-muted text-uppercase fs-11px">{{board.projectName}}</header>
+                                        <p class="card-text mb-0 fs-10px">
+                                            <span class="text-muted">Type: </span> <span
+                                                class="text-muted">{{board.projectType}}</span>
+                                        </p>
+                                        <p class="card-text mb-0 fs-10px">
+                                            <span class="text-muted text-uppercase">Total {{board.projectType}}: </span>
+                                            <span class="text-muted">{{board.statuses?.length}}</span>
+                                        </p>
+                                        <p class="card-text mb-0 fs-10px">
+                                            <span class="text-muted text-uppercase">Completed {{board.projectType}}:
+                                            </span>
+                                            <span class="text-muted">{{board.statuses?.length}}</span>
+                                        </p>
+                                    </div>
+                                </article>
+                            </section>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-template #noboards>
+                        <div class="col-12">
+                            <div class="card-text text-center">
+                                <p class="d-flex align-items-center justify-content-center fs-10px">
+                                    <i class="material-symbols-outlined" style="font-size: 12px;">info</i>
+                                    No boards found. Click <span style="cursor: pointer;" class="text-primary px-1"
+                                        (click)="openBoardsModal(null)">
+                                        here </span> to add new board
+                                </p>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,414 @@
+<section class="section-padding">
+  <div class="container">
+    <div class="component-header">
+      <p class="title lg text-white">Contacts</p>
+      <i class="material-symbols-outlined text-white">email</i>
+      <!-- <ol class="breadcrumb px-2">
+                <li class="breadcrumb-item"><a class="text-light" href="index.html">Contacts</a></li>
+                <li class="breadcrumb-item"><a class="text-light" href="#">Dashboard</a></li>
+            </ol> -->
+    </div>
+    <div class="card">
+      <div class="input-group justify-content-end w-auto my-2 px-3">
+        <div class="form-outline">
+          <input type="search" [(ngModel)]="searchText" placeholder="Search Contact" id="form1" class="form-control" style="border-top-right-radius: 0; border-bottom-right-radius: 0; outline: none;" />
+        </div>
+        <button type="button" class="btn btn-primary" style="width: 40px; height: 32px;">
+          <div class="search-input-icon">
+            <i class="material-symbols-outlined">search</i>
+        </div>
+        </button>
+      </div>
+      <div class="card-header">
+
+        <div class="card-title">Contacts</div>
+        <div class="d-flex btns-group">
+          <button class="btn btn-primary" (click)="openAddContactModal(null)">
+            <div class="d-flex align-items-center">
+              <i class="material-symbols-outlined">add</i>
+              <span>Add Contacts</span>
+            </div>
+          </button>
+
+          <button class="btn btn-outline-primary btn-sm d-flex align-items-center" type="button"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <span (click)="exportTable()">Export Contacts</span>
+          </button>
+          <!-- <button
+            class="btn btn-outline-primary"
+            (click)="importContacts()"
+          >
+            Import Contacts
+          </button>
+          <input
+            type="file"
+            id="csvFileInput"
+            style="display: none"
+            accept=".csv"
+            (change)="handleFileSelection($event)"
+          /> -->
+
+          <!-- <button class="btn btn-outline-primary-none">Edit</button>
+          <button class="btn btn-outline-primary-none">
+            <i class="material-symbols-outlined">unfold_more</i>
+          </button> -->
+        </div>
+      </div>
+      <div class="card-body px-0">
+        <table class="table striped-td" #contactsTable>
+          <thead>
+            <tr>
+              <th (click)="onSort('firstName')" class="custom-sort-column">
+                Contact Name
+                <mat-icon class="custom-icon-sort" *ngIf="sortField === 'firstName' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort" *ngIf="sortField === 'firstName' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              
+              </th>
+              <th (click)="onSort('workFlow.workFlowName')" class="custom-sort-column">
+                WorkFlow
+                <mat-icon class="custom-icon-sort" *ngIf="sortField === 'workFlow.workFlowName' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort" *ngIf="sortField === 'workFlow.workFlowName' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th (click)="onSort('status.statusName')" class="custom-sort-column">
+                Status
+                <mat-icon class="custom-icon-sort" *ngIf="sortField === 'status.statusName' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort" *ngIf="sortField === 'status.statusName' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th (click)="onSort('salesRep.name')" class="custom-sort-column">
+                Sales
+                <mat-icon class="custom-icon-sort" *ngIf="sortField === 'salesRep.name' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort" *ngIf="sortField === 'salesRep.name' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th>
+                Assign To
+                <!-- <mat-icon class="custom-icon-sort" *ngIf="sortField === 'firstName' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort" *ngIf="sortField === 'firstName' && sortOrder === 'desc'">arrow_downward</mat-icon> -->
+              </th>
+              <th (click)="onSort('city')" class="custom-sort-column">
+                Address & Info
+                <mat-icon class="custom-icon-sort" *ngIf="sortField === 'city' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort" *ngIf="sortField === 'city' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th>Actions</th>
+              <!-- <th>Notes</th>
+                                <th>Action</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <!--  -->
+            <tr *ngFor="let contact of (contacts | tableSearch: searchText:['firstName', 'lastName','workFlow.workFlowName','city']) | customSort: sortField: sortOrder">              
+              <td (click)="redirect(contact)" style="cursor: pointer">
+                {{ contact.firstName + " " + contact.lastName }}
+                <!-- <div class="d-flex text-muted">Mon Nov 8, 1:00PM - 2:30PM
+                                    </div> -->
+              </td>
+              <td (click)="redirect(contact)" style="cursor: pointer">
+                {{ contact.workFlow?.workFlowName }}
+              </td>
+
+              <td (click)="redirect(contact)" style="cursor: pointer">
+                <div class="d-flex">
+                  <!-- <i class="material-symbols-outlined text-success icon-size-dot">
+                    radio_button_checked
+                  </i> -->
+                  &nbsp; {{ contact.status?.statusName }}
+                </div>
+              </td>
+              <td (click)="redirect(contact)" style="cursor: pointer">
+                {{ contact?.salesRep?.name }}
+              </td>
+              <td (click)="redirect(contact)" style="cursor: pointer">
+                <div class="avatar-group">
+                  <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+                    class="avatar pull-up my-0" title="" data-bs-original-title="Lilian Nenez">
+                    <img src="../assets/images/sm-5.jpeg" alt="Avatar" height="26" width="26" />
+                  </div>
+                  <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+                    class="avatar pull-up my-0" title="" data-bs-original-title="Alberto Glotzbach">
+                    <img src="../assets/images/sm-6.jpeg" alt="Avatar" height="26" width="26" />
+                  </div>
+                  <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+                    class="avatar pull-up my-0" title="" data-bs-original-title="Alberto Glotzbach">
+                    <img src="../assets/images/sm-5.jpeg" alt="Avatar" height="26" width="26" />
+                  </div>
+                </div>
+              </td>
+              <td (click)="redirect(contact)" style="cursor: pointer">
+                {{ contact.addressLine1 + "," + contact.city }}
+              </td>
+              <td>
+                <mat-menu #menu="matMenu" class="dropdown">
+                  <a type="button" mat-menu-item routerLink="/contact/{{ contact.id }}/tasks">
+                    <mat-icon class="material-symbols-outlined">work</mat-icon>
+                    <span>Tasks</span>
+                  </a>
+                  <button mat-menu-item (click)="openAddContactModal(contact)">
+                    <mat-icon class="material-symbols-outlined">border_color</mat-icon>
+                    <span>Edit</span>
+                  </button>
+                  <button mat-menu-item (click)="deleteContact(contact)" class="btn btn-sm dropdown-toggle hide-arrow">
+                    <mat-icon>delete</mat-icon>
+                    <span>Delete</span>
+                  </button>
+                </mat-menu>
+
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="btn btn-sm dropdown-toggle hide-arrow">
+                  <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <app-pagination [currentPageIndex]="currentPageIndex" [totalCount]="totalCount"
+        (pageChange)="loadPagedData($event)"></app-pagination>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade text-start" id="contactAddModal" tabindex="-1" aria-labelledby="myModalLabel17"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel17">Add Contact</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <nav>
+          <div class="row justify-content-center">
+            <div class="col-lg-12">
+              <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+                  type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                  Personal Information
+                </button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+                  type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
+                  General Information
+                </button>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"
+            tabindex="0">
+            <div id="account-details-modern" class="" role="tabpanel" aria-labelledby="account-details-modern-trigger">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="row">
+                      <div class="col-md-6 text-center">
+                        <div class="mb-2 text-center">
+                          <img src="../assets/images/5.png" alt="users avatar"
+                            class="user-avatar users-avatar-shadow rounded-circle me-2 my-25 cursor-pointer"
+                            height="110" width="110" />
+                          <div class="mt-50">
+                            <!-- <h4>Eleanor Aguilar</h4> -->
+                            <div class="col-lg-11 text-center">
+                              <button class="btn btn-outline-secondary">
+                                Edit
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="row">
+                          <div class="mb-1 col-md-12">
+                            <label class="form-label" for="modern-username">First Name</label>
+                            <input type="text" id="modern-username" class="form-control" placeholder="johndoe" />
+                          </div>
+                          <div class="mb-1 col-md-12">
+                            <label class="form-label" for="modern-email">Last Name</label>
+                            <input type="email" id="modern-email" class="form-control" placeholder="john.doe@email.com"
+                              aria-label="john.doe" />
+                          </div>
+                          <div class="mb-1 col-md-12">
+                            <label class="form-label" for="modern-username">Company</label>
+                            <input type="text" id="modern-username" class="form-control" placeholder="johndoe" />
+                          </div>
+                          <div class="mb-1 col-md-12">
+                            <label class="form-label" for="modern-email">Mobile Number</label>
+                            <input type="email" id="modern-email" class="form-control" placeholder="john.doe@email.com"
+                              aria-label="john.doe" />
+                          </div>
+                          <div class="mb-1 col-md-12">
+                            <label class="form-label" for="modern-username">Email Adress</label>
+                            <input type="text" id="modern-username" class="form-control" placeholder="johndoe" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mt-2">
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="input-group input-group-merge">
+                              <span class="input-group-text" id="basic-addon3">
+                                <span class="material-symbols-outlined">
+                                  search
+                                </span>
+                              </span>
+                              <input id="twitter-input" type="text" class="form-control" value=""
+                                placeholder="Search for a Contact" aria-describedby="basic-addon3"
+                                aria-invalid="false" />
+                            </div>
+                          </div>
+                          <div class="col-lg-12 mt-1">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose an Office</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose a Status</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose a Status</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-12 mt-2">
+                            <h4>Additional Information</h4>
+                            <button class="btn btn-outline-secondary btn-prev" disabled>
+                              <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                              <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="input-group input-group-merge">
+                              <span class="input-group-text" id="basic-addon3">
+                                <span class="material-symbols-outlined">
+                                  search
+                                </span>
+                              </span>
+                              <input id="twitter-input" type="text" class="form-control" value=""
+                                placeholder="Search for a Team Member" aria-describedby="basic-addon3"
+                                aria-invalid="false" />
+                            </div>
+                          </div>
+                          <div class="col-lg-12 mt-1">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose a Workflow</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose a Sales Rep</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose a Subcontractor</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <label class="form-label" for="modern-username">Status</label>
+                  <div class="mb-1">
+                    <select class="form-select" id="status" aria-invalid="false">
+                      <option>Choose a Status</option>
+                      <option>Blocked</option>
+                      <option>Deactivated</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-12 mb-1">
+                  <label class="form-label" for="modern-email">Tags</label>
+                  <div class="input-group input-group-merge">
+                    <span class="input-group-text" id="basic-addon3">
+                      <span class="material-symbols-outlined"> search </span>
+                    </span>
+                    <input id="twitter-input" type="text" class="form-control" value="" placeholder="Search for a Tag"
+                      aria-describedby="basic-addon3" aria-invalid="false" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="row">
+                <div class="col-lg-12">
+                  <label class="form-label" for="modern-username">Sales Representative</label>
+                  <div class="mb-1">
+                    <select class="form-select" id="status" aria-invalid="false">
+                      <option>Choose a Sales Rep</option>
+                      <option>Blocked</option>
+                      <option>Deactivated</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <label class="form-label" for="modern-username">Source</label>
+                  <div class="mb-1">
+                    <select class="form-select" id="status" aria-invalid="false">
+                      <option>Choose a Source</option>
+                      <option>Blocked</option>
+                      <option>Deactivated</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <label class="form-label" for="modern-username">Subcontractors</label>
+                  <div class="mb-1">
+                    <select class="form-select" id="status" aria-invalid="false">
+                      <option>Choose a Subcontractor</option>
+                      <option>Blocked</option>
+                      <option>Deactivated</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                  <button class="btn btn-primary btn-next">
+                    <span class="align-middle d-sm-inline-block d-none">Next</span>
+                    <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+              ...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

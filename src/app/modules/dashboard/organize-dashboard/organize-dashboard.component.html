@@ -1,0 +1,53 @@
+<div class="mat-modal">
+    <div class="mat-modal-header">
+        <p class="title">Organize your Dashboard</p>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="onCancelClick()"></button>
+    </div>
+    <form>
+        <div class="mat-modal-body">
+            <div class="dashboard-organizer">
+                <p class="description">
+                    Drag and drop to reorder the enabled widgets to view on your Dashboard. Click the plus or minus
+                    icons to enable or disable
+                    widgets.
+                </p>
+                <div class="enabled-section">
+                    <p class="title mb-1">Enabled</p>
+                    <div class="container" cdkDropList id="Enabled" [cdkDropListData]="visibleComponents"
+                        (cdkDropListDropped)="drop($event)">
+                        <div *ngIf="visibleComponents.length === 0" class="no-item">
+                            Click the plus icon below to enable widgets.
+                        </div>
+                        <div class="item" cdkDrag *ngFor="let item of visibleComponents">
+                            <button mat-icon-button (click)="disableItem(item)">
+                                <mat-icon>remove</mat-icon>
+                            </button>
+                            <span class="component-name">{{item.componentName}}</span>
+                            <mat-icon class="drag-handle">drag_handle</mat-icon>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="disabled-section">
+                    <p class="title mb-1">Disabled</p>
+                    <div class="container">
+                        <div *ngIf="hiddenComponents.length === 0" class="no-item">
+                            Click the minus icon above to disable widgets.
+                        </div>
+                        <div class="item" *ngFor="let item of hiddenComponents">
+                            <button mat-icon-button (click)="enableItem(item)">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                            <span class="component-name">{{item.componentName}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button mat-raised-button color="primary" (click)="saveOrder()">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,12 @@
+.page-link.active {
+    border: 1px solid #007bff; /* Primary color outline */
+    color: #007bff; /* Primary color text */
+    background-color: transparent;
+  }
+
+  .page-link {
+    padding: 5px;
+    text-align: center;
+  }
+
+  

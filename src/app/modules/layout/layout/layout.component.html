@@ -1,0 +1,12 @@
+<div #layout class="layout">
+    <app-sidebar (toogleSidebaremit)="toggleSidebar(layout)"></app-sidebar>
+    <div class="app-container">
+        <app-header></app-header>
+        <div class="app-component">
+            <div class="position-relative">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+        <!-- <app-footer></app-footer> -->
+    </div>
+</div>

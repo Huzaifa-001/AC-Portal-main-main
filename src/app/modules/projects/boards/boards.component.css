@@ -1,0 +1,58 @@
+.card-board,
+.card-folder {
+    width: 255px;
+    height: 100px;
+    background-color: #edededd7;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+}
+
+.card-board:hover,
+.card-folder:hover {
+    background-color: #cccccca2;
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.card-folder {
+    width: 266px;
+    height: 49px;
+}
+
+.card-folder .folder {
+    width: 24px;
+    height: 21px;
+}
+
+.card-board .card-body,
+.card-board .card-header {
+    background-color: transparent;
+}
+
+.card-board .card-body {
+    width: 225px;
+    height: 98px;
+}
+
+.card-board .tube {
+    height: 89px;
+    width: 10px;
+    border-radius: 20px;
+}
+
+.icon-go-back {
+    width: 37px;
+    border: 1px solid;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.icon-go-back:hover {
+    background-color: #455468;
+    transition: background-color 0.2s ease-in-out;
+    color: white;
+    border: 1px solid #455468;
+}

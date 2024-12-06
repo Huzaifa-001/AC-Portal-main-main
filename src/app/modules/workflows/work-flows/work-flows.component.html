@@ -1,0 +1,20 @@
+<section class="section-padding">
+  <div class="container">
+    <div class="component-header">
+      <p class="title lg text-white">Work Flows</p>
+      <i class="material-symbols-outlined text-white">chat_bubble</i>
+    </div>
+    <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedTabChange)="onTabChanged($event)">
+      <mat-tab label="Contacts" [routerLink]="['/contacts']"></mat-tab>
+      <mat-tab label="Jobs" [routerLink]="['/jobs']"></mat-tab>
+      <mat-tab label="Work Orders" [routerLink]="['/work-orders']"></mat-tab>
+      <mat-tab label="Global Status" [routerLink]="['/global-status']"></mat-tab>
+    </mat-tab-group>
+    
+    
+    
+    <div>
+      <router-outlet></router-outlet> <!-- This will display child components -->
+    </div>
+  </div>
+</section>

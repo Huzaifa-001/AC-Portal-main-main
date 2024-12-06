@@ -1,0 +1,145 @@
+<div class="actions d-flex justify-content-end my-2">
+    <button class="btn btn-primary btn-sm" (click)="openAddJobsModal(null)">
+        <div class="d-flex align-items-center">
+            <i class="material-symbols-outlined">add</i>
+            <span>Add Jobs</span>
+        </div>
+    </button>
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</div>
+ 
+<div class="card-body">
+    <table class="table" #myTable>
+        <thead>
+            <tr>
+                <th class="custom-sort-column" (click)="onJobsSort('name')">
+                    JOB NAME
+                    <mat-icon class="custom-icon-sort"
+                        *ngIf="JobSortField === 'name' && JobSortOrder === 'asc'">arrow_upward</mat-icon>
+                    <mat-icon class="custom-icon-sort"
+                        *ngIf="JobSortField === 'name' && JobSortOrder === 'desc'">arrow_downward</mat-icon>
+                </th>
+                <th class="custom-sort-column" (click)="onJobsSort('primaryContactName')">
+                    PRIMARY CONTACT
+                    <mat-icon class="custom-icon-sort"
+                        *ngIf="JobSortField === 'primaryContactName' && JobSortOrder === 'asc'">arrow_upward</mat-icon>
+                    <mat-icon class="custom-icon-sort"
+                        *ngIf="JobSortField === 'primaryContactName' && JobSortOrder === 'desc'">arrow_downward</mat-icon>
+                </th>
+                <th class="custom-sort-column" (click)="onJobsSort('workFlow')">
+                    WORKFLOW
+                    <mat-icon class="custom-icon-sort"
+                        *ngIf="JobSortField === 'workFlow' && JobSortOrder === 'asc'">arrow_upward</mat-icon>
+                    <mat-icon class="custom-icon-sort"
+                        *ngIf="JobSortField === 'workFlow' && JobSortOrder === 'desc'">arrow_downward</mat-icon>
+                </th>
+                <th class="custom-sort-column" (click)="onJobsSort('jobStatus')">
+                    Status
+                    <mat-icon class="custom-icon-sort"
+                        *ngIf="JobSortField === 'jobStatus' && JobSortOrder === 'asc'">arrow_upward</mat-icon>
+                    <mat-icon class="custom-icon-sort"
+                        *ngIf="JobSortField === 'jobStatus' && JobSortOrder === 'desc'">arrow_downward</mat-icon>
+                </th>
+                <th class="custom-sort-column" (click)="onJobsSort('salesRepName')">
+                    Sales Rep
+                    <mat-icon class="custom-icon-sort"
+                        *ngIf="JobSortField === 'salesRepName' && JobSortOrder === 'asc'">arrow_upward</mat-icon>
+                    <mat-icon class="custom-icon-sort"
+                        *ngIf="JobSortField === 'salesRepName' && JobSortOrder === 'desc'">arrow_downward</mat-icon>
+                </th>
+                <th>Assign To</th>
+                <th class="custom-sort-column" (click)="onJobsSort('address1')">
+                    Address
+                    <mat-icon class="custom-icon-sort"
+                        *ngIf="JobSortField === 'address1' && JobSortOrder === 'asc'">arrow_upward</mat-icon>
+                    <mat-icon class="custom-icon-sort"
+                        *ngIf="JobSortField === 'address1' && JobSortOrder === 'desc'">arrow_downward</mat-icon>
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let Job of  (Jobs | customSort: JobSortField: JobSortOrder)">
+                <td (click)="JobRedirect(Job)" style="cursor: pointer">
+                    <div class="d-flex">{{ Job.name }}</div>
+                </td>
+                <td (click)="JobRedirect(Job)" style="cursor: pointer">
+                    {{ Job.primaryContactName }}
+                </td>
+                <td (click)="JobRedirect(Job)" style="cursor: pointer">
+                    {{ Job.workFlow }}
+                </td>
+                <td (click)="JobRedirect(Job)" style="cursor: pointer">
+                    <div class="d-flex">
+                        <!-- <i class="material-symbols-outlined text-success icon-size-dot">
+              radio_button_checked
+            </i> -->
+                        &nbsp; {{ Job.jobStatus }}
+                    </div>
+                </td>
+                <td (click)="JobRedirect(Job)" style="cursor: pointer">
+                    {{ Job?.salesRepName }}
+                </td>
+                <td (click)="JobRedirect(Job)" style="cursor: pointer">
+                    <div class="avatar-group">
+                        <div data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                            data-bs-placement="top" class="avatar pull-up my-0" title=""
+                            data-bs-original-title="Lilian Nenez">
+                            <img src="../assets/images/sm-5.jpeg" alt="Avatar" height="26"
+                                width="26" />
+                        </div>
+                        <div data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                            data-bs-placement="top" class="avatar pull-up my-0" title=""
+                            data-bs-original-title="Alberto Glotzbach">
+                            <img src="../assets/images/sm-6.jpeg" alt="Avatar" height="26"
+                                width="26" />
+                        </div>
+                        <div data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                            data-bs-placement="top" class="avatar pull-up my-0" title=""
+                            data-bs-original-title="Alberto Glotzbach">
+                            <img src="../assets/images/sm-5.jpeg" alt="Avatar" height="26"
+                                width="26" />
+                        </div>
+                    </div>
+                </td>
+                <td (click)="JobRedirect(Job)" style="cursor: pointer">
+                    {{ Job.address1 + "," + Job.address2 }}
+                </td>
+                <td>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-sm dropdown-toggle hide-arrow"
+                            [matMenuTriggerFor]="menu">
+                            <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                        </button>
+                        <div class="dropdown-menu">
+                            <button mat-icon-button [matMenuTriggerFor]="menu"
+                                xPosition="before">
+                                <mat-icon
+                                    class="material-symbols-outlined">more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <a type="button" mat-menu-item routerLink="/jobs/{{ Job.id }}/tasks">
+                                    <mat-icon class="material-symbols-outlined">work</mat-icon>
+                                    <span>Tasks</span>
+                                  </a>
+                                <button mat-menu-item (click)="openAddJobsModal(Job)">
+                                    <mat-icon
+                                        class="material-symbols-outlined">border_color</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                                <button mat-menu-item (click)="deleteJobClick(Job)">
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<ng-container *ngIf="JobsTotalCount > 0">
+    <app-pagination [currentPageIndex]="currentJobPageIndex" [totalCount]="JobsTotalCount"
+        (pageChange)="loadJobsPagedData($event)"></app-pagination>
+</ng-container>

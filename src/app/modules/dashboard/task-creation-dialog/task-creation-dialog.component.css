@@ -1,0 +1,90 @@
+.modal-dialog {
+  
+}
+
+.modal-content {
+  position: relative;
+}
+
+.modal-default-close {
+  margin: 0;
+  position: absolute;
+  width: 40px;
+  height: 30px;
+  border-radius: 0px 0px 0px 10px;
+  background-color: #7367f0 !important;
+  color: #ffffff;
+  font-size: 40px;
+  opacity: 1;
+  z-index: 10;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 100%;
+  transform: translate(-50%, -50%);
+
+}
+.success-snackbar {
+  background-color: green;
+  color: white;
+}
+
+.error-snackbar {
+  background-color: red;
+  color: white;
+}
+
+.close {
+  color: white;
+}
+
+.heading {
+  display: flex;
+  justify-content: center;
+}
+
+.heading .title {
+  font-weight: 900;
+  font-size: 24px;
+  font-family:'Times New Roman', Times, serif;
+}
+
+input::-webkit-calendar-picker-indicator{
+  display: none;
+}
+
+input[type="date"]::-webkit-input-placeholder{ 
+  visibility: hidden !important;
+}
+
+
+::ng-deep .mat-focused .mat-form-field-label {
+  /*change color of label*/
+  color: white !important;
+ }
+ 
+ ::ng-deep.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: white !important;
+ } 
+ 
+ ::ng-deep.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: white !important;;
+ }
+ 
+ ::ng-deep .mat-form-field-label {
+  /*change color of label*/
+  color: white !important;
+ }
+ 
+ 
+ mat-datepicker-toggle {
+  color: white !important;
+ }
+
+.date-picker {
+  background-color: #1976d2;
+  border-radius: 0px 5px 5px 0px;
+}

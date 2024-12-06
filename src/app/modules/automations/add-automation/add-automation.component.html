@@ -1,0 +1,532 @@
+<div class="mat-modal">
+    <div class="mat-modal-header">
+        <p class="title">{{ this.updateData.FormTitle }}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="closeDailog()"></button>
+    </div>
+    <form [formGroup]="automationForm">
+        <div class="mat-modal-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input">
+                        <mat-label>Name <span class="text-danger">*</span></mat-label>
+                        <input matInput formControlName="name" class="form-control" required />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input">
+                        <label>Trigger Type <span class="text-danger">*</span></label>
+                        <mat-select class="form-control" formControlName="triggerType"
+                            placeholder="Choose a trigger type" required>
+                            <mat-option [value]="'eventBase'">Event Based</mat-option>
+                            <mat-option [value]="'timeBase'">Time Based</mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+                <div class="col-md-6" *ngIf="automationForm.controls['triggerType'].value == 'timeBase'">
+                    <div class="input">
+                        <label>Trigger record <span class="text-danger">*</span></label>
+                            <mat-select class="form-control" formControlName="triggerRecord"
+                            placeholder="Choose a record type" required>
+                            <mat-option [value]="'contact'">Contact</mat-option>
+                            <mat-option [value]="'job'">Job</mat-option>
+                            <mat-option [value]="'workorder'">Work Order</mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="automationForm.controls['triggerType'].value == 'eventBase'">
+                <div class="col-md-6">
+                    <div class="input">
+                        <label>When a <span class="text-danger">*</span></label>
+                        <mat-select class="form-control" formControlName="triggerRecord"
+                            placeholder="Choose a record type" required>
+                            <mat-option [value]="'contact'">Contact</mat-option>
+                            <mat-option [value]="'job'">Job</mat-option>
+                            <mat-option [value]="'workorder'">Work Order</mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input">
+                        <label>Is <span class="text-danger">*</span></label>
+                        <mat-select class="form-control" formControlName="whenEntityIs" placeholder="Choose an event"
+                            required>
+                            <mat-option [value]="'created'">Created</mat-option>
+                            <mat-option [value]="'modified'">Modified</mat-option>
+                            <mat-option [value]="'deleted'">Deleted</mat-option>
+                            <mat-option [value]="'createdormodified'">Created or Modified</mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="automationForm.controls['triggerType'].value == 'timeBase'">
+                <div class="row">
+                    <div class="input">
+                        <label>Run this automation: <span class="text-danger">*</span></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="input">
+                            <input type="number" matInput formControlName="duration" class="form-control"
+                                placeholder="Duration">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input">
+                            <mat-select class="form-control" formControlName="timeUnit" placeholder="Choose a time unit"
+                                required>
+                                <mat-option *ngFor="let tm of timeUnitOptions" [value]="tm.value">
+                                    {{tm.label }}
+                                </mat-option>
+                            </mat-select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input">
+                            <mat-select class="form-control" formControlName="beforeAfter"
+                                placeholder="Choose a time relation" required>
+                                <mat-option [value]="'before'">Before</mat-option>
+                                <mat-option [value]="'after'">After</mat-option>
+                            </mat-select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input" *ngIf="automationForm.controls['beforeAfter'].value == 'after'">
+                            <mat-select class="form-control" formControlName="automationTriggerDateField"
+                                placeholder="Choose a date field" required>
+                                <mat-option [value]="'date_created'">Date Created </mat-option>
+                                <mat-option [value]="'date_status_change'">Date Status Change</mat-option>
+                                <mat-option [value]="'date_updated'">Date Updated</mat-option>
+                            </mat-select>
+                        </div>
+                        <div class="input" *ngIf="automationForm.controls['beforeAfter'].value == 'before'">
+                            <mat-select class="form-control" formControlName="automationTriggerDateField"
+                                placeholder="Choose a date field" required>
+                                <mat-option [value]="'end_date'">Due Date </mat-option>
+                            </mat-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="input">
+                            <label>On the next</label>
+                            <mat-checkbox formControlName="isSpecificDay"></mat-checkbox>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input">
+                            <mat-select class="form-control" formControlName="selectedDay"
+                                placeholder="Choose a day" required>
+                                <mat-option *ngFor="let day of daysOfWeek" [value]="day.value">
+                                    {{ day.label }}
+                                </mat-option>
+                            </mat-select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input">
+                            <label>At Specific Time</label>
+                            <mat-checkbox formControlName="isSpecificTime"></mat-checkbox>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input">
+                            <input matInput type="time" class="form-control"
+                                formControlName="selectedTime" placeholder="Choose a time">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="card p-0">
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class="card-header mb-4 p-2">
+                            <div class="card-title">Conditions</div>
+                            <div class="actions d-flex" *ngIf="!showConditionInsertionRow">
+                                <button class="btn btn-primary btn-sm">
+                                    <div class="d-flex align-items-center">
+                                        <i class="material-symbols-outlined text-white">description</i>
+                                        <span (click)="showConditionInsertionRow = !showConditionInsertionRow">Add
+                                            Conition</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ng-container *ngIf="showConditionInsertionRow">
+                                    <form [formGroup]="conditionForm">
+                                        <div class="row">
+                                            <div class="col-md-12 d-flex justify-content-around">
+                                                <div class="col-md-4">
+                                                    <div class="input">
+                                                        <label>Left Operand</label>
+                                                        <mat-select formControlName="field" class="form-control"
+                                                            required placeholder="select a operand">
+                                                            <mat-option *ngFor="let tm of leftOperands" [value]="tm.id">
+                                                                {{tm.name }}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="input">
+                                                        <label>Condition</label>
+                                                        <mat-select class="form-control" formControlName="comparison"
+                                                            placeholder="Condition" required>
+                                                            <mat-option value="==">
+                                                                Equals to
+                                                            </mat-option>
+                                                            <mat-option value="!=">
+                                                                Not Equals to
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="input">
+                                                        <label>Right Operand</label>
+                                                        <mat-select formControlName="value" class="form-control"
+                                                            required placeholder="select a operand">
+                                                            <mat-option *ngFor="let tm of rightOperands"
+                                                                [value]="tm.id">
+                                                                {{tm.name }}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="input d-flex align-items-center">
+                                                        <label >Only if Lead Source is
+                                                            modified.</label>
+                                                        <mat-checkbox
+                                                            formControlName="onlyIfModified"></mat-checkbox>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        <div class="d-flex justify-content-end align-items-center">
+                                            <div class="mt-4 text-end px-2">
+                                                <button type="button" class="btn btn-outline-secondary btn-lg"
+                                                    (click)="resetConditionForm()">
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                            <div class="mt-4 text-end">
+                                                <button type="button" class="btn btn-primary btn-lg"
+                                                    (click)="AddConditionToList()">
+                                                    Save
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <hr class="my-2">
+                        <div class="row">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Left Operand</th>
+                                        <th>Condition </th>
+                                        <th>Right Operand</th>
+                                        <th>Only Lead Source Modified</th>
+                                        <th style="width: 85px;"></th>
+                                    </tr>
+                                </thead>
+    
+                                <tbody>
+                                    <ng-container *ngFor="let status of addedConditions; let i = index">
+                                    <tr>
+                                        <td class="p-1">
+                                            <div class="d-flex">{{status.fieldName}}</div>
+                                        </td>
+                                        
+                                        <td class="p-1">
+                                            <div class="d-flex">{{ status.comparison == '==' ? 'Equals to' : 'Not Equal to' }}</div>
+                                        </td>
+                                        <td class="p-1">
+                                            <div class="d-flex">{{status.fieldValue}}</div>
+                                        </td>
+                                        <td class="p-1">
+                                            <div class="d-flex">{{status.onlyIfModified == true ? 'Yes' : 'No'}}</div>
+                                        </td>
+                                        <td class="p-1" style="width: 85px;">
+                                            <div class="dropdown">
+                                                <button type="button" class="btn btn-sm dropdown-toggle hide-arrow"
+                                                    [matMenuTriggerFor]="menu">
+                                                    <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <button mat-icon-button [matMenuTriggerFor]="menu" xPosition="before">
+                                                        <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                                                    </button>
+                                                    <mat-menu #menu="matMenu">
+                                                        <button mat-menu-item (click)="editCondition(status,i)">
+                                                            <mat-icon
+                                                                class="material-symbols-outlined">border_color</mat-icon>
+                                                            <span>Edit</span>
+                                                        </button>
+                                                        <button mat-menu-item (click)="removeConditionFormList(status)">
+                                                            <mat-icon>delete</mat-icon>
+                                                            <span>Delete</span>
+                                                        </button>
+                                                    </mat-menu>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+    
+                                    </ng-container>
+                                    <tr *ngIf="addedConditions.length == 0">
+                                        <td colspan="5">
+                                            <div class="text-center">No Conditions Added</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input d-flex align-items-center">
+                                    <label>Require all conditions to be true.</label>
+                                    <mat-checkbox formControlName="requireAllConditionsToBeTrue"></mat-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-md-6">
+                                <div class="input d-flex align-items-center">
+                                    <label>Require any condition to be true.</label>
+                                    <mat-checkbox [(ngModel)]="requireAllConditionsToBeTrue" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="row">
+                        <div class="card-header mb-4 p-2">
+                            <div class="card-title">Actions</div>
+                            <div class="actions d-flex" *ngIf="!showActionInsertionRow">
+                                <button class="btn btn-primary btn-sm">
+                                    <div class="d-flex align-items-center">
+                                        <i class="material-symbols-outlined text-white">description</i>
+                                        <span (click)="showActionInsertionRow = !showActionInsertionRow">
+                                            Add Action </span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="showActionInsertionRow">
+                            <div class="col-md-12">
+                                <ng-container>
+                                    <form [formGroup]="actionForm">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="input">
+                                                    <label>Action</label>
+                                                    <mat-select formControlName="actionType" class="form-control"
+                                                        required placeholder="select a action type">
+                                                        <mat-option *ngFor="let tm of actions" [value]="tm.id">
+                                                            {{tm.name}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="d-flex justify-content-end align-items-center">
+                                                    <div class="mt-4 text-end">
+                                                        <button (click)="handleActionChange()" type="button" class="btn btn-primary btn-lg">
+                                                            Continue
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="my-2">
+                                        <div class="row">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Action Name</th>
+                                                        <th style="width: 85px;"></th>
+                                                    </tr>
+                                                </thead>
+                    
+                                                <tbody>
+                                                    <ng-container *ngFor="let action of addedActions; let i = index">
+                                                    <tr>
+                                                        <td class="p-1">
+                                                            <div class="d-flex">{{action.name}}</div>
+                                                        </td>
+                                                        
+                                                        <td class="p-1" style="width: 85px;">
+                                                            <div class="dropdown">
+                                                                <button type="button" class="btn btn-sm dropdown-toggle hide-arrow"
+                                                                    [matMenuTriggerFor]="menu">
+                                                                    <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                                                                </button>
+                                                                <div class="dropdown-menu">
+                                                                    <button mat-icon-button [matMenuTriggerFor]="menu" xPosition="before">
+                                                                        <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                                                                    </button>
+                                                                    <mat-menu #menu="matMenu">
+                                                                        <button mat-menu-item (click)="editAction(action,i)">
+                                                                            <mat-icon
+                                                                                class="material-symbols-outlined">border_color</mat-icon>
+                                                                            <span>Edit</span>
+                                                                        </button>
+                                                                        <button mat-menu-item (click)="removeActionFormList(action)">
+                                                                            <mat-icon>delete</mat-icon>
+                                                                            <span>Delete</span>
+                                                                        </button>
+                                                                    </mat-menu>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                    
+                                                    </ng-container>
+                                                    <tr *ngIf="addedActions.length == 0">
+                                                        <td colspan="5">
+                                                            <div class="text-center">No Actions Added</div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- <div class="row" *ngIf="showActionsForms && actionType">
+                                            <ng-container [ngSwitch]="actionType">
+                                                <ng-container *ngSwitchCase="'changeField'">
+                                                    <form [formGroup]="projectFormChangeField">
+                                                        <div class="mat-modal-body">
+
+                                                        </div>
+                                                    </form>
+                                                </ng-container>
+
+                                                <ng-container *ngSwitchCase="'sendTextMessage'">
+                                                    <form [formGroup]="projectFormSendTextMessage">
+                                                        <div class="mat-modal-body">
+
+                                                        </div>
+                                                    </form>
+                                                </ng-container>
+
+                                                <ng-container *ngSwitchCase="'sendEmail'">
+                                                    <form [formGroup]="projectFormSendEmail">
+                                                        <div class="mat-modal-body">
+
+
+                                                        </div>
+                                                    </form>
+                                                </ng-container> 
+
+                                                <ng-container *ngSwitchCase="'callWebhook'">
+                                                    <form [formGroup]="projectFormCallWebhook">
+                                                        <div class="mat-modal-body">
+
+                                                        </div>
+                                                    </form>
+                                                </ng-container>
+
+                                                <ng-container *ngSwitchCase="'createTask'">
+                                                    <form [formGroup]="projectFormCreateTask">
+                                                        <div class="mat-modal-body">
+
+                                                        </div>
+                                                    </form>
+                                                </ng-container>
+
+                                                <ng-container *ngSwitchCase="'promptCreateObject'">
+                                                    <form [formGroup]="projectFormPromptCreateObject">
+                                                        <div class="mat-modal-body">
+
+                                                        </div>
+                                                    </form>
+                                                </ng-container>
+
+                                                <ng-container *ngSwitchCase="'promptCreateBudget'">
+                                                    <form [formGroup]="projectFormPromptCreateBudget">
+                                                        <div class="mat-modal-body">
+
+                                                        </div>
+                                                    </form>
+                                                </ng-container>
+
+                                                <ng-container *ngSwitchCase="'materialOrder'">
+                                                    <form [formGroup]="projectFormMaterialOrder">
+                                                        <div class="mat-modal-body">
+
+                                                        </div>
+                                                    </form>
+                                                </ng-container>
+
+                                                <ng-container *ngSwitchCase="'workOrder'">
+                                                    <form [formGroup]="projectFormWorkOrder">
+                                                        <div class="mat-modal-body">
+
+                                                        </div>
+                                                    </form>
+                                                </ng-container>
+
+                                                <ng-container *ngSwitchCase="'noteUnderObject'">
+                                                    <form [formGroup]="projectFormNoteUnderObject">
+                                                        <div class="mat-modal-body">
+
+                                                        </div>
+                                                    </form>
+                                                </ng-container>
+                                            </ng-container>
+                                            <div class="row">
+                                                <div class="d-flex justify-content-end align-items-center">
+                                                    <div class="mt-4 text-end px-2">
+                                                        <button type="button" class="btn btn-outline-secondary btn-lg"
+                                                            (click)="resetActionForm()">
+                                                            Cancel
+                                                        </button>
+                                                    </div>
+                                                    <div class="mt-4 text-end">
+                                                        <button type="button" class="btn btn-primary btn-lg"
+                                                            (click)="AddActionToList()">
+                                                            Save
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </form>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mat-modal-footer">
+            <div class="d-flex justify-content-end align-items-center">
+                <div class="mt-4 text-end px-2">
+                    <button type="button" class="btn btn-outline-secondary btn-lg">
+                        Cancel
+                    </button>
+                </div>
+                <div class="mt-4 text-end">
+                    <button type="button" (click)="onSubmit()" class="btn btn-primary btn-lg">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

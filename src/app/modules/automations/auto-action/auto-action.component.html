@@ -1,0 +1,18 @@
+<div class="mat-modal">
+    <div class="mat-modal-header">
+        <p class="title">{{ this.updateData.FormTitle }}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="closeDailog()"></button>
+    </div>
+
+    <!-- Use ngSwitch to switch between different form templates based on action ID -->
+
+
+    <div class="mat-modal-footer">
+        <div class="mt-4 text-end">
+            <button type="submit" class="btn btn-primary btn-lg" (click)="onSubmit()">
+                {{ this.updateData.Request_Type }}
+            </button>
+        </div>
+    </div>
+</div>

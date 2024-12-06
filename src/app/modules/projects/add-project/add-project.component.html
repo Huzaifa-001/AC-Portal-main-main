@@ -1,0 +1,140 @@
+<div class="mat-modal">
+  <div class="mat-modal-header">
+    <p class="title">{{ this.updateData.FormTitle }}</p>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      aria-label="Close"
+      (click)="closeDailog()"
+    ></button>
+  </div>
+  <form [formGroup]="projectForm">
+    <div class="mat-modal-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="input">
+                <label>Access User <small class="text-danger">*</small></label>
+                <mat-select
+                  class="form-control"
+                  formControlName="accessUserID"
+                  placeholder="Choose a user"
+                  required
+                >
+                  <mat-option
+                    *ngFor="let contact of relatedcontacts"
+                    [value]="contact.id"
+                  >
+                    {{ contact.name }}
+                  </mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="
+                    projectForm.get('accessUserID')?.touched &&
+                    projectForm.get('accessUserID')?.value === ''
+                  "
+                >
+                  Please select an Access User
+                </mat-error>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- GenernalInformation -->
+      <div class="col-md-12">
+        <div class="divider divider-start">
+          <div class="divider-text gray-2px">
+            <h3>General Information</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="input">
+                  <mat-label>Project Name</mat-label>
+                  <input
+                    matInput
+                    formControlName="projectName"
+                    class="form-control"
+                  />
+                </div>
+                <div class="mb-1">
+                  <mat-label>Project Color</mat-label>
+                  <span
+                    [style.background]="projectColor"
+                    [cpToggle]="true"
+                    [cpDialogDisplay]="'inline'"
+                    [cpCancelButton]="false"
+                    [cpCancelButtonClass]="'btn btn-primary btn-xs'"
+                    [(colorPicker)]="projectColor"
+                    (colorPickerChange)="
+                      projectForm.get('projectColor').setValue(projectColor)
+                    "
+                  ></span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <!-- <div class="input">
+                  <mat-label>Project Type</mat-label>
+                  <input
+                    matInput
+                    formControlName="projectType"
+                    class="form-control"
+                  />
+                </div> -->
+                <div class="input">
+                  <label
+                    >Project Type</label
+                  >
+                  <mat-select
+                    class="form-control"
+                    formControlName="projectType"
+                    placeholder="Choose a user"
+                    required
+                  >
+                    <mat-option class="text-center" [value]="''">
+                      --Clear Selection--
+                    </mat-option>
+                    <mat-option [value]="'contact'">Contact</mat-option>
+                    <mat-option [value]="'job'">Job</mat-option>
+                    <mat-option [value]="'workorder'">Work Order</mat-option>
+                  </mat-select>
+                </div>
+
+                <div class="input">
+                  <mat-label>Background Color</mat-label>
+                  <span
+                    [style.background]="background"
+                    [cpToggle]="true"
+                    [cpDialogDisplay]="'inline'"
+                    [cpCancelButton]="false"
+                    [cpCancelButtonClass]="'btn btn-primary btn-xs'"
+                    [(colorPicker)]="background"
+                    (colorPickerChange)="
+                      projectForm.get('background').setValue(background)
+                    "
+                  ></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mat-modal-footer">
+      <div class="mt-4 text-end">
+        <button
+          type="submit"
+          class="btn btn-primary btn-lg"
+          (click)="onSubmit()"
+        >
+          {{ this.updateData.Request_Type }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

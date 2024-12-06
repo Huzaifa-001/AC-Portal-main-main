@@ -1,0 +1,76 @@
+<div class="app-content h-100vh m-0">
+    <div class="content-overlay"></div>
+    <div class="content-wrapper m-0 p-0">
+        <div class="content-header row"></div>
+        <div class="content-body">
+            <div class="auth-wrapper auth-v2">
+                <div class="auth-inner row m-0">
+                    <div class="d-none d-lg-flex col-lg-6 align-items-center p-5 h-100vh bg-primary">
+                        <div class="row">
+                            <span class="brand-logo img-container">
+                                <img class="logo" src="../../../assets/images/logo2.jpg" />
+                            </span>
+                            <div class="w-100 text-center px-5 left-auth-box row" style="margin-top: 5rem">
+                                <h6>Don't have an Account?</h6>
+                                <a style="margin-top: 1rem; text-decoration: none" [routerLink]="['/register']">Sign
+                                    Up</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex col-lg-6 align-items-center auth-bg px-2 p-lg-5">
+                        <div
+                            class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto right-auth-box sm-content-center">
+                            <!-- sm-content-center is not common making issues in register bcz of many fields -->
+                            <h2 class="card-title fw-bold mb-1">Login to Dashboard</h2>
+                            <form [formGroup]="userLoginForm" (ngSubmit)="login()" novalidate
+                                class="auth-register-form mt-2">
+                                <div class="mb-1">
+                                    <label class="form-label" for="register-email">Email Address</label>
+                                    <input formControlName="userName" class="form-control" id="register-email"
+                                        type="text" name="register-email" placeholder="john@example.com"
+                                        aria-describedby="register-email" tabindex="2" />
+                                </div>
+                                <div class="mb-1">
+                                    <label class="form-label" for="register-password">Password</label>
+                                    <div class="input-group input-group-merge form-password-toggle">
+                                        <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                                            class="form-control form-control-merge" id="login-password" tabindex="2"
+                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                            aria-describedby="login-password" />
+
+                                        <span class="input-group-text cursor-pointer">
+                                            <i class="material-symbols-outlined" (click)="toggleShowPassword()">
+                                                {{ showPassword ? "visibility" : "visibility_off" }}
+                                            </i>
+                                        </span>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-1">
+                                    <div class="form-check">
+                                        <input class="form-check-input" id="register-privacy-policy" type="checkbox"
+                                            tabindex="4" [(ngModel)]="rememberMe"
+                                            [ngModelOptions]="{ standalone: true }" />
+                                        <label class="form-check-label" for="register-privacy-policy">Remember
+                                            me</label>
+                                    </div>
+                                </div>
+                                <div class="mb-1">
+                                    <button type="submit" class="btn btn-primary w-100" style="height: 60px;" tabindex="5">
+                                        Sign In
+                                    </button>
+                                </div>
+                            </form>
+
+                            <div class="d-flex justify-content-center mt-5">
+                                <a  [routerLink]="['/forgot-password']">Forgot Password?</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="sidenav-overlay"></div>

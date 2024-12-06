@@ -1,0 +1,120 @@
+<div class="mat-modal">
+  <div class="mat-modal-header">
+    <p class="title">Add Event</p>
+    <button type="button" class="btn-close modal-default-close" data-bs-dismiss="modal" aria-label="Close"
+      (click)="closeAddJobsModal()"></button>
+  </div>
+
+  <form [formGroup]="eventForm">
+    <div class="mat-modal-body">
+      <div class="row">
+        <div class="row">
+          <div class="col">
+            <div class="mb-1">
+              <mat-label>Event Name</mat-label>
+              <input matInput formControlName="eventName" class="form-control form-control-sm" />
+              <mat-error *ngIf="eventForm.get('eventName').touched && eventForm.get('eventName').hasError('required')">
+                Please enter a valid name
+              </mat-error>
+            </div>
+          </div>
+          <div class="col">
+            <div class="mb-1">
+              <mat-label>Event Type</mat-label>
+              <input matInput formControlName="eventType" class="form-control form-control-sm" />
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="mb-1">
+              <mat-label>Event Priority</mat-label>
+              <mat-select class="form-control form-control-sm" formControlName="eventPriority" placeholder="Priority"
+                required>
+                <mat-option value="Low" class="text-primary">Low</mat-option>
+                <mat-option value="Medium" class="text-warning">Medium</mat-option>
+                <mat-option value="High" class="text-danger">High</mat-option>
+                <mat-option value="Time-Based">Time-Based</mat-option>
+              </mat-select>
+              <mat-error *ngIf="eventForm.get('eventPriority').touched && eventForm.get('eventPriority').invalid">
+                Please select a priority
+              </mat-error>
+            </div>
+          </div>
+          <div class="col">
+            <div class="mb-1">
+              <mat-label>Tags</mat-label>
+              <input matInput formControlName="tags" class="form-control form-control-sm" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="mb-1">
+              <mat-label>Estimated Duration</mat-label>
+              <input matInput formControlName="estimatedDuration" class="form-control form-control-sm" />
+            </div>
+          </div>
+          <div class="col">
+            <div class="mb-1">
+              <mat-label>Select Job</mat-label>
+              <mat-select class="form-control form-control-sm" formControlName="jobId" placeholder="Choose a Job">
+                <mat-option *ngFor="let job of Jobs" [value]="job.id">
+                  {{ job.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="
+                  eventForm.get('jobId')?.touched &&
+                  eventForm.get('jobId')?.value === ''
+                ">
+                Please select a Job
+              </mat-error>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="mb-1">
+              <mat-label>Start Date</mat-label>
+              <input matInput [matDatepicker]="startDatePicker" formControlName="startDate"
+                class="form-control form-control-sm" required />
+              <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #startDatePicker></mat-datepicker>
+              <mat-error *ngIf="
+                  eventForm.get('startDate')?.touched &&
+                  eventForm.get('startDate')?.invalid
+                ">Please select date</mat-error>
+            </div>
+          </div>
+          <div class="col">
+            <div class="mb-1">
+              <mat-label>End Date</mat-label>
+              <input matInput formControlName="endDate" [matDatepicker]="picker"
+                [value]="eventForm.get('endDate')?.value" class="form-control form-control-sm" required />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="
+                  eventForm.get('endDate')?.touched &&
+                  eventForm.get('endDate')?.invalid
+                ">Please select date</mat-error>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="mb-1">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" class="form-control form-control-sm"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mat-modal-footer">
+      <div class="mt-4 text-end">
+        <button type="submit" class="btn btn-primary btn-lg" (click)="onSubmit()">
+          Add
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

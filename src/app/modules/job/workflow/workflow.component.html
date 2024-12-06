@@ -1,0 +1,40 @@
+<div class="actions d-flex justify-content-end my-2">
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+  <button class="btn btn-outline-primary text-primary btn-sm d-flex align-items-center" type="button"
+    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    <i class="material-symbols-outlined">unfold_more</i>
+    <span>Sorted By</span>
+  </button>
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</div>
+
+<div class="card-body p-0">
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="text-capitalize">NAME</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="workFlows.length > 0; else noDataMessage">
+
+      <tr *ngFor="let workFlow of workFlows">
+        <td class="text-capitalize">
+          <small class="text-uppercase">{{workFlow.name}}</small>
+        </td>
+      </tr>
+
+      </ng-container>
+      <ng-template #noDataMessage>
+          <tr>
+            <td colspan="6" class="text-center">No workFlows available</td>
+          </tr>
+        </ng-template>
+    </tbody>
+  </table>
+</div>
+
+<ng-container *ngIf="totalCount > 0">
+  <app-pagination [currentPageIndex]="currentPageIndex" [totalCount]="totalCount"
+    (pageChange)="loadPagedData($event)"></app-pagination>
+</ng-container>

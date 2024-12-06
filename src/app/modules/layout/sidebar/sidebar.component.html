@@ -1,0 +1,163 @@
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <img class="logo" src="../../../../assets/images/logo.png" alt="">
+        <button class="sidebar-toggler" (click)="toggleSidebar()">
+            <span class="material-symbols-outlined" *ngIf="!sidebarexpandedicon">lock_open</span>
+            <span class="material-symbols-outlined" *ngIf="sidebarexpandedicon">lock</span>
+
+        </button>
+    </div>
+    <div class="menu-container">
+        <ul class="menu-items">
+            <li class="menu-item" (click)="closeSettingsDropdown()">
+                <a class="menu-link" routerLink="/dashboard" routerLinkActive="active">
+                    <i class="material-symbols-outlined">home</i>
+                    <span class="">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item" (click)="closeSettingsDropdown()">
+                <a class="menu-link" routerLink="/contact" routerLinkActive="active">
+                    <i class="material-symbols-outlined text-danger">mail</i>
+                    <span class="">Contacts</span>
+                </a>
+            </li>
+            <li class="menu-item" (click)="closeSettingsDropdown()">
+                <a class="menu-link" routerLink="/jobs" routerLinkActive="active">
+                    <i class="material-symbols-outlined text-info">work</i>
+                    <span class="">Jobs</span>
+                </a>
+            </li>
+            <li class="menu-item" (click)="closeSettingsDropdown()">
+                <a class="menu-link" routerLink="/boards" routerLinkActive="active">
+                    <i class="material-symbols-outlined text-secondary">description</i>
+                    <span class="">Projects (Boards)</span>
+                </a>
+            </li>
+            <li class="menu-item" (click)="closeSettingsDropdown()">
+                <a class="menu-link" routerLink="/analytics" routerLinkActive="active">
+                    <i class="material-symbols-outlined text-warning">chat_bubble</i>
+                    <span class="">Analytics</span>
+                </a>
+            </li>
+            <li class="menu-item" (click)="closeSettingsDropdown()">
+                <a class="menu-link" routerLink="/calendar" routerLinkActive="active">
+                    <i class="material-symbols-outlined text-danger">calendar_today</i>
+                    <span class="">Calendar</span>
+                </a>
+            </li>
+            <li class="menu-item" [ngClass]="{'menu-item-no-hover': showSettingsDropdown}">
+                <a class="menu-link" routerLink="/settings" routerLinkActive="active" (click)="toggleSettingsDropdown()">
+                    <i class="material-symbols-outlined text-warning" [ngClass]="{'rotate-icon': showSettingsDropdown}">settings</i>
+                    <span class="menu-dropdown-set"> Settings </span>
+                </a>                
+                <ul class="menu-items pe-0 mt-1 submenu-items" *ngIf="showSettingsDropdown">
+                    <li class="menu-item">
+                        <a class="menu-link" routerLink="/settings/location" routerLinkActive="active">
+                            <i class="material-symbols-outlined text-warning">map</i>
+                            <span class="">Locations</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" routerLink="/settings/workflows" routerLinkActive="active">
+                            <i class="material-symbols-outlined text-warning">group_work</i>
+                            <span class="">Workflows</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" routerLink="/settings/automation" routerLinkActive="active">
+                            <i class="material-symbols-outlined text-warning">autorenew</i>
+                            <span class="">Automation</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" routerLink="/settings/templates" routerLinkActive="active">
+                            <i class="material-symbols-outlined text-warning">mail</i>
+                            <span class="">Templates</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" routerLink="/settings/team-members" routerLinkActive="active">
+                            <i class="material-symbols-outlined text-warning">people</i>
+                            <span class="">Team Members</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" routerLink="/settings/custom-fields/contact" routerLinkActive="active">
+                            <i class="material-symbols-outlined text-warning">mail</i>
+                            <span class="">Custom Fields</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+<!-- 
+<div class="sidebar main-menu menu-fixed menu-light menu-accordion menu-shadow" onmouseover="mouseOverMainMenu()"
+ onmouseleave="mouseLeaveMainMenu()" id="mainMenu">
+ <div class="navbar-header">
+     <ul class="nav navbar-nav flex-row">
+         <li class="nav-item me-auto">
+             <a href="/" class="navbar-brand">
+                 <span class="brand-logo">
+                     <img src="../assets/images/logo.png">
+                 </span>
+             </a>
+         </li>
+         <li class="nav-item nav-toggle">
+             
+         </li>
+     </ul>
+ </div>
+ <div class="shadow-bottom"></div>
+ <div class="main-menu-content">
+     <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+         <li class="nav-item">
+             <a class="d-flex align-items-center" href="index.html">
+                 <i class="material-symbols-outlined">home</i>
+                 <span class="menu-title mt-5px text-primary">Dashboard</span>
+             </a>
+         </li>
+         <li class="nav-item" routerLink="/contact" routerLinkActive="active">
+             <a class="d-flex align-items-center" routerLink="/contact" routerLinkActive="active">
+                 <i class="material-symbols-outlined text-danger">mail</i>
+                 <span class="menu-title mt-5px">Contacts</span>
+             </a>
+         </li>
+         <li class="nav-item" routerLink="/jobs" routerLinkActive="active">
+             <a class="d-flex align-items-center" routerLink="/jobs" routerLinkActive="active">
+                 <i class="material-symbols-outlined text-info">work</i>
+                 <span class="menu-title mt-5px">Jobs</span>
+             </a>
+         </li>
+         <li class="nav-item">
+             <a class="d-flex align-items-center">
+                 <i class="material-symbols-outlined text-secondary">description</i>
+                 <span class="menu-title mt-5px">Projects</span>
+             </a>
+         </li>
+         <li class="nav-item">
+             <a class="d-flex align-items-center">
+                 <i class="material-symbols-outlined text-warning">chat_bubble</i>
+                 <span class="menu-title mt-5px">Analytics</span>
+             </a>
+         </li>
+         <li class="nav-item">
+             <a class="d-flex align-items-center">
+                 <i class="material-symbols-outlined text-danger">calendar_today</i>
+                 <span class="menu-title mt-5px">Calendar</span>
+             </a>
+         </li>
+         <li class="nav-item">
+             <a class="d-flex align-items-center">
+                 <i class="material-symbols-outlined text-warning">settings</i>
+                 <span class="menu-title mt-5px">Settings</span>
+             </a>
+         </li>
+     </ul>
+ </div>
+</div> -->

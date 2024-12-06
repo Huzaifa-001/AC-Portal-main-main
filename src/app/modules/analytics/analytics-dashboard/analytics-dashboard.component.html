@@ -1,0 +1,311 @@
+<div class="row g-3 px-1 m-0 mt-2 overflow-visible no-gutter">
+  <div class="col-lg-3 col-sm-6 col-12">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="text-muted text-uppercase fs-10px">Total Contacts</div>
+          <h4 class="fw-bolder mb-0 mt-10px">{{totalContacts}}</h4>
+        </div>
+        <div class="avatar bg-light-info p-50 m-0">
+          <div class="avatar-content">
+            <i class="material-symbols-outlined">equalizer</i>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-text">
+          <span class="text-success">+ {{ContactsPercentageIncrease}}%</span>
+          <span class="text-dark"> Since last month</span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-sm-6 col-12">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="text-muted text-uppercase fs-10px">Total Jobs</div>
+          <h4 class="fw-bolder mb-0 mt-10px">{{totalJobs}}</h4>
+        </div>
+
+        <div class="avatar bg-light-success p-50 m-0">
+          <div class="avatar-content">
+            <i class="material-symbols-outlined">trending_up</i>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-text">
+          <span class="text-success">+ {{JobsPercentageIncrease}}%</span>
+          <span class="text-dark"> Since last month</span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-sm-6 col-12">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="text-muted text-uppercase fs-10px">Yearly Revenue</div>
+          <h4 class="fw-bolder mb-0 mt-10px">924</h4>
+        </div>
+        <div class="avatar bg-light-danger p-50 m-0">
+          <div class="avatar-content">
+            <i class="material-symbols-outlined">attach_money</i>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-text">
+          <span class="text-success">+3.48%</span>
+          <span class="text-dark"> Since last month</span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-sm-6 col-12">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="text-muted text-uppercase fs-10px">
+            Total % of invoice Paid
+          </div>
+          <h4 class="fw-bolder mb-0 mt-10px">89%</h4>
+        </div>
+        <div class="avatar bg-light-primary p-50 m-0">
+          <div class="avatar-content">
+            <i class="material-symbols-outlined">trending_down</i>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-text">
+          <span class="text-danger">2.1%</span>
+          <span class="text-dark"> Since Than last year </span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-2">
+    <div class="card text-center">
+      <div class="card-header d-flex justify-content-end pt-1 px-1">
+        <button class="menu-three-dots" mat-icon-button [matMenuTriggerFor]="menuContact" aria-label="icon-button">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menuContact="matMenu">
+          <button mat-menu-item (click)="updateContactsTimeFrame('daily')" [disabled]="selectedContactsTimeFrame === 'daily'">
+            <span>Daily</span>
+          </button>
+          <button mat-menu-item (click)="updateContactsTimeFrame('monthly')" [disabled]="selectedContactsTimeFrame === 'monthly'">
+            <span>Monthly</span>
+          </button>
+          <button mat-menu-item (click)="updateContactsTimeFrame('yearly')" [disabled]="selectedContactsTimeFrame === 'yearly'">
+            <span>Yearly</span>
+          </button>
+        </mat-menu>
+      </div>
+      <div class="card-body">
+        <p class="text-muted mb-0 text-uppercase fs-10px">New Contacts</p>
+        <h2 class="fw-bolder mb-0">{{ newContacts }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-2">
+    <div class="card text-center">
+      <div class="card-header d-flex justify-content-end pt-1 px-1">
+        <button class="menu-three-dots" mat-icon-button [matMenuTriggerFor]="menujobs" aria-label="icon-button">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menujobs="matMenu">
+          <button mat-menu-item (click)="updateJobsTimeFrame('daily')" [disabled]="selectedJobsTimeFrame === 'daily'">
+            <span>Daily</span>
+          </button>
+          <button mat-menu-item (click)="updateJobsTimeFrame('monthly')" [disabled]="selectedJobsTimeFrame === 'monthly'">
+            <span>Monthly</span>
+          </button>
+          <button mat-menu-item (click)="updateJobsTimeFrame('yearly')" [disabled]="selectedJobsTimeFrame === 'yearly'">
+            <span>Yearly</span>
+          </button>
+        </mat-menu>
+      </div>
+
+      <div class="card-body">
+        <p class="text-muted mb-0 text-uppercase fs-10px">New Jobs</p>
+        <h2 class="fw-bolder mb-0">{{newJobs}}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-2">
+    <div class="card text-center">
+      <div class="card-header d-flex justify-content-end pt-1 px-1">
+        <button class="menu-three-dots" mat-icon-button [matMenuTriggerFor]="menu" aria-label="icon-button">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <span>Daily</span>
+          </button>
+          <button mat-menu-item disabled>
+            <span>Monthly</span>
+          </button>
+          <button mat-menu-item>
+            <span>Yearly</span>
+          </button>
+        </mat-menu>
+      </div>
+      <div class="card-body">
+        <p class="text-muted mb-0 text-uppercase fs-10px">Jobs Completed</p>
+        <h2 class="fw-bolder mb-0">{{jobsCompleted}}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-2">
+    <div class="card text-center">
+      <div class="card-header d-flex justify-content-end pt-1 px-1">
+        <button class="menu-three-dots" mat-icon-button [matMenuTriggerFor]="menu" aria-label="icon-button">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <span>Daily</span>
+          </button>
+          <button mat-menu-item disabled>
+            <span>Monthly</span>
+          </button>
+          <button mat-menu-item>
+            <span>Yearly</span>
+          </button>
+        </mat-menu>
+      </div>
+      <div class="card-body">
+        <p class="text-muted mb-0 text-uppercase fs-10px">Invoice Created</p>
+        <h2 class="fw-bolder mb-0">212</h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-2">
+    <div class="card text-center">
+      <div class="card-header d-flex justify-content-end pt-1 px-1">
+        <button class="menu-three-dots" mat-icon-button [matMenuTriggerFor]="menu" aria-label="icon-button">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <span>Daily</span>
+          </button>
+          <button mat-menu-item disabled>
+            <span>Monthly</span>
+          </button>
+          <button mat-menu-item>
+            <span>Yearly</span>
+          </button>
+        </mat-menu>
+      </div>
+      <div class="card-body">
+        <p class="text-muted mb-0 text-uppercase fs-10px">Estimates Created</p>
+        <h2 class="fw-bolder mb-0">212</h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-2">
+    <div class="card text-center">
+      <div class="card-header d-flex justify-content-end pt-1 px-1">
+        <button class="menu-three-dots" mat-icon-button [matMenuTriggerFor]="menu" aria-label="icon-button">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <span>Daily</span>
+          </button>
+          <button mat-menu-item disabled>
+            <span>Monthly</span>
+          </button>
+          <button mat-menu-item>
+            <span>Yearly</span>
+          </button>
+        </mat-menu>
+      </div>
+      <div class="card-body">
+        <p class="text-muted mb-0 text-uppercase fs-10px">Payment Made</p>
+        <h2 class="fw-bolder mb-0">212</h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container graph-section">
+    <div class="content-body">
+      <section>
+        <div class="row match-height">
+          <div class="col-col-12">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Graphs</div>
+              </div>
+              <div class="card-body">
+                <div class="container">
+                  <div class="row mb-5">
+                    <!-- Graph 1 (Lead Sources) -->
+                    <div class="col-md-12">
+                      <h3>Lead Sources</h3>
+                      <p-chart type="bar" [data]="leadSourcesData" [options]="leadSourcesOptions"
+                        height="300"></p-chart>
+                    </div>
+                  </div>
+                  <div class="row mb-5">
+                    <!-- Graph 2 (Lead Generation) -->
+                    <div class="col-md-12">
+                      <h3>Lead Generation</h3>
+                      <p-chart type="line" [data]="leadGenerationData" [options]="leadGenerationOptions"
+                        height="300"></p-chart>
+                    </div>
+                  </div>
+                  <div class="row mb-5">
+                    <!-- Graph 3 (Workflow Profit) -->
+                    <div class="col-md-12">
+                      <h3>Workflow Profit</h3>
+                      <p-chart type="line" [data]="workflowProfitData" [options]="workflowProfitOptions"
+                        height="300"></p-chart>
+                    </div>
+                  </div>
+                  <div class="row mb-5">
+                    <!-- Graph 4 (Sales Rep Revenue) -->
+                    <div class="col-md-12">
+                      <h3>Sales Rep Revenue</h3>
+                      <p-chart type="bar" [data]="salesRepRevenueData" [options]="salesRepRevenueOptions"
+                        height="300"></p-chart>
+                    </div>
+                  </div>
+                  <div class="row mb-5">
+                    <!-- Pie Chart 1 (Leads by Office Location) -->
+                    <div class="col-md-4">
+                      <h3>Leads by Office Location</h3>
+                      <p-chart type="pie" [data]="leadsByOfficeData" [options]="leadsByOfficeOptions"
+                        height="300"></p-chart>
+                    </div>
+                    <!-- Pie Chart 2 (Close Rate by Workflow) -->
+                    <div class="col-md-4">
+                      <h3>Close Rate by Workflow</h3>
+                      <p-chart type="pie" [data]="closeRateByWorkflowData" [options]="closeRateByWorkflowOptions"
+                        height="300"></p-chart>
+                    </div>
+                    <!-- Pie Chart 3 (Leads by Workflow) -->
+                    <div class="col-md-4">
+                      <h3>Leads by Workflow</h3>
+                      <p-chart type="pie" [data]="leadsByWorkflowData" [options]="leadsByWorkflowOptions"
+                        height="300"></p-chart>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>

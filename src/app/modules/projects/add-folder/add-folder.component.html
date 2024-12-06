@@ -1,0 +1,56 @@
+<div class="mat-modal">
+    <div class="mat-modal-header">
+      <p class="title">{{ this.updateData.FormTitle }}</p>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+        (click)="closeDailog()"
+      ></button>
+    </div>
+    <form [formGroup]="foldersForm">
+      <div class="mat-modal-body">
+       <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="input">
+                    <mat-label>Folder Name</mat-label>
+                    <input matInput
+                      formControlName="name"
+                      class="form-control"/>
+                      <mat-error *ngIf="foldersForm.get('name').invalid  && foldersForm.get('name').touched">
+                        Name is required</mat-error>
+                  </div>
+
+                  <div class="input">
+                    <mat-label>Folder Color</mat-label>
+                    <span
+                      [style.background]="folderColor"
+                      [cpToggle]="true"
+                      [cpDialogDisplay]="'inline'"
+                      [cpCancelButton]="false"
+                      [cpCancelButtonClass]="'btn btn-primary btn-xs'"
+                      [(colorPicker)]="folderColor"
+                      (colorPickerChange)="foldersForm.get('color').setValue(folderColor)"
+                    ></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="mat-modal-footer">
+        <div class="mt-4 text-end">
+          <button
+            type="submit"
+            class="btn btn-primary btn-lg"
+            (click)="onSubmit()">
+            {{ this.updateData.Request_Type }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  

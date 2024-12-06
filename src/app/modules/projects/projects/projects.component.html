@@ -1,0 +1,378 @@
+<section class="section-padding">
+  <div class="container">
+    <div class="component-header">
+      <p class="title lg text-white">Projects</p>
+      <i class="material-symbols-outlined text-white">description</i>
+      <!-- <ol class="breadcrumb px-2">
+                <li class="breadcrumb-item"><a class="text-light" href="index.html">Contacts</a></li>
+                <li class="breadcrumb-item"><a class="text-light" href="#">Dashboard</a></li>
+            </ol> -->
+    </div>
+    <div class="card">
+      <div class="input-group justify-content-end w-auto my-2 px-3">
+        <div class="form-outline">
+          <input type="search" [(ngModel)]="searchText" placeholder="Search Locations" id="form1" class="form-control"
+            style="border-top-right-radius: 0; border-bottom-right-radius: 0; outline: none;" />
+        </div>
+        <button type="button" class="btn btn-primary" style="width: 40px; height: 32px;">
+          <div class="search-input-icon">
+            <i class="material-symbols-outlined">search</i>
+          </div>
+        </button>
+      </div>
+      <div class="card-header">
+        <div class="card-title">Your Projects</div>
+        <div class="actions d-flex">
+          <button class="btn btn-primary btn-sm" (click)="openAddProjectModal(null)">
+            <div class="d-flex align-items-center">
+              <i class="material-symbols-outlined">add</i>
+              <span>Add Project</span>
+            </div>
+          </button>
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <button class="btn btn-outline-primary btn-sm d-flex align-items-center" type="button"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <span (click)="exportTable()">Export Projects </span>
+          </button>
+
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <!-- <button class="btn btn-outline-primary btn-sm d-flex align-items-center" (click)="openAddProjectModal(Jobs)"
+                  type="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="true">
+            <span>Edit</span>
+          </button> -->
+        </div>
+      </div>
+      <div class="card-body">
+        <table class="table" #myTable>
+          <thead>
+            <tr>
+              <th class="custom-sort-column" (click)="onSort('projectName')">PROJECT NAME <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'projectName' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'projectName' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th class="custom-sort-column" (click)="onSort('projectType')">PROJECT TYPE <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'projectType' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'projectType' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th>PROJECT COLOR</th>
+              <th>BACKGROUND</th>
+              <th class="custom-sort-column" (click)="onSort('accessUserName')">ACCESS USER <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'accessUserName' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                <mat-icon class="custom-icon-sort"
+                  *ngIf="sortField === 'accessUserName' && sortOrder === 'desc'">arrow_downward</mat-icon>
+              </th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let project of  (projects | tableSearch: searchText:['projectName', 'projectType','accessUserName']) | customSort: sortField: sortOrder">
+              <td (click)="redirect(project)" style="cursor: pointer">
+                <div class="d-flex">{{ project.projectName }}</div>
+              </td>
+              <td (click)="redirect(project)" style="cursor: pointer">
+                {{ project.projectType }}
+              </td>
+              <td (click)="redirect(project)" style="cursor: pointer">
+                <div style="height: 20px;width: 70%;" [style.background]="project.projectColor">
+                </div>
+              </td>
+              <td (click)="redirect(project)" style="cursor: pointer">
+                <div style="height: 20px;width: 70%;" [style.background]="project.background">
+                </div>
+              </td>
+              <td (click)="redirect(project)" style="cursor: pointer">
+                {{ project?.accessUserName }}
+              </td>
+              <td>
+                <div class="dropdown">
+                  <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" [matMenuTriggerFor]="menu">
+                    <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                  </button>
+                  <div class="dropdown-menu">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" xPosition="before">
+                      <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item (click)="openAddProjectModal(project)">
+                        <mat-icon class="material-symbols-outlined">border_color</mat-icon>
+                        <span>Edit</span>
+                      </button>
+                      <button mat-menu-item (click)="deleteProjectClick(project)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                      </button>
+                    </mat-menu>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ng-container *ngIf="totalCount > 0">
+        <app-pagination [currentPageIndex]="currentPageIndex" [totalCount]="totalCount"
+          (pageChange)="loadPagedData($event)"></app-pagination>
+      </ng-container>
+    </div>
+  </div>
+</section>
+
+<div class="sidenav-overlay"></div>
+
+<div class="modal fade text-start" id="JobsAddModal" tabindex="-1" aria-labelledby="myModalLabel16" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel17">Add Project</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <nav>
+          <div class="row justify-content-center">
+            <div class="col-lg-12">
+              <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+                  type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                  Personal Information
+                </button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+                  type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
+                  General Information
+                </button>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"
+            tabindex="0">
+            <div id="account-details-modern" class="" role="tabpanel" aria-labelledby="account-details-modern-trigger">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="row">
+                      <div class="col-md-6 text-center">
+                        <div class="mb-2 text-center">
+                          <img src="../assets/images/5.png" alt="users avatar"
+                            class="user-avatar users-avatar-shadow rounded-circle me-2 my-25 cursor-pointer"
+                            height="110" width="110" />
+                          <div class="mt-50">
+                            <div class="col-lg-11 text-center">
+                              <button class="btn btn-outline-secondary">
+                                Edit
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="row">
+                          <div class="mb-1 col-md-12">
+                            <label class="form-label" for="modern-username">
+                              First Name
+                            </label>
+                            <input type="text" id="modern-username" class="form-control" placeholder="johndoe" />
+                          </div>
+                          <div class="mb-1 col-md-12">
+                            <label class="form-label" for="modern-email">
+                              Last Name
+                            </label>
+                            <input type="email" id="modern-email" class="form-control" placeholder="john.doe@email.com"
+                              aria-label="john.doe" />
+                          </div>
+                          <div class="mb-1 col-md-12">
+                            <label class="form-label" for="modern-username">Company</label>
+                            <input type="text" id="modern-username" class="form-control" placeholder="johndoe" />
+                          </div>
+                          <div class="mb-1 col-md-12">
+                            <label class="form-label" for="modern-email">
+                              Mobile Number
+                            </label>
+                            <input type="email" id="modern-email" class="form-control" placeholder="john.doe@email.com"
+                              aria-label="john.doe" />
+                          </div>
+                          <div class="mb-1 col-md-12">
+                            <label class="form-label" for="modern-username">
+                              Email Adress
+                            </label>
+                            <input type="text" id="modern-username" class="form-control" placeholder="johndoe" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mt-2">
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="input-group input-group-merge">
+                              <span class="input-group-text" id="basic-addon3">
+                                <span class="material-symbols-outlined">
+                                  search
+                                </span>
+                              </span>
+                              <input id="twitter-input" type="text" class="form-control" value=""
+                                placeholder="Search for a projects" aria-describedby="basic-addon3"
+                                aria-invalid="false" />
+                            </div>
+                          </div>
+                          <div class="col-lg-12 mt-1">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose an Office</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose a Status</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose a Status</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-12 mt-2">
+                            <h4>Additional Information</h4>
+                            <button class="btn btn-outline-secondary btn-prev" disabled>
+                              <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                              <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="input-group input-group-merge">
+                              <span class="input-group-text" id="basic-addon3">
+                                <span class="material-symbols-outlined">
+                                  search
+                                </span>
+                              </span>
+                              <input id="twitter-input" type="text" class="form-control" value=""
+                                placeholder="Search for a Team Member" aria-describedby="basic-addon3"
+                                aria-invalid="false" />
+                            </div>
+                          </div>
+                          <div class="col-lg-12 mt-1">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose a Workflow</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose a Sales Rep</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="mb-1">
+                              <select class="form-select" id="status" aria-invalid="false">
+                                <option>Choose a Subcontractor</option>
+                                <option>Blocked</option>
+                                <option>Deactivated</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <label class="form-label" for="modern-username">Status</label>
+                  <div class="mb-1">
+                    <select class="form-select" id="status" aria-invalid="false">
+                      <option>Choose a Status</option>
+                      <option>Blocked</option>
+                      <option>Deactivated</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-12 mb-1">
+                  <label class="form-label" for="modern-email">Tags</label>
+                  <div class="input-group input-group-merge">
+                    <span class="input-group-text" id="basic-addon3">
+                      <span class="material-symbols-outlined"> search </span>
+                    </span>
+                    <input id="twitter-input" type="text" class="form-control" value="" placeholder="Search for a Tag"
+                      aria-describedby="basic-addon3" aria-invalid="false" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="row">
+                <div class="col-lg-12">
+                  <label class="form-label" for="modern-username">Sales Representative</label>
+                  <div class="mb-1">
+                    <select class="form-select" id="status" aria-invalid="false">
+                      <option>Choose a Sales Rep</option>
+                      <option>Blocked</option>
+                      <option>Deactivated</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <label class="form-label" for="modern-username">Source</label>
+                  <div class="mb-1">
+                    <select class="form-select" id="status" aria-invalid="false">
+                      <option>Choose a Source</option>
+                      <option>Blocked</option>
+                      <option>Deactivated</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <label class="form-label" for="modern-username">Subcontractors</label>
+                  <div class="mb-1">
+                    <select class="form-select" id="status" aria-invalid="false">
+                      <option>Choose a Subcontractor</option>
+                      <option>Blocked</option>
+                      <option>Deactivated</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                  <button class="btn btn-primary btn-next">
+                    <span class="align-middle d-sm-inline-block d-none">Next</span>
+                    <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+              ...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

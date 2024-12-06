@@ -1,0 +1,70 @@
+<section class="section-padding">
+    <div class="container">
+        <div class="component-header">
+            <p class="title lg text-white">Notification</p>
+            <i class="material-symbols-outlined text-white">notifications</i>
+        </div>
+        <div class="card">
+            <div class="card-header justify-content-between">
+                <div>
+                    <span class="new-badge" *ngIf="unreadCount > 0">{{ unreadCount }} New</span>
+                </div>
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span class="text-secondary">
+                            <button class="btn btn-outline-secondary d-flex align-items-center justify-content-end" (click)="markAllAsRead()">
+                                Mark all as read &nbsp;
+                                <mat-icon class="d-flex align-items-center justify-content-end">
+                                    done_all
+                                </mat-icon>
+                                &nbsp;
+                            </button>
+                        </span>
+                        &nbsp;
+                        <span class="text-secondary">
+                            <button class="btn btn-outline-danger d-flex align-items-center justify-content-end" (click)="deleteNotification(0)">
+                                Delete All &nbsp;
+                                <mat-icon class="d-flex align-items-center justify-content-end">delete</mat-icon>
+                                &nbsp;
+                            </button>
+                        </span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="notification-wrapper">
+                    <div class="notification-content">
+                        <div *ngIf="notifications.length === 0" class="no-notifications">
+                            <p>All caught up! Sit back and relax.</p>
+                        </div>
+                        <div class="notification-item" *ngFor="let item of notifications" [ngClass]="{'unread': !item.isRead}">
+                            <div class="avatar" (click)="RedirectTo(item.link)">
+                                <img *ngIf="item.icon; else initials"
+                                    [src]="item.icon" alt="User Avatar">
+                                <ng-template #initials>
+                                    <div class="initials">{{ item.createdByUserName | slice:0:2 }}</div>
+                                </ng-template>
+                            </div>
+                            <div class="notification-details" (click)="RedirectTo(item.link)">
+                                <p class="title">{{ item.title }}</p>
+                                <p class="message">{{ item.body }}</p>
+                                <span class="time">{{ formatDate(item.createdDate) }}</span>
+                            </div>
+                            
+                            <div class="action-buttons">
+                                <button mat-icon-button class="close-btn mx-1" *ngIf="!item.isRead"
+                                    (click)="markAsRead(item.id)">
+                                    <mat-icon>done_all</mat-icon>
+                                </button>
+                                <button disabled="true" class="text-primary" mat-icon-button *ngIf="item.isRead">
+                                    <mat-icon>done_all</mat-icon>
+                                </button>
+                                <button mat-icon-button class="delete-btn" (click)="deleteNotification(item.id)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

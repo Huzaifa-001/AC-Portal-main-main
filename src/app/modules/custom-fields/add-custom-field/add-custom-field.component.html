@@ -1,0 +1,74 @@
+<div class="mat-modal">
+    <div class="mat-modal-header">
+        <p class="title">{{ 'Dynamic Field' }}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="onCancelClick()"></button>
+    </div>
+    <form [formGroup]="dynamicFieldForm" (ngSubmit)="onSubmit()">
+        <div class="mat-modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input">
+                        <mat-label>Entity Type</mat-label>
+                        <mat-select  class="form-control" placeholder="Entity Type" formControlName="entityType">
+                            <mat-option *ngFor="let type of entityTypes" [value]="type">{{ type }}</mat-option>
+                        </mat-select>
+                    </div>
+                    <div class="input">
+                        <mat-label>Field Name</mat-label>
+                        <input matInput class="form-control" formControlName="fieldName" placeholder="Field Name"
+                            required />
+                        <mat-error
+                            *ngIf="dynamicFieldForm.get('fieldName').touched && dynamicFieldForm.get('fieldName').invalid">
+                            Please enter a field name
+                        </mat-error>
+                    </div>
+                    <div class="input">
+                        <mat-label>Field Type</mat-label>
+                        <mat-select class="form-control" placeholder="Field Type" formControlName="fieldType">
+                            <mat-option *ngFor="let type of fieldTypes" [value]="type">{{ type }}</mat-option>
+                        </mat-select>
+                    </div>
+                    <div class="mb-2" *ngIf="dynamicFieldForm.get('fieldType').value === 'dropdown'">
+                        <mat-label>Options</mat-label>
+                        <mat-form-field class="form-control form-control-sm no-hint" appearance="fill">
+                            <mat-chip-grid #chipGrid aria-label="Enter options">
+                                <mat-chip-row *ngFor="let option of dynamicFieldForm.get('options').value"
+                                    (removed)="removeOption(option)">
+                                    {{ option.value }}
+                                    <button matChipRemove [attr.aria-label]="'remove ' + option.value">
+                                        <mat-icon>cancel</mat-icon>
+                                    </button>
+                                </mat-chip-row>
+                                <input class="form-control" placeholder="New option..." [matChipInputFor]="chipGrid"
+                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                    [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addOption($event)" />
+                            </mat-chip-grid>
+                        </mat-form-field>
+                    </div>
+                    <div class="input" *ngIf="dynamicFieldForm.get('fieldType').value === 'dropdown'">
+                        <mat-label>Dropdown Type</mat-label>
+                        <mat-select class="form-control" placeholder="Field Type" formControlName="multiSelect">
+                            <mat-option [value]="false">Single Select</mat-option>
+                            <mat-option [value]="true">Multi Select</mat-option>
+                        </mat-select>
+                    </div>
+                    <div class="input">
+                        <div class="form-check">
+                            <input class="form-check-input" id="isRequired" type="checkbox"
+                                formControlName="isRequired" />
+                            <label class="form-check-label" for="isRequired">Required</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mat-modal-footer">
+            <div class="mt-4 text-end">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    Save
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

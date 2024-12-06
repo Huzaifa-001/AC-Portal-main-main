@@ -1,0 +1,186 @@
+@import '../variables';
+.input{
+    margin-bottom: 1rem;
+    label , mat-label{
+        font-size: 14px;
+        color:  #172B4D;
+        font-family: $gotham-m;
+        margin-bottom: 5px;
+    }
+    .form-control{
+        height: $h-md;
+        border-radius: 3px;
+        border: 1px solid #e7e7e7;
+        background: #F7FAFC;
+        &::placeholder{
+            color: #667085;
+            font-family: $gotham-m;
+            font-size: 13.6669px;
+        }
+        &:focus{
+            box-shadow: none;
+        }
+        &.fc-lg{
+            height: $h-lg;
+        }
+    }
+    .tagsInput {
+        height: auto !important;
+    }
+    .date-picker{
+        width: 100%;
+        .mat-mdc-text-field-wrapper{
+            height: $h-md;
+            border-radius: 3px;
+            border: 1px solid #e7e7e7;
+            background: #F7FAFC;
+            .mat-mdc-form-field-flex{
+                height: 100%;
+                .mdc-notched-outline{
+                    display: none;
+                }
+                .mat-mdc-form-field-infix{
+                    padding: 0;
+                    min-height: auto;
+                    height: 100%;
+                    input{
+                        height: 100%;
+                    }
+                }
+                .mat-mdc-form-field-icon-suffix{
+                    .mdc-icon-button{
+                    }
+                }
+            }
+        }
+        .mat-mdc-form-field-subscript-wrapper{
+            display: none;
+        }
+        .mat-mdc-icon-button.mat-mdc-button-base {
+            padding: 8px;
+        }
+    }
+    mat-error{
+        font-size: 12px;
+        white-space: nowrap;
+    }
+    textarea{
+        height: auto !important;
+        resize: none;
+    }
+}
+
+p-dropdown , p-multiselect{
+    display: block;
+    .p-dropdown , .p-multiselect{
+        height: $h-md;
+        border-radius: 8px;
+        border: 1px solid #D7DFE9;
+        background: #fff;
+        width: 100%;
+        .p-dropdown-label{
+            padding: 0rem 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        &.p-focus , &:hover{
+            box-shadow: none !important;
+            border-color: #D7DFE9 !important;
+        }
+        .p-multiselect-label-container{
+            .p-multiselect-label{
+                padding: 0rem 0.75rem;
+                display: flex;
+                align-items: center;
+                height: 100%;
+            }
+        }
+    }
+    &.p-lg{
+        .p-dropdown{
+            height: $h-lg;
+        }
+    }
+}
+
+
+p-inputswitch{
+    .p-inputswitch{
+        .p-inputswitch-slider{
+
+        }
+        &:hover{
+            .p-inputswitch-slider{
+                background: $primary !important;
+            }
+        }
+        &.p-inputswitch-checked{
+            .p-inputswitch-slider{
+                background: $primary !important;
+            }
+        }
+        &.p-focus{
+            .p-inputswitch-slider{
+                box-shadow: none;
+            }
+        }
+    }
+}
+
+p-fileUpload{
+    .p-fileupload{
+        .p-button{
+            width: 100%;
+            height: $h-md;
+        border-radius: 8px;
+        border: 1px solid #D7DFE9;
+        background: #fff;
+        color: #667085;
+        justify-content: center;
+        .p-button-label{        
+            font-weight: unset;
+            font-family: 'Inter-medium';
+            font-size: 14px;
+            flex-grow: 0;
+        }
+        &:hover{
+            border: 1px solid #D7DFE9;
+        background: #fff;
+        color: #667085;
+        }
+        &:focus{
+            box-shadow: none;
+        }
+        }
+    }
+}
+
+.input-icon-left{
+    position: relative;
+    > i {
+        color: #5E718D;
+        font-size: 12px;
+        position: absolute;
+        top: 50%;
+        left: 20px;
+        transform: translate(-50%,-50%);
+    }
+    input{
+        padding-left: 40px;
+    }
+}
+
+.input-icon-right{
+    position: relative;
+    > i {
+        color: #5E718D;
+        font-size: 12px;
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        transform: translate(-50%,-50%);
+    }
+    input{
+        padding-right: 40px;
+    }
+}

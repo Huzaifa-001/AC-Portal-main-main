@@ -1,0 +1,13 @@
+.rotate-icon {
+    transform: rotate(180deg);
+}
+
+.menu-dropdown-set {
+    justify-content: space-between;
+    width: 100%;
+}
+
+.menu-item-no-hover :hover {
+    background-color: transparent !important;
+    background: transparent !important;
+}

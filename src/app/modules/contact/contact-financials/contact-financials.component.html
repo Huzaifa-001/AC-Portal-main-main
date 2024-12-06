@@ -1,0 +1,75 @@
+<div class="actions d-flex justify-content-end my-2">
+    <button class="btn btn-outline-primary text-primary btn-sm d-flex align-items-center" type="button"
+        (click)="attachmentsBtn.click()" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <i class="material-symbols-outlined">cloud_upload</i>
+        <span>Upload</span>
+    </button>
+    <input #attachmentsBtn id="file-input" type="file" (change)="onFileSelected($event)"
+        style="display: none" />
+
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <button class="btn  text-primary btn-sm d-flex align-items-center" type="button" data-bs-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="true">
+        <i class="material-symbols-outlined">cloud_download</i>
+        <span>Download Selected</span>
+    </button>
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</div>
+
+<div class="card-body p-0">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-capitalize">ATTACHMENT</th>
+                <th class="text-uppercase">TYPE</th>
+                <th class="text-uppercase">SIZE</th>
+                <th class="text-uppercase">FILE</th>
+                <th class="text-uppercase">UPLOAD DATE</th>
+                <th class="text-uppercase">UPLOAD BY</th>
+                <th class="text-uppercase">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let attachment of attachments">
+                <td class="text-capitalize">
+                    <a href="{{attachment.fileUrl}}" target="_blank">
+                        <div class="avatar-group">
+                            <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+                                class="avatar pull-up my-0" title="" data-bs-original-title="Lilian Nenez">
+                                <img src="{{attachment.fileUrl}}" alt="Avatar" height="40" width="40" />
+                            </div>
+                        </div>
+                    </a>
+                </td>
+                <td class="text-capitalize">{{attachment.contentType}}</td>
+                <td class="text-capitalize">{{attachment.fileSize}}</td>
+                <td class="text-capitalize">{{attachment.actualName}}</td>
+                <td class="text-capitalize">{{attachment.createdDate | date}}</td>
+                <td class="text-capitalize">{{attachment.uploadedBy}}</td>
+                <td>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" [matMenuTriggerFor]="menu">
+                          <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                        </button>
+                        <div class="dropdown-menu">
+                          <button mat-icon-button [matMenuTriggerFor]="menu" xPosition="before">
+                            <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                          </button>
+                          <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="deleteClick(attachment)">
+                              <mat-icon>delete</mat-icon>
+                              <span>Delete</span>
+                            </button>
+                          </mat-menu>
+                        </div>
+                      </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<ng-container *ngIf="totalCount > 0">
+    <app-pagination [currentPageIndex]="currentPageIndex" [totalCount]="totalCount"
+        (pageChange)="loadPagedData($event)"></app-pagination>
+</ng-container>

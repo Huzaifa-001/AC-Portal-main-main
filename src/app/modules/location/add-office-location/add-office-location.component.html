@@ -1,0 +1,137 @@
+<div class="mat-modal">
+    <div class="mat-modal-header">
+      <p class="title">{{ this.data.FormTitle }}</p>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+        (click)="closeAddOfficeLocationModal()"
+      ></button>
+    </div>
+    <form [formGroup]="AddOfficeLocationForm" (ngSubmit)="onSubmit()">
+      <div class="mat-modal-body">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-2">
+                    <mat-label>Display Name <span class="text-danger px-1">*</span> </mat-label>
+                    <input
+                      matInput
+                      formControlName="officeLocationName"
+                      class="form-control form-control-sm"
+                    />
+                    <mat-error *ngIf="AddOfficeLocationForm.get('officeLocationName')?.invalid">
+                      Display Name is required
+                    </mat-error>
+                  </div>
+                  <div class="mb-2">
+                    <mat-label>Address Line 1 <span class="text-danger px-1">*</span></mat-label>
+                    <input
+                      matInput
+                      formControlName="addressLine1"
+                      class="form-control form-control-sm"
+                    />
+                    <mat-error *ngIf="AddOfficeLocationForm.get('addressLine1')?.invalid">
+                      Address Line 1 is required
+                    </mat-error>
+                  </div>
+                  <div class="mb-2">
+                    <mat-label>Address Line 2 </mat-label>
+                    <input
+                      matInput
+                      formControlName="addressLine2"
+                      class="form-control form-control-sm"
+                    />
+                  </div>
+                  <div class="mb-2">
+                    <mat-label>City </mat-label>
+                    <input
+                      matInput
+                      formControlName="city"
+                      class="form-control form-control-sm"
+                      maxlength="50"
+                    />
+                    <mat-error *ngIf="AddOfficeLocationForm.get('city')?.invalid">
+                      City is required
+                    </mat-error>
+                  </div>
+                  <div class="mb-2">
+                    <mat-label>State </mat-label>
+                    <mat-select
+                      class="form-control form-control-sm"
+                      formControlName="stateId"
+                      required
+                      placeholder="Choose a state"
+                    >
+                      <mat-option *ngFor="let state of states" [value]="state.id">
+                        {{ state.name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="AddOfficeLocationForm.get('stateId')?.invalid">
+                      Please select a state
+                    </mat-error>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-2">
+                    <mat-label>Zip Code </mat-label>
+                    <input
+                      matInput
+                      formControlName="zipCode"
+                      type="number"
+                      class="form-control form-control-sm"
+                    />
+                  </div>
+                  <div class="mb-2">
+                    <mat-label>Phone Number </mat-label>
+                    <input
+                      matInput
+                      formControlName="phoneNumber"
+                      type="text"
+                      class="form-control form-control-sm"
+                    />
+                  </div>
+                  <div class="mb-2">
+                    <mat-label>Logo URL </mat-label>
+                    <input
+                      matInput
+                      formControlName="logoUrl"
+                      type="text"
+                      class="form-control form-control-sm"
+                    />
+                  </div>
+                  <div class="mb-2">
+                    <mat-label>Time Zone <span class="text-danger px-1">*</span>  </mat-label>
+                    <mat-select
+                      class="form-control form-control-sm"
+                      formControlName="timeZoneId"
+                      required
+                      placeholder="Choose a time zone"
+                    >
+                      <mat-option *ngFor="let timeZone of timeZones" [value]="timeZone.id">
+                        {{ timeZone.name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="AddOfficeLocationForm.get('timeZoneId')?.invalid">
+                      Please select a time zone
+                    </mat-error>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mat-modal-footer">
+        <div class="mt-4 text-end">
+          <button type="submit" class="btn btn-primary btn-lg">
+            {{ this.data.Request_Type }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  

@@ -1,0 +1,51 @@
+<div class="mat-modal">
+    <div class="mat-modal-header">
+      <p class="title">{{ data.FormTitle }}</p>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeDialog()"></button>
+    </div>
+    <form [formGroup]="projectFormSendEmail">
+      <div class="mat-modal-body">
+        <div class="row">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="input">
+                <label>Template</label>
+                <mat-select class="form-control" formControlName="template" placeholder="Choose a template" required>
+                  <mat-option *ngFor="let template of emailTemplates" [value]="template.id">
+                    {{ template.name }}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="input">
+                <label>Recipients</label>
+                <mat-select class="form-control" formControlName="recipients" placeholder="Choose recipients" multiple required>
+                  <mat-option *ngFor="let option of selectOptions" [value]="option.value">
+                    {{ option.label }}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mat-modal-footer">
+        <div class="d-flex justify-content-end align-items-center">
+          <div class="mt-4 text-end px-2">
+            <button type="button" class="btn btn-outline-secondary btn-lg" (click)="closeDialog()">
+              Cancel
+            </button>
+          </div>
+          <div class="mt-4 text-end">
+            <button type="button" (click)="onSubmit()" class="btn btn-primary btn-lg">
+                {{ data.Request_Type }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  

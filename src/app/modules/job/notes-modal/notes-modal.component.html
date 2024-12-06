@@ -1,0 +1,39 @@
+<div class="mat-modal">
+    <div class="mat-modal-header">
+        <p class="title">Add Note</p>
+        <button type="button" class="btn-close modal-default-close" aria-label="Close" (click)="closeDialog()"></button>
+    </div>
+
+    <form [formGroup]="noteForm" (ngSubmit)="onSubmit()">
+        <div class="mat-modal-body">
+            <div class="row">
+                <div class="col">
+                    <div class="mb-1">
+                        <div class="input">
+                            <mat-label>Note Type</mat-label>
+                            <mat-select formControlName="type" class="form-control form-control-sm">
+                                <mat-option *ngFor="let type of noteTypes" [value]="type">{{ type }}</mat-option>
+                            </mat-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mb-1">
+                        <div class="input">
+                            <mat-label>Note Content</mat-label>
+                            <textarea matInput formControlName="content" [rows]="5"
+                                class="form-control form-control-sm"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mat-modal-footer">
+            <div class="mt-4 text-end">
+                <button type="submit" class="btn btn-primary btn-lg">Add</button>
+            </div>
+        </div>
+    </form>
+</div>

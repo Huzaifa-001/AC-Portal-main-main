@@ -1,0 +1,73 @@
+<div class="actions d-flex justify-content-end my-2">
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+  <button class="btn btn-outline-primary text-primary btn-sm d-flex align-items-center" type="button"
+    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    <i class="material-symbols-outlined">unfold_more</i>
+    <span>Sorted By</span>
+  </button>
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</div>
+
+<div class="card-body p-0">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-capitalize">Activity</th>
+          <th class="text-uppercase">Type</th>
+          <th class="text-uppercase">Performed by</th>
+          <th class="text-uppercase">date</th>
+          <th class="text-uppercase"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-capitalize">
+            status changed
+            <small class="text-uppercase"
+              >"ACV SENT TO AZ" ACV MEET HOMEOWNER"</small
+            >
+          </td>
+          <td class="text-capitalize">status changed</td>
+          <td class="text-capitalize">Nora dona</td>
+          <td>10/12/2021</td>
+          <td>
+            <div class="dropdown">
+              <button
+                type="button"
+                class="btn btn-sm dropdown-toggle hide-arrow"
+                data-bs-toggle="dropdown"
+              >
+                <i class="material-symbols-outlined">more_vert</i>
+              </button>
+              <div class="dropdown-menu">
+                <a href="#" class="dropdown-item d-flex align-items-center">
+                  <i class="material-symbols-outlined me-50 fs-15px"
+                    >border_color</i
+                  >
+                  <span>Edit</span>
+                </a>
+                <a type="button" class="dropdown-item d-flex align-items-center">
+                  <i class="material-symbols-outlined me-50 fs-15px">delete</i>
+                  <span>Delete</span>
+                </a>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <!-- <ng-container *ngIf="attachments.length > 0; else noDataMessage">
+
+        </ng-container>
+        <ng-template #noDataMessage>
+            <tr>
+              <td colspan="6" class="text-center">No attachments available</td>
+            </tr>
+          </ng-template> -->
+      </tbody>
+    </table>
+  </div>
+  
+  <ng-container *ngIf="totalCount > 0">
+    <app-pagination [currentPageIndex]="currentPageIndex" [totalCount]="totalCount"
+      (pageChange)="loadPagedData($event)"></app-pagination>
+  </ng-container>
+  

@@ -1,0 +1,89 @@
+<!-- <div class="row py-2 my-2 no-gutter">
+  <div #timeline></div>
+</div> -->
+<div class="actions d-flex justify-content-end my-2">
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+  <button
+    class="btn btn-outline-primary text-primary btn-sm d-flex align-items-center"
+    type="button"
+    data-bs-toggle="dropdown"
+    aria-haspopup="true"
+    aria-expanded="true"
+  >
+    <i class="material-symbols-outlined">unfold_more</i>
+    <span>Sorted By</span>
+  </button>
+  <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</div>
+
+<div class="card-body p-0">
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="text-capitalize">WORK ORDER</th>
+        <th class="text-uppercase">PRIORITY</th>
+        <th class="text-uppercase">SATART DATE</th>
+        <th class="text-uppercase">DUE DATE</th>
+        <th class="text-uppercase">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="WorkOrders.length > 0; else noDataMessage">
+        <tr *ngFor="let item of WorkOrders">
+          <td class="text-capitalize">
+            {{ item.name }}
+          </td>
+          <td class="text-capitalize">{{ item.workOrderPriority }}</td>
+          <td class="text-capitalize">
+            {{ item.startDate | date : "dd/MM/yyyy" }}
+          </td>
+          <td class="text-capitalize">
+            {{ item.dueDate | date : "dd/MM/yyyy" }}
+          </td>
+          <td>
+            <mat-menu #menu="matMenu" class="dropdown">
+              <button mat-menu-item (click)="openWorkOrderModal(item)">
+                <!--  -->
+                <mat-icon class="material-symbols-outlined"
+                  >border_color</mat-icon
+                >
+                <span>Edit</span>
+              </button>
+              <!-- (click)="deleteContact(contact)" -->
+              <button
+                mat-menu-item
+                (click)="deleteWorkOrder(item)"
+                class="btn btn-sm dropdown-toggle hide-arrow"
+              >
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              class="btn btn-sm dropdown-toggle hide-arrow"
+            >
+              <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+      <ng-template #noDataMessage>
+        <tr>
+          <td colspan="6" class="text-center">No WorkOrders available</td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </table>
+</div>
+
+<ng-container *ngIf="totalCount > 0">
+  <app-pagination
+  [currentPageIndex]="currentPageIndex"
+  [pageSize]="pageSize"
+  [totalCount]="totalCount"
+  (pageChange)="loadPagedData($event)">
+</app-pagination>
+</ng-container>

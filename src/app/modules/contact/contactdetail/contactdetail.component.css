@@ -1,0 +1,24 @@
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+  border: 0;
+}
+
+.img-row {
+  margin-bottom: 50px;
+}
+
+.nav-item .nav-link {
+  color: #8898aa;
+  padding: 5px 15px;
+  display: flex;
+  align-items: center;
+}
+.nav-item .nav-link.active {
+  background: white !important;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) !important;
+}
+

@@ -1,0 +1,114 @@
+<section class="section-padding">
+    <div class="container">
+      <div class="component-header">
+        <p class="title lg text-white">Custom fields</p>
+        <i class="material-symbols-outlined text-white">chat_bubble</i>
+      </div>
+
+      <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedTabChange)="onTabChanged($event)">
+        <mat-tab *ngFor="let tab of tabs" label="{{tab.label}}" [routerLink]="['/', tab]"></mat-tab>
+      </mat-tab-group>
+        
+      <div>
+        <!-- <router-outlet></router-outlet> This will display child components -->
+        <section class="section-padding">
+            <div class="container">
+              <div class="card">
+                <div class="input-group justify-content-end w-auto my-2 px-3">
+                  <div class="form-outline">
+                    <input type="search" [(ngModel)]="searchText" placeholder="Search..." id="form1" class="form-control" />
+                  </div>
+                  <button type="button" class="btn btn-primary" style="width: 40px; height: 32px;">
+                    <div class="search-input-icon">
+                      <i class="material-symbols-outlined">search</i>
+                    </div>
+                  </button>
+                </div>
+                <div class="card-header">
+                  <div class="card-title">{{selectedTabLabel.label}} Custom Fields</div>
+                  <div class="d-flex btns-group">
+                    <button class="btn btn-primary" (click)="openAddCustomFieldModal(null)">
+                      <div class="d-flex align-items-center">
+                        <i class="material-symbols-outlined">add</i>
+                        <span>Add Field</span>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body px-0">
+                  <table class="table striped-td">
+                    <thead>
+                      <tr>
+                        <th (click)="onSort('fieldName')" class="custom-sort-column">
+                          Name
+                          <mat-icon class="custom-icon-sort" *ngIf="sortField === 'fieldName' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                          <mat-icon class="custom-icon-sort" *ngIf="sortField === 'fieldName' && sortOrder === 'desc'">arrow_downward</mat-icon>
+                        </th>
+                        <th (click)="onSort('fieldType')" class="custom-sort-column">
+                          Type
+                          <mat-icon class="custom-icon-sort" *ngIf="sortField === 'fieldType' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                          <mat-icon class="custom-icon-sort" *ngIf="sortField === 'fieldType' && sortOrder === 'desc'">arrow_downward</mat-icon>
+                        </th>
+                        <th (click)="onSort('multiSelect')" class="custom-sort-column">
+                            Multi Select
+                            <mat-icon class="custom-icon-sort" *ngIf="sortField === 'multiSelect' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                            <mat-icon class="custom-icon-sort" *ngIf="sortField === 'multiSelect' && sortOrder === 'desc'">arrow_downward</mat-icon>
+                          </th>
+                        <th (click)="onSort('isRequired')" class="custom-sort-column">
+                          Required
+                          <mat-icon class="custom-icon-sort" *ngIf="sortField === 'isRequired' && sortOrder === 'asc'">arrow_upward</mat-icon>
+                          <mat-icon class="custom-icon-sort" *ngIf="sortField === 'isRequired' && sortOrder === 'desc'">arrow_downward</mat-icon>
+                        </th>
+                        <th>Options</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let field of (fields | tableSearch: searchText:['fieldName','fieldType','isRequired']) | customSort: sortField: sortOrder">
+                        <td>{{ field.fieldName }}</td>
+                        <td>{{ field.fieldType }}</td>
+                        <td>
+                            <mat-checkbox [checked]="field.multiSelect" disabled></mat-checkbox>
+                        </td>
+                        
+                        <td>
+                            <mat-checkbox [checked]="field.isRequired" disabled></mat-checkbox>
+                        </td>
+                        
+                        <td>
+                          <ng-container *ngIf="field.options">
+                            <ng-container *ngFor="let option of field.options; last as isLast">
+                              {{ option.value }}{{ isLast ? '' : ', ' }}
+                            </ng-container>
+                          </ng-container>
+                          <ng-container *ngIf="!field.options">
+                            --
+                          </ng-container>
+                        </td>
+                        <td>
+                          <mat-menu #menu="matMenu" class="dropdown">
+                            <button mat-menu-item (click)="openAddCustomFieldModal(field)">
+                              <mat-icon class="material-symbols-outlined">border_color</mat-icon>
+                              <span>Edit</span>
+                            </button>
+                            <button mat-menu-item (click)="deleteField(field)" class="btn btn-sm">
+                              <mat-icon>delete</mat-icon>
+                              <span>Delete</span>
+                            </button>
+                          </mat-menu>
+      
+                          <button mat-icon-button [matMenuTriggerFor]="menu" class="btn btn-sm dropdown-toggle hide-arrow">
+                            <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+      </div>
+    </div>
+  </section>
