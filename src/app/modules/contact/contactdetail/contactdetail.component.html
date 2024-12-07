@@ -25,7 +25,9 @@
             <div class="col-col-12">
               <div class="card position-relative">
                 <div class="row">
-                  <div class="col-md-12 text-center position-absolute absolutd_col">
+                  <div
+                    class="col-md-12 text-center position-absolute absolutd_col"
+                  >
                     <div class="mb-2 text-center">
                       <img
                         src="{{ contact?.picUrl ?? 'assets/images/5.png' }}"
@@ -38,18 +40,29 @@
                   </div>
                 </div>
                 <div class="card-title mt-3 position-relative">
-                  <div class="col-12 d-flex align-items-center justify-content-end position-absolute" style="z-index: 1000;">
+                  <div
+                    class="col-12 d-flex align-items-center justify-content-end position-absolute"
+                    style="z-index: 1000"
+                  >
                     <mat-menu #menuJob="matMenu" class="dropdown">
-                      <button mat-menu-item (click)="openAddContactModal(contact)">
+                      <button
+                        mat-menu-item
+                        (click)="openAddContactModal(contact)"
+                      >
                         <mat-icon class="material-symbols-outlined"
-                          >border_color</mat-icon>
+                          >border_color</mat-icon
+                        >
                         <span>Edit</span>
                       </button>
                     </mat-menu>
-                    <button mat-icon-button
-                            [matMenuTriggerFor]="menuJob"
-                            class="btn btn-sm hide-arrow">
-                      <mat-icon class="material-symbols-outlined">more_vert</mat-icon>
+                    <button
+                      mat-icon-button
+                      [matMenuTriggerFor]="menuJob"
+                      class="btn btn-sm hide-arrow"
+                    >
+                      <mat-icon class="material-symbols-outlined"
+                        >more_vert</mat-icon
+                      >
                     </button>
                   </div>
                 </div>
@@ -287,7 +300,10 @@
                         </td>
                       </tr>
                       <tr>
-                        <td class="py-0 border-0" *ngFor="let item of contact?.customFieldValues">
+                        <td
+                          class="py-0 border-0"
+                          *ngFor="let item of contact?.customFieldValues"
+                        >
                           <h6 class="d-flex text-primary text-uppercase mt-1">
                             {{ item.fieldName }}
                           </h6>
@@ -383,7 +399,7 @@
                             routerLink="/contact/{{ contactId }}/tasks"
                             routerLinkActive="active"
                           >
-                          Tasks
+                            Tasks
                           </a>
                         </li>
                         <li class="nav-item">

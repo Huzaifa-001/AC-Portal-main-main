@@ -199,6 +199,10 @@ export const AppConfig = {
     UpdateBoardStatuses: `${API_URL}/Boards/UpdateBoardStatuses`,
     DeleteBoardStatus: `${API_URL}/Boards/DeleteBoardStatus`,
   },
+  
+  Financials:{
+    GetAllEstimates:`${API_URL}/Finance/Estimates/GetEstimatesById`,
+  },
 
   JobAttachments: {
     GetAttachmentById: `${API_URL}/JobAttachments/GetAttachmentById`,

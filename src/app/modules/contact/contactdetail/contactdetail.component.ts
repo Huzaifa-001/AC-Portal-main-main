@@ -25,7 +25,7 @@ export class ContactdetailComponent {
       next: (res) => {
         this.contact = res.payload
       },
-      error: (err) => {
+      error: (err) => { 
         this.contact = history.state.model;
         this.contact.startDate = new Date(this.contact?.startDate)
         this.contact.endDate = new Date(this.contact?.endDate)

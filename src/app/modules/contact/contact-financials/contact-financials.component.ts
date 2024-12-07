@@ -1,43 +1,24 @@
-import { Component } from '@angular/core';
-import { AppConfig } from 'src/app/core/app-config';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ContactService } from 'src/app/core/services/contact.service';
 
 @Component({
   selector: 'app-contact-financials',
   templateUrl: './contact-financials.component.html',
   styleUrls: ['./contact-financials.component.css']
 })
-export class ContactFinancialsComponent {
-  currentPageIndex: number = 1;
-  totalCount: number = 100; // Mock total count
-  pageSize: number = AppConfig.pageSize;
-  estimates = [
-    {
-      estimateNumber: 'EST-001',
-      date: new Date(),
-      notes: 'First Estimate',
-      syncedToQB: 'Yes',
-      signed: 'No',
-      total: 1500,
-      status: 'Pending',
-    },{
-      estimateNumber: 'EST-001',
-      date: new Date(),
-      notes: 'First Estimate',
-      syncedToQB: 'Yes',
-      signed: 'No',
-      total: 1500,
-      status: 'Pending',
-    },
-    // Add more mock data or fetch from an API
-  ];
+export class ContactFinancialsComponent implements OnInit {
+  contactId: string | null = null;
 
-  loadPagedData(pageIndex: number) {
-    console.log('Loading page:', pageIndex);
-    // Fetch data from API or update the table data
-  }
+  constructor(
+    private route: ActivatedRoute,
+    public contactService: ContactService
+  ) {}
 
-  deleteClick(estimate: any): void {
-    console.log('Deleting estimate:', estimate);
-    // Implement delete functionality
+  ngOnInit(): void {
+    // Fetch 'id' from parent route
+    this.route.parent?.paramMap.subscribe((params) => {
+      this.contactId = params.get('id');
+    });
   }
 }

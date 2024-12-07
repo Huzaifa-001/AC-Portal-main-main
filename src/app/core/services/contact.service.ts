@@ -81,8 +81,6 @@ export class ContactService {
     return this.http.delete<any>(`${AppConfig.ContactPhotos.DeleteContactPhoto}?attachmentId=${attachmentId}`);
   }
 
-
-
   allResult() {
     return this.http.get<any>(this.baseUrl + '/Contact/allContacts');
   }

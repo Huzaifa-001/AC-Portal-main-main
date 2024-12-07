@@ -15,11 +15,13 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { ColorPickerModule } from 'ngx-color-picker';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { LoaderComponent } from './loader/loader.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     ConfirmationComponent,
-    LoaderComponent
+    LoaderComponent,
+   
   ],
   imports: [
     CoreModule,
