@@ -414,15 +414,40 @@
                               (click)="
                                 removePhoneNumber(phoneNumber.phoneNumber)
                               "
-                              ><div matChipRemove>cancel</div>
+                              ><mat-icon matChipRemove>cancel</mat-icon>
                             </span>
                           </div>
                         </ng-container>
                       </div>
                     </div>
                   </div>
+                  <div class="input">
+                    <label class="form-label">Tags</label>
+                    <tag-input
+                      formControlName="tags"
+                      class="form-control tagsInput"
+                    ></tag-input>
+                    <mat-error
+                      *ngIf="
+                        contactForm.get('tags')?.touched &&
+                        contactForm.get('tags')?.invalid
+                      "
+                      >Tags are required</mat-error
+                    >
+                  </div>
                 </div>
                 <div class="col-md-6">
+                  <div class="input">
+                    <label class="form-label" for="note">Note</label
+                    ><input
+                      type="text"
+                      formControlName="note"
+                      class="form-control"
+                      id="note"
+                      placeholder="Some note..."
+                      value=""
+                    />
+                  </div>
                   <div class="input">
                     <label>Description</label>
                     <textarea
