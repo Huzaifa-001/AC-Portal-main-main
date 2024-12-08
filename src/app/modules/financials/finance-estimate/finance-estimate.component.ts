@@ -18,5 +18,22 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./finance-estimate.component.css']
   })
   export class FinanceEstimateComponent {
+    constructor(private dialog: MatDialog) {}
+
+    openAddEstimateModal(): void {
+      const dialogRef = this.dialog.open(AddFinanceEstimateComponent, {
+        width: '500px', // Set the desired width
+        disableClose: true, // Prevent closing the modal by clicking outside
+        data: {}, // Pass any data you need to the modal
+      });
   
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          console.log('Modal closed with data:', result);
+          // Handle the result from the modal (e.g., refresh table data)
+        } else {
+          console.log('Modal closed without action');
+        }
+      });
+    }
   }

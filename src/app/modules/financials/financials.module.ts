@@ -24,9 +24,6 @@ import { MatInputModule } from '@angular/material/input';
 import { AddFinanceEstimateComponent } from './add-finance-estimate/add-finance-estimate.component';
 import { AddFinanceBudgetComponent } from './add-finance-budget/add-finance-budget.component';
 import { AddFinanceInvoiceComponent } from './add-finance-invoice/add-finance-invoice.component';
-import { EditFinanceInvoiceComponent } from './edit-finance-invoice/edit-finance-invoice.component';
-import { EditFinanceBudgetComponent } from './edit-finance-budget/edit-finance-budget.component';
-import { EditFinanceEstimateComponent } from './edit-finance-estimate/edit-finance-estimate.component';
 import { FinanceMaterialOrdersComponent } from './finance-material-orders/finance-material-orders.component';
 import { AddFinanceMaterialOrdersComponent } from './add-finance-material-orders/add-finance-material-orders.component';
 
@@ -38,12 +35,8 @@ import { AddFinanceMaterialOrdersComponent } from './add-finance-material-orders
     AddFinanceEstimateComponent,
     AddFinanceBudgetComponent,
     AddFinanceInvoiceComponent,
-    EditFinanceInvoiceComponent,
-    EditFinanceBudgetComponent,
-    EditFinanceEstimateComponent,
     FinanceMaterialOrdersComponent,
     AddFinanceMaterialOrdersComponent,
-
   ],
   imports: [
     CommonModule,
