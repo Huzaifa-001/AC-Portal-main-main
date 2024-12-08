@@ -1,10 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-finance-estimate',
+  standalone: true,
   templateUrl: './add-finance-estimate.component.html',
+  imports: [CommonModule, ReactiveFormsModule],
   styleUrls: ['./add-finance-estimate.component.css']
 })
 export class AddFinanceEstimateComponent {

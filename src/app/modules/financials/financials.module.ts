@@ -32,7 +32,7 @@ import { AddFinanceMaterialOrdersComponent } from './add-finance-material-orders
     FinanceEstimateComponent,
     FinanceBudgetsComponent,
     FinanceInvoiceComponent,
-    AddFinanceEstimateComponent,
+
     AddFinanceBudgetComponent,
     AddFinanceInvoiceComponent,
     FinanceMaterialOrdersComponent,
@@ -61,6 +61,6 @@ import { AddFinanceMaterialOrdersComponent } from './add-finance-material-orders
     RouterModule,
     FormsModule,
   ],
-  exports: [AddFinanceEstimateComponent],
+  
 }) 
 export class FinancialsModule { }
