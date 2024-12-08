@@ -10,7 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // <-- Import this
 import { RouterModule } from '@angular/router';
 import { CoreModule } from '@angular/flex-layout';
 import { TagInputModule } from 'ngx-chips';
@@ -61,8 +61,6 @@ import { AddFinanceMaterialOrdersComponent } from './add-finance-material-orders
     RouterModule,
     FormsModule,
   ],
-  exports:[
-    
-  ]
+  exports: [AddFinanceEstimateComponent],
 }) 
 export class FinancialsModule { }
