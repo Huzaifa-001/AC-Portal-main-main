@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -10,72 +10,71 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class AddFinanceEstimateComponent {
   estimateForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    public dialogRef: MatDialogRef<AddFinanceEstimateComponent>
-  ) {
-    // Initialize form with all required fields
+  constructor(private fb: FormBuilder) {
     this.estimateForm = this.fb.group({
       estimateNumber: ['', Validators.required],
-      date: [new Date(), Validators.required],
-      customerNote: [''],
-      internalNote: [''],
-      syncedToQB: [false],
-      signed: [false],
-      status: ['', Validators.required],
-      total: [0, [Validators.required, Validators.min(0)]],
-      items: this.fb.array([]), // Array for line items
+      date: ['', Validators.required],
+      customerInfo: ['', Validators.required],
+      items: this.fb.array([]), // Dynamically add items
+      subtotal: [0, Validators.required],
+      tax: [0, Validators.required],
+      total: [0, Validators.required],
     });
 
-    // Add one default line item
-    this.addItem();
+    this.calculateTotal();
   }
 
-  // Getter for line items
+  // Accessor for the items FormArray
   get items(): FormArray {
     return this.estimateForm.get('items') as FormArray;
   }
 
-  // Add a new line item
+  // Add a new item row
   addItem(): void {
-    this.items.push(
-      this.fb.group({
-        name: ['', Validators.required],
-        description: [''],
-        unitCost: [0, [Validators.required, Validators.min(0)]],
-        quantity: [1, [Validators.required, Validators.min(1)]],
-        markup: [0, [Validators.min(0)]],
-        tax: [0, [Validators.min(0)]],
-        total: [0],
-      })
-    );
+    const item = this.fb.group({
+      itemName: ['', Validators.required],
+      description: [''],
+      quantity: [1, [Validators.required, Validators.min(1)]],
+      price: [0, [Validators.required, Validators.min(0)]],
+      amount: [{ value: 0, disabled: true }]
+    });
+
+    item.get('quantity')?.valueChanges.subscribe(() => this.updateItemAmount(item));
+    item.get('price')?.valueChanges.subscribe(() => this.updateItemAmount(item));
+
+    this.items.push(item);
   }
 
-  // Remove a line item
+  // Update the total amount for an item row
+  updateItemAmount(item: FormGroup): void {
+    const quantity = item.get('quantity')?.value || 0;
+    const price = item.get('price')?.value || 0;
+    item.get('amount')?.setValue(quantity * price, { emitEvent: false });
+    this.calculateTotal();
+  }
+
+  // Remove an item row
   removeItem(index: number): void {
     this.items.removeAt(index);
+    this.calculateTotal();
   }
 
-  // Calculate total for each item
-  calculateItemTotal(item: FormGroup): void {
-    const unitCost = item.get('unitCost')?.value || 0;
-    const quantity = item.get('quantity')?.value || 0;
-    const markup = item.get('markup')?.value || 0;
-    const tax = item.get('tax')?.value || 0;
+  // Calculate subtotal, tax, and total
+  calculateTotal(): void {
+    const subtotal = this.items.controls.reduce((sum, item) => {
+      return sum + (item.get('amount')?.value || 0);
+    }, 0);
 
-    const total = (unitCost * quantity) + markup + tax;
-    item.get('total')?.setValue(total, { emitEvent: false });
+    const tax = subtotal * 0.1; // Example: 10% tax
+    const total = subtotal + tax;
+
+    this.estimateForm.patchValue({ subtotal, tax, total });
   }
 
-  // Submit the form
+  // Submit form
   submitForm(): void {
     if (this.estimateForm.valid) {
-      this.dialogRef.close(this.estimateForm.value); // Pass data back to parent
+      console.log('Estimate Data:', this.estimateForm.value);
     }
-  }
-
-  // Close the modal
-  closeDialog(): void {
-    this.dialogRef.close();
   }
 }

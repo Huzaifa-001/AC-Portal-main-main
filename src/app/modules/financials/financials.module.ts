@@ -41,6 +41,7 @@ import { AddFinanceMaterialOrdersComponent } from './add-finance-material-orders
   imports: [
     CommonModule,
     FinancialsRoutingModule,
+    ReactiveFormsModule,
     AccordionModule,
     PanelModule,
     MatDialogModule,
@@ -54,7 +55,6 @@ import { AddFinanceMaterialOrdersComponent } from './add-finance-material-orders
     MatIconModule,
     MatMenuModule,
     MatSnackBarModule,
-    ReactiveFormsModule,
     CommonModule,
     TagInputModule,
     CoreModule,

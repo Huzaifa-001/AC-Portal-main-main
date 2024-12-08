@@ -1,160 +1,67 @@
-<div class="mat-modal">
-  <div class="mat-modal-header">
-    <h4 class="title">Add Estimate</h4>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="closeDialog()"
-    ></button>
-  </div>
+<div class="estimate-modal">
   <form [formGroup]="estimateForm" (ngSubmit)="submitForm()">
-    <div class="mat-modal-body">
-      <div class="row">
-        <!-- Estimate Details -->
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Estimate Number <small class="text-danger">*</small></label>
-            <input class="form-control" formControlName="estimateNumber" />
-          </div>
-          <div class="form-group">
-            <label>Date <small class="text-danger">*</small></label>
-            <input type="date" class="form-control" formControlName="date" />
-          </div>
-          <div class="form-group">
-            <label>Customer Note</label>
-            <textarea
-              class="form-control"
-              formControlName="customerNote"
-            ></textarea>
-          </div>
-          <div class="form-group">
-            <label>Internal Note</label>
-            <textarea
-              class="form-control"
-              formControlName="internalNote"
-            ></textarea>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Synced to QB?</label>
-            <input type="checkbox" formControlName="syncedToQB" />
-          </div>
-          <div class="form-group">
-            <label>Signed?</label>
-            <input type="checkbox" formControlName="signed" />
-          </div>
-          <div class="form-group">
-            <label>Status <small class="text-danger">*</small></label>
-            <select class="form-control" formControlName="status">
-              <option value="Pending">Pending</option>
-              <option value="Approved">Approved</option>
-              <option value="Rejected">Rejected</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Total <small class="text-danger">*</small></label>
-            <input type="number" class="form-control" formControlName="total" />
-          </div>
-        </div>
-      </div>
-
-      <!-- Line Items Section -->
-      <div class="mt-4">
-        <h5>Line Items</h5>
-        <div formArrayName="items">
-          <div
-            *ngFor="let item of items.controls; let i = index"
-            [formGroupName]="i"
-            class="row mb-3"
-          >
-            <div class="col-md-2">
-              <label>Item Name</label>
-              <input type="text" class="form-control" formControlName="name" />
-            </div>
-            <div class="col-md-3">
-              <label>Description</label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="description"
-              />
-            </div>
-            <div class="col-md-1">
-              <label>Unit Cost</label>
-              <input
-                type="number"
-                class="form-control"
-                formControlName="unitCost"
-                (input)="calculateItemTotal(item)"
-              />
-            </div>
-            <div class="col-md-1">
-              <label>Quantity</label>
-              <input
-                type="number"
-                class="form-control"
-                formControlName="quantity"
-                (input)="calculateItemTotal(item)"
-              />
-            </div>
-            <div class="col-md-1">
-              <label>Markup</label>
-              <input
-                type="number"
-                class="form-control"
-                formControlName="markup"
-                (input)="calculateItemTotal(item)"
-              />
-            </div>
-            <div class="col-md-1">
-              <label>Tax</label>
-              <input
-                type="number"
-                class="form-control"
-                formControlName="tax"
-                (input)="calculateItemTotal(item)"
-              />
-            </div>
-            <div class="col-md-2">
-              <label>Total</label>
-              <input
-                type="number"
-                class="form-control"
-                formControlName="total"
-                readonly
-              />
-            </div>
-            <div class="col-md-1">
-              <button
-                type="button"
-                class="btn btn-danger btn-sm"
-                (click)="removeItem(i)"
-              >
-                Remove
-              </button>
-            </div>
-          </div>
-        </div>
-        <button
-          type="button"
-          class="btn btn-primary btn-sm"
-          (click)="addItem()"
-        >
-          Add Item
-        </button>
-      </div>
-    </div>
-
-    <div class="mat-modal-footer">
-      <button
-        type="submit"
-        class="btn btn-primary btn-lg"
-        [disabled]="!estimateForm.valid"
+    <div formArrayName="items">
+      <div
+        *ngFor="let item of items.controls; let i = index"
+        [formGroupName]="i"
       >
-        Save Estimate
-      </button>
+        <div class="row">
+          <div class="col-md-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Item Name"
+              formControlName="itemName"
+            />
+          </div>
+          <div class="col-md-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Description"
+              formControlName="description"
+            />
+          </div>
+          <div class="col-md-2">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Qty"
+              formControlName="quantity"
+            />
+          </div>
+          <div class="col-md-2">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Price"
+              formControlName="price"
+            />
+          </div>
+          <div class="col-md-2">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Amount"
+              formControlName="amount"
+              disabled
+            />
+          </div>
+          <div class="col-md-1">
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="removeItem(i)"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+    <button type="button" class="btn btn-primary" (click)="addItem()">
+      Add Item
+    </button>
+    <button type="submit" class="btn btn-success">Submit</button>
   </form>
 </div>
