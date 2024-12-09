@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-finance-estimate',
@@ -12,27 +11,42 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class AddFinanceEstimateComponent {
   estimateForm: FormGroup;
+  companyLogo: string = 'assets/logo.png'; // Update with actual path if needed
+  updateData = {
+    FormTitle: 'Create New Estimate'
+  };
+  estimateDetails = {
+    date: new Date().toLocaleDateString(),
+    invoiceNumber: '12345',
+    supplierName: 'Sample Supplier',
+    supplierAddress: '123 Supplier Street',
+    customerName: 'Sample Customer',
+    customerAddress: '456 Customer Avenue',
+    paymentDetails: 'Paid via credit card on delivery.',
+    notes: 'This is a sample estimate note.'
+  };
 
   constructor(private fb: FormBuilder) {
     this.estimateForm = this.fb.group({
       estimateNumber: ['', Validators.required],
       date: ['', Validators.required],
-      customerInfo: ['', Validators.required],
-      items: this.fb.array([]), // Dynamically add items
-      subtotal: [0, Validators.required],
-      tax: [0, Validators.required],
-      total: [0, Validators.required],
+      notes: [''],
+      syncedToQB: [false],
+      signed: [false],
+      items: this.fb.array([]),
+      subtotal: [{ value: 0, disabled: true }, Validators.required],
+      tax: [{ value: 0, disabled: true }, Validators.required],
+      total: [{ value: 0, disabled: true }, Validators.required],
+      status: ['Draft', Validators.required]
     });
 
-    this.calculateTotal();
+    this.addItem(); // Initial item
   }
 
-  // Accessor for the items FormArray
   get items(): FormArray {
     return this.estimateForm.get('items') as FormArray;
   }
 
-  // Add a new item row
   addItem(): void {
     const item = this.fb.group({
       itemName: ['', Validators.required],
@@ -46,9 +60,9 @@ export class AddFinanceEstimateComponent {
     item.get('price')?.valueChanges.subscribe(() => this.updateItemAmount(item));
 
     this.items.push(item);
+    this.calculateTotal();
   }
 
-  // Update the total amount for an item row
   updateItemAmount(item: FormGroup): void {
     const quantity = item.get('quantity')?.value || 0;
     const price = item.get('price')?.value || 0;
@@ -56,13 +70,18 @@ export class AddFinanceEstimateComponent {
     this.calculateTotal();
   }
 
-  // Remove an item row
   removeItem(index: number): void {
     this.items.removeAt(index);
     this.calculateTotal();
   }
 
-  // Calculate subtotal, tax, and total
+  clearAllItems(): void {
+    while (this.items.length > 0) {
+      this.items.removeAt(0);
+    }
+    this.calculateTotal();
+  }
+
   calculateTotal(): void {
     const subtotal = this.items.controls.reduce((sum, item) => {
       return sum + (item.get('amount')?.value || 0);
@@ -74,10 +93,26 @@ export class AddFinanceEstimateComponent {
     this.estimateForm.patchValue({ subtotal, tax, total });
   }
 
-  // Submit form
+  getItemAmount(item: FormGroup): number {
+    const quantity = item.get('quantity')?.value || 0;
+    const price = item.get('price')?.value || 0;
+    return quantity * price;
+  }
+
+  closeDialog(): void {
+    this.estimateForm.reset();
+    this.items.clear();
+    this.addItem(); // Re-add an initial item if needed
+    console.log("Form reset and dialog closed");
+  }
+
   submitForm(): void {
     if (this.estimateForm.valid) {
-      console.log('Estimate Data:', this.estimateForm.value);
+      console.log("Form submitted", this.estimateForm.value);
+      // Add logic for form submission (e.g., send data to the server)
+    } else {
+      console.log("Form is invalid. Please check your entries.");
+      // Optionally display user feedback for validation errors
     }
   }
 }

@@ -1,76 +1,111 @@
-<div class="estimate-modal">
-  <form [formGroup]="estimateForm" (ngSubmit)="submitForm()">
-    <!-- Header Section -->
-    <div class="header">
-      <h3>Add Estimate</h3>
-      <div class="form-group">
-        <label for="estimateNumber">Estimate #</label>
-        <input
-          id="estimateNumber"
-          type="text"
-          formControlName="estimateNumber"
-        />
-      </div>
-      <div class="form-group">
-        <label for="date">Date</label>
-        <input id="date" type="date" formControlName="date" />
-      </div>
+<div class="mat-modal">
+  <div class="mat-modal-header">
+    <p class="title">{{ updateData?.FormTitle || "No Title" }}</p>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      aria-label="Close"
+      (click)="closeDialog()"
+    ></button>
+  </div>
+  <h2>{{ updateData.FormTitle }}</h2>
+  <form [formGroup]="estimateForm">
+    <div>
+      <label for="estimateNumber">Estimate Number:</label>
+      <input id="estimateNumber" formControlName="estimateNumber" type="text" />
+    </div>
+    <div>
+      <label for="date">Date:</label>
+      <input id="date" formControlName="date" type="date" />
+    </div>
+    <div>
+      <label for="notes">Notes:</label>
+      <textarea id="notes" formControlName="notes"></textarea>
+    </div>
+    <div>
+      <label for="status">Status:</label>
+      <select id="status" formControlName="status">
+        <option value="Draft">Draft</option>
+        <option value="Finalized">Finalized</option>
+        <option value="Sent">Sent</option>
+      </select>
+    </div>
+    <div>
+      <label for="syncedToQB">Synced to QuickBooks:</label>
+      <input id="syncedToQB" type="checkbox" formControlName="syncedToQB" />
+    </div>
+    <div>
+      <label for="signed">Signed:</label>
+      <input id="signed" type="checkbox" formControlName="signed" />
     </div>
 
-    <!-- Customer Info Section -->
-    <div class="customer-info">
-      <label for="customerInfo">Customer Info</label>
-      <textarea id="customerInfo" formControlName="customerInfo"></textarea>
-    </div>
-
-    <!-- Items Section -->
-    <div class="items">
-      <h4>Items</h4>
-      <div formArrayName="items">
-        <div
-          *ngFor="let item of items.controls; let i = index"
-          [formGroupName]="i"
-          class="item-row"
-        >
+    <!-- Items Form Array -->
+    <div formArrayName="items">
+      <div
+        *ngFor="let item of items.controls; let i = index"
+        [formGroup]="item as FormGroup"
+      >
+        <div>
+          <label for="itemName-{{ i }}">Item Name:</label>
           <input
-            type="text"
-            placeholder="Item Name"
+            id="itemName-{{ i }}"
             formControlName="itemName"
+            placeholder="Item Name"
           />
-          <input
-            type="text"
-            placeholder="Description"
-            formControlName="description"
-          />
-          <input type="number" placeholder="Qty" formControlName="quantity" />
-          <input type="number" placeholder="Price" formControlName="price" />
-          <input type="number" placeholder="Amount" formControlName="amount" />
-          <button type="button" (click)="removeItem(i)">Remove</button>
         </div>
+        <div>
+          <label for="description-{{ i }}">Description:</label>
+          <input
+            id="description-{{ i }}"
+            formControlName="description"
+            placeholder="Description"
+          />
+        </div>
+        <div>
+          <label for="quantity-{{ i }}">Quantity:</label>
+          <input
+            id="quantity-{{ i }}"
+            formControlName="quantity"
+            type="number"
+            min="1"
+          />
+        </div>
+        <div>
+          <label for="price-{{ i }}">Price:</label>
+          <input
+            id="price-{{ i }}"
+            formControlName="price"
+            type="number"
+            min="0"
+          />
+        </div>
+        <div>
+          <label for="amount-{{ i }}">Amount:</label>
+          <input
+            id="amount-{{ i }}"
+            formControlName="amount"
+            type="text"
+            readonly
+          />
+        </div>
+        <button type="button" (click)="removeItem(i)">Remove Item</button>
       </div>
-      <button type="button" (click)="addItem()">+ Add Item</button>
+    </div>
+    <button type="button" (click)="addItem()">Add Item</button>
+
+    <!-- Total Calculation -->
+    <div>
+      <h3>Summary</h3>
+      <p>Subtotal: {{ estimateForm.get("subtotal")?.value | currency }}</p>
+      <p>Tax (10%): {{ estimateForm.get("tax")?.value | currency }}</p>
+      <p>Total: {{ estimateForm.get("total")?.value | currency }}</p>
     </div>
 
-    <!-- Summary Section -->
-    <div class="summary">
-      <div class="form-group">
-        <label for="subtotal">Subtotal</label>
-        <input id="subtotal" type="number" formControlName="subtotal" />
-      </div>
-      <div class="form-group">
-        <label for="tax">Tax</label>
-        <input id="tax" type="number" formControlName="tax" />
-      </div>
-      <div class="form-group">
-        <label for="total">Total</label>
-        <input id="total" type="number" formControlName="total" />
-      </div>
-    </div>
-
-    <!-- Footer Section -->
-    <div class="footer">
-      <button type="submit" [disabled]="!estimateForm.valid">Save</button>
-      <button type="button">Cancel</button>
-    </div>
+    <!-- Submit Button -->
+    <button type="submit" (click)="submitForm()">Submit</button>
   </form>
+
+  <!-- Optional: Close button -->
+  <button (click)="closeDialog()">Close</button>
 </div>
