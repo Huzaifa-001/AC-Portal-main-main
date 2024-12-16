@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Estimate Details</h2>
+<mat-dialog-content>
+  <div>
+    <p><strong>Estimate Number:</strong> {{ estimate.number }}</p>
+    <p><strong>Created By:</strong> {{ estimate.createdBy }}</p>
+    <p><strong>Customer Note:</strong> {{ estimate.customerNote }}</p>
+    <p><strong>Date Created:</strong> {{ estimate.dateCreated | date }}</p>
+    <p><strong>Location:</strong> {{ estimate.location }}</p>
+    <p><strong>Status:</strong> {{ estimate.status }}</p>
+    <p><strong>Total:</strong> ${{ estimate.total }}</p>
+    <p><strong>Sales Rep:</strong> {{ estimate.salesRep }}</p>
+    <p><strong>Signature Status:</strong> {{ estimate.signatureStatus }}</p>
+    <!-- Add other fields as necessary -->
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="close()">Close</button>
+</mat-dialog-actions>

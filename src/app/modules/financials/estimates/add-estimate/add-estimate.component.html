@@ -1,0 +1,107 @@
+<h2 mat-dialog-title>Add Estimate</h2>
+<form [formGroup]="estimateForm" (ngSubmit)="submitForm()">
+  <mat-dialog-content>
+    <mat-form-field class="full-width">
+      <mat-label>Estimate Number</mat-label>
+      <input matInput formControlName="estimateNumber" required />
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="date"
+        required
+      />
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Notes</mat-label>
+      <textarea matInput formControlName="notes"></textarea>
+    </mat-form-field>
+
+    <div formArrayName="items">
+      <div *ngFor="let item of items.controls; let i = index">
+        <div [formGroupName]="i">
+          <mat-form-field class="full-width">
+            <mat-label>Item Name</mat-label>
+            <input matInput formControlName="itemName" required />
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="description" required />
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <mat-label>Quantity</mat-label>
+            <input
+              matInput
+              formControlName="quantity"
+              type="number"
+              (input)="updateItemAmount(i)"
+            />
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <mat-label>Price</mat-label>
+            <input
+              matInput
+              formControlName="price"
+              type="number"
+              (input)="updateItemAmount(i)"
+            />
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <mat-label>Amount</mat-label>
+            <input
+              matInput
+              [value]="item.get('amount').value | currency"
+              disabled
+            />
+          </mat-form-field>
+
+          <button mat-icon-button (click)="removeItem(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button mat-raised-button (click)="addItem()">Add Item</button>
+
+    <mat-form-field class="full-width">
+      <mat-label>Subtotal</mat-label>
+      <input
+        matInput
+        [value]="estimateForm.value.subtotal | currency"
+        disabled
+      />
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Tax (10%)</mat-label>
+      <input matInput [value]="estimateForm.value.tax | currency" disabled />
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Total</mat-label>
+      <input matInput [value]="estimateForm.value.total | currency" disabled />
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button (click)="closeModal()">Cancel</button>
+    <button
+      mat-button
+      color="primary"
+      type="submit"
+      [disabled]="!estimateForm.valid"
+    >
+      Submit Estimate
+    </button>
+  </mat-dialog-actions>
+</form>

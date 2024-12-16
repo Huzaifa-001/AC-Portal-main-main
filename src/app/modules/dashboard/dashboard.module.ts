@@ -22,7 +22,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { CoreModule } from "../../core/core.module";
+import { CoreModule } from '../../core/core.module';
 import { UserActivityComponent } from './user-activity/user-activity.component';
 import { DashboardJobsComponent } from './dashboard-jobs/dashboard-jobs.component';
 import { DashboardTasksComponent } from './dashboard-tasks/dashboard-tasks.component';
@@ -34,44 +34,43 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DashboardLogbookComponent } from './dashboard-logbook/dashboard-logbook.component';
 import { AllNotificationsComponent } from './all-notifications/all-notifications.component';
 
-
 @NgModule({
-    declarations: [
-        DashboardComponent,
-        TaskCreationDialogComponent,
-        UserActivityComponent,
-        DashboardJobsComponent,
-        DashboardTasksComponent,
-        DashboardContactsComponent,
-        DashboardEstimatesComponent,
-        DashboardAnalyticsCardsComponent,
-        OrganizeDashboardComponent,
-        DashboardLogbookComponent,
-        AllNotificationsComponent
-    ],
-    imports: [
-        CommonModule,
-        DashboardRoutingModule,
-        ReactiveFormsModule,
-        FormsModule,
-        MatInputModule,
-        MatSelectModule,
-        MatFormFieldModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatAutocompleteModule,
-        MatButtonModule,
-        TagInputModule,
-        MatDialogModule,
-        JobModule,
-        MatIconModule,
-        MatCardModule,
-        DragDropModule,
-        MatMenuModule,
-        MatSnackBarModule,
-        ContactModule,
-        CoreModule,
-        FormsModule,
-    ]
+  declarations: [
+    DashboardComponent,
+    TaskCreationDialogComponent,
+    UserActivityComponent,
+    DashboardJobsComponent,
+    DashboardTasksComponent,
+    DashboardContactsComponent,
+    DashboardEstimatesComponent,
+    DashboardAnalyticsCardsComponent,
+    OrganizeDashboardComponent,
+    DashboardLogbookComponent,
+    AllNotificationsComponent,
+  ],
+  imports: [
+    CommonModule,
+    DashboardRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatInputModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+    TagInputModule,
+    MatDialogModule,
+    JobModule,
+    MatIconModule,
+    MatCardModule,
+    DragDropModule,
+    MatMenuModule,
+    MatSnackBarModule,
+    ContactModule,
+    CoreModule,
+    FormsModule,
+  ],
 })
-export class DashboardModule { }
+export class DashboardModule {}

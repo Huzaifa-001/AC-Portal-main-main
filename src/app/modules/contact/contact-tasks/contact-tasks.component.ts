@@ -9,13 +9,17 @@ import { AppConfig } from 'src/app/core/app-config';
 @Component({
   selector: 'app-contact-tasks',
   templateUrl: './contact-tasks.component.html',
-  styleUrls: ['./contact-tasks.component.css']
+  styleUrls: ['./contact-tasks.component.css'],
 })
 export class ContactTasksComponent {
   contactId: any;
   tasks: any[] = [];
 
-  constructor(private route: ActivatedRoute, private dialog: MatDialog,private tasksService: TasksService) {
+  constructor(
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private tasksService: TasksService
+  ) {
     this.contactId = this.route.parent.snapshot.paramMap.get('id');
   }
 
@@ -28,12 +32,14 @@ export class ContactTasksComponent {
   }
 
   loadTasks(pageIndex: number) {
-    this.tasksService.getTasksByRelatedContactId(this.contactId).subscribe((res) => {
-      this.tasks = []
-      this.tasks =  res.payload
-      // this.totalCount = this.logBooks.length;
-      this.currentPageIndex = res?.pageIndex ?? 1;
-    });
+    this.tasksService
+      .getTasksByRelatedContactId(this.contactId)
+      .subscribe((res) => {
+        this.tasks = [];
+        this.tasks = res.payload;
+        // this.totalCount = this.logBooks.length;
+        this.currentPageIndex = res?.pageIndex ?? 1;
+      });
   }
 
   deleteTask(task: any): void {
@@ -62,9 +68,6 @@ export class ContactTasksComponent {
         );
       }
     });
-
-
-    
   }
 
   openAddTaskModal(data: any): void {
@@ -88,7 +91,7 @@ export class ContactTasksComponent {
       });
     }
     dialogRef.afterClosed().subscribe((result: any) => {
-      this.loadTasks(this.currentPageIndex)
+      this.loadTasks(this.currentPageIndex);
     });
   }
 }

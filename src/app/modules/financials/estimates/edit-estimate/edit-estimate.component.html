@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Edit Estimate</h2>
+<form>
+  <mat-form-field>
+    <input
+      matInput
+      [(ngModel)]="estimate.customerNote"
+      name="customerNote"
+      placeholder="Customer Note"
+    />
+  </mat-form-field>
+
+  <!-- Add other fields as required -->
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-button (click)="onSave()">Save</button>
+  </div>
+</form>

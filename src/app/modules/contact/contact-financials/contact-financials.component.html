@@ -1,113 +1,1051 @@
-
-
-<!-- <ng-container *ngIf="totalCount > 0">
-  <app-pagination
-    [currentPageIndex]="currentPageIndex"
-    [totalCount]="totalCount"
-    (pageChange)="loadPagedData($event)"
-  ></app-pagination>
-</ng-container> -->
-
-<section>
-  <div class="row match-height">
-    <div class="card position-relative">
-      <div class="card-header p-0 d-block mt-2">
-        <nav
-          class="navbar navbar-expand-lg navbar-light"
-          style="background: #f1f3f9"
-        >
-          <div class="container-fluid d-block">
-            <ul class="nav d-flex justify-content-around">
-              <li class="nav-item">
-                <a
-                  class="nav-link btn btn-link text-capitalize"
-                  [routerLink]="[
-                    '/contact',
-                    contactId,
-                    'financials',
-                    'estimates'
-                  ]"
-                  routerLinkActive="active"
-                >
-                  Estimates
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link btn btn-link text-capitalize"
-                  [routerLink]="[
-                    '/contact',
-                    contactId,
-                    'financials',
-                    'budgets'
-                  ]"
-                  routerLinkActive="active"
-                >
-                  Budgets
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link btn btn-link text-capitalize"
-                  [routerLink]="[
-                    '/contact',
-                    contactId,
-                    'financials',
-                    'materialorders'
-                  ]"
-                  routerLinkActive="active"
-                >
-                  Material Orders
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link btn btn-link text-capitalize"
-                  [routerLink]="[
-                    '/contact',
-                    contactId,
-                    'financials',
-                    'invoices'
-                  ]"
-                  routerLinkActive="active"
-                >
-                  Invoices
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link btn btn-link text-capitalize"
-                  [routerLink]="[
-                    '/contact',
-                    contactId,
-                    'financials',
-                    'creditmemos'
-                  ]"
-                  routerLinkActive="active"
-                >
-                  Credit Memos
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link btn btn-link text-capitalize"
-                  [routerLink]="[
-                    '/contact',
-                    contactId,
-                    'financials',
-                    'payments'
-                  ]"
-                  routerLinkActive="active"
-                >
-                  Payments
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+<div class="financials d-flex justify-content-end align-items-end">
+  <div class="tabs">
+    <div class="tab-header">
+      <div
+        *ngFor="
+          let tab of [
+            'estimates',
+            'budgets',
+            'material Order',
+            'invoices',
+            'credit Memos',
+            'payments'
+          ]
+        "
+        class="tab-item"
+        [class.active]="activeTab === tab"
+        (click)="setActiveTab(tab)"
+      >
+        {{ tab | titlecase }}
       </div>
-      <router-outlet></router-outlet>
+    </div>
+
+    <div class="tab-content">
+      <div *ngIf="activeTab === 'estimates'">
+        <div
+          class="modal-button-container d-flex justify-content-end align-items-end"
+        >
+          <button (click)="openModal()" class="btn btn-primary btn-sm my-2">
+            Add Estimate
+          </button>
+        </div>
+        <div
+          *ngIf="isModalVisible"
+          class="modal-overlay"
+          (click)="closeModal()"
+        >
+          <div class="modal-content" (click)="$event.stopPropagation()">
+            <!-- <h2>{{ updateData.FormTitle }}</h2> -->
+            <h2>Add Estimate</h2>
+
+            <form [formGroup]="estimateForm" (ngSubmit)="submitForm()">
+              <div class="form-group">
+                <label for="estimateNumber">Estimate Number</label>
+                <input
+                  id="estimateNumber"
+                  type="text"
+                  formControlName="estimateNumber"
+                />
+                <div
+                  *ngIf="
+                    estimateForm.get('estimateNumber')?.invalid &&
+                    estimateForm.get('estimateNumber')?.touched
+                  "
+                >
+                  Estimate Number is required.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="date">Date</label>
+                <input id="date" type="date" formControlName="date" />
+                <div
+                  *ngIf="
+                    estimateForm.get('date')?.invalid &&
+                    estimateForm.get('date')?.touched
+                  "
+                >
+                  Date is required.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="notes">Notes</label>
+                <textarea id="notes" formControlName="notes"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="status">Status:</label>
+                <select id="status" formControlName="status">
+                  <option value="Draft">Draft</option>
+                  <option value="Finalized">Finalized</option>
+                  <option value="Sent">Sent</option>
+                </select>
+              </div>
+              <div class="checkbox-container">
+                <label for="syncedToQB">Synced to QuickBooks:</label>
+                <input
+                  id="syncedToQB"
+                  type="checkbox"
+                  formControlName="syncedToQB"
+                />
+              </div>
+              <div class="checkbox-container">
+                <label for="signed">Signed:</label>
+                <input id="signed" type="checkbox" formControlName="signed" />
+              </div>
+
+              <h3>Items</h3>
+              <div formArrayName="items">
+                <div
+                  *ngFor="let item of items.controls; let i = index"
+                  [formGroupName]="i"
+                  class="item-row"
+                >
+                  <input
+                    type="text"
+                    placeholder="Item Name"
+                    formControlName="itemName"
+                    class="my-1"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Description"
+                    formControlName="description"
+                    class="my-1"
+                  />
+                  <input
+                    type="number"
+                    placeholder="Quantity"
+                    formControlName="quantity"
+                    (input)="(i)"
+                    class="my-1"
+                  />
+                  <input
+                    type="number"
+                    placeholder="Price"
+                    formControlName="price"
+                    (input)="(i)"
+                    class="my-1"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Amount"
+                    formControlName="amount"
+                    class="my-1"
+                  />
+                  <button type="button" (click)="removeItem(i)" class="my-2">
+                    Remove
+                  </button>
+                </div>
+              </div>
+              <button type="button" (click)="addItem()" class="my-2">
+                Add Item
+              </button>
+              <div>
+                <h3>Summary</h3>
+                <p>
+                  Subtotal: {{ estimateForm.get("subtotal")?.value | currency }}
+                </p>
+                <p>
+                  Tax (10%): {{ estimateForm.get("tax")?.value | currency }}
+                </p>
+                <p>Total: {{ estimateForm.get("total")?.value | currency }}</p>
+              </div>
+
+              <div>
+                <button type="button" (click)="closeModal()">Close</button>
+                <button
+                  type="submit"
+                  [disabled]="estimateForm.invalid"
+                  class="mx-2"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Estimate#</th>
+                <th>Date</th>
+                <th>Notes</th>
+                <th>signed</th>
+                <th>total</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="estimates.length > 0; else noDataMessage">
+                <tr *ngFor="let estimate of estimates">
+                  <td>{{ estimate.estimate }}</td>
+                  <td>{{ estimate.date | date }}</td>
+                  <td>{{ estimate.notes }}</td>
+                  <td>{{ estimate.signed }}</td>
+                  <td>{{ estimate.total }}</td>
+                  <td>{{ estimate.status }}</td>
+
+                  <td>
+                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item (click)="editEvent(estimates)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                      </button>
+                      <button mat-menu-item (click)="deleteEvent(estimates)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                      </button>
+                    </mat-menu>
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-template #noDataMessage>
+                <tr>
+                  <td colspan="6" class="text-center">No events available</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+        <ng-container *ngIf="totalCount > 0">
+          <app-pagination
+            [currentPageIndex]="currentPageIndex"
+            [totalCount]="totalCount"
+            (pageChange)="loadPagedData($event)"
+          ></app-pagination>
+        </ng-container>
+      </div>
+      <div *ngIf="activeTab === 'budgets'">
+        <div
+          class="modal-button-container d-flex justify-content-end align-items-end"
+        >
+          <button (click)="openModal()" class="btn btn-primary btn-sm my-2">
+            Add Budgets
+          </button>
+        </div>
+
+        <div
+          *ngIf="isModalVisible"
+          class="modal-overlay"
+          (click)="closeModal()"
+        >
+          <div class="modal-content" (click)="$event.stopPropagation()">
+            <h2>Add Budgets</h2>
+
+            <form [formGroup]="estimateForm" (ngSubmit)="submitForm()">
+              <!-- Budget Number Field -->
+              <div class="form-group">
+                <label for="budgetNumber">Budget Number</label>
+                <input
+                  id="budgetNumber"
+                  type="text"
+                  formControlName="budgetNumber"
+                />
+                <div
+                  *ngIf="
+                    estimateForm.get('budgetNumber')?.invalid &&
+                    estimateForm.get('budgetNumber')?.touched
+                  "
+                >
+                  Budget Number is required.
+                </div>
+              </div>
+
+              <!-- Date Field -->
+              <div class="form-group">
+                <label for="date">Date</label>
+                <input id="date" type="date" formControlName="date" />
+                <div
+                  *ngIf="
+                    estimateForm.get('date')?.invalid &&
+                    estimateForm.get('date')?.touched
+                  "
+                >
+                  Date is required.
+                </div>
+              </div>
+
+              <!-- Gross Profit Field -->
+              <div class="form-group">
+                <label for="grossProfit">Gross Profit</label>
+                <input
+                  id="grossProfit"
+                  type="number"
+                  formControlName="grossProfit"
+                />
+                <div
+                  *ngIf="
+                    estimateForm.get('grossProfit')?.invalid &&
+                    estimateForm.get('grossProfit')?.touched
+                  "
+                >
+                  Gross Profit is required.
+                </div>
+              </div>
+
+              <!-- Net Profit Field -->
+              <div class="form-group">
+                <label for="netProfit">Net Profit</label>
+                <input
+                  id="netProfit"
+                  type="number"
+                  formControlName="netProfit"
+                />
+                <div
+                  *ngIf="
+                    estimateForm.get('netProfit')?.invalid &&
+                    estimateForm.get('netProfit')?.touched
+                  "
+                >
+                  Net Profit is required.
+                </div>
+              </div>
+              <div>
+                <button type="button" (click)="closeModal()">Close</button>
+                <button
+                  type="submit"
+                  [disabled]="estimateForm.invalid"
+                  class="mx-2"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="card-body p-0">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Budgets#</th>
+                <th>Date</th>
+                <th>Gross Profit</th>
+                <th>Net Profit</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="budgets.length > 0; else noDataMessage">
+                <tr *ngFor="let budget of budgets">
+                  <td>{{ budget.budgets }}</td>
+                  <td>{{ budget.date | date }}</td>
+                  <td>{{ budget.grossprofit }}</td>
+                  <td>{{ budget.netprofit }}</td>
+
+                  <td>
+                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item (click)="editEvent(budgets)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                      </button>
+                      <button mat-menu-item (click)="deleteEvent(budgets)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                      </button>
+                    </mat-menu>
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-template #noDataMessage>
+                <tr>
+                  <td colspan="6" class="text-center">No events available</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+
+        <ng-container *ngIf="totalCount > 0">
+          <app-pagination
+            [currentPageIndex]="currentPageIndex"
+            [totalCount]="totalCount"
+            (pageChange)="loadPagedData($event)"
+          ></app-pagination>
+        </ng-container>
+      </div>
+      <div *ngIf="activeTab === 'material Order'">
+        <div
+          class="modal-button-container d-flex justify-content-end align-items-end"
+        >
+          <button (click)="openModal()" class="btn btn-primary btn-sm my-2">
+            Add Material Order
+          </button>
+        </div>
+        <div
+          *ngIf="isModalVisible"
+          class="modal-overlay"
+          (click)="closeModal()"
+        >
+          <div class="modal-content" (click)="$event.stopPropagation()">
+            <h2>Add Material Order</h2>
+
+            <form [formGroup]="estimateForm" (ngSubmit)="submitForm()">
+              <div class="form-group">
+                <label for="orderNumber">Order Number</label>
+                <input
+                  id="orderNumber"
+                  type="text"
+                  formControlName="orderNumber"
+                />
+                <div
+                  *ngIf="
+                    estimateForm.get('orderNumber')?.invalid &&
+                    estimateForm.get('orderNumber')?.touched
+                  "
+                >
+                  Order Number is required.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="date">Date</label>
+                <input id="date" type="date" formControlName="date" />
+                <div
+                  *ngIf="
+                    estimateForm.get('date')?.invalid &&
+                    estimateForm.get('date')?.touched
+                  "
+                >
+                  Date is required.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="notes">Notes</label>
+                <textarea id="notes" formControlName="notes"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="status">Status:</label>
+                <select id="status" formControlName="status">
+                  <option value="Draft">Draft</option>
+                  <option value="Finalized">Finalized</option>
+                  <option value="Sent">Sent</option>
+                </select>
+              </div>
+
+              <div>
+                <button type="button" (click)="closeModal()">Close</button>
+                <button
+                  type="submit"
+                  [disabled]="estimateForm.invalid"
+                  class="mx-2"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Order#</th>
+                <th>Date</th>
+                <th>Notes</th>
+                <th>Satus</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container
+                *ngIf="materialOrders.length > 0; else noDataMessage"
+              >
+                <tr *ngFor="let materialOrder of materialOrders">
+                  <td>{{ materialOrder.order }}</td>
+                  <td>{{ materialOrder.date | date }}</td>
+                  <td>{{ materialOrder.notes }}</td>
+                  <td>{{ materialOrder.status }}</td>
+                  <td>
+                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item (click)="editEvent(materialOrders)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                      </button>
+                      <button
+                        mat-menu-item
+                        (click)="deleteEvent(materialOrders)"
+                      >
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                      </button>
+                    </mat-menu>
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-template #noDataMessage>
+                <tr>
+                  <td colspan="6" class="text-center">No events available</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+
+        <ng-container *ngIf="totalCount > 0">
+          <app-pagination
+            [currentPageIndex]="currentPageIndex"
+            [totalCount]="totalCount"
+            (pageChange)="loadPagedData($event)"
+          ></app-pagination>
+        </ng-container>
+      </div>
+      <div *ngIf="activeTab === 'invoices'">
+        <div
+          class="modal-button-container d-flex justify-content-end align-items-end"
+        >
+          <button (click)="openModal()" class="btn btn-primary btn-sm my-2">
+            Add Invoices
+          </button>
+        </div>
+
+        <div
+          *ngIf="isModalVisible"
+          class="modal-overlay"
+          (click)="closeModal()"
+        >
+          <div class="modal-content" (click)="$event.stopPropagation()">
+            <h2>Add Invoices</h2>
+
+            <form [formGroup]="estimateForm" (ngSubmit)="submitForm()">
+              <!-- New Invoice Number Field -->
+              <div class="form-group">
+                <label for="invoiceNumber">Invoice Number</label>
+                <input
+                  id="invoiceNumber"
+                  type="text"
+                  formControlName="invoiceNumber"
+                />
+                <div
+                  *ngIf="
+                    estimateForm.get('invoiceNumber')?.invalid &&
+                    estimateForm.get('invoiceNumber')?.touched
+                  "
+                >
+                  Invoice Number is required.
+                </div>
+              </div>
+
+              <!-- New Date Field -->
+              <div class="form-group">
+                <label for="date">Date</label>
+                <input id="date" type="date" formControlName="date" />
+                <div
+                  *ngIf="
+                    estimateForm.get('date')?.invalid &&
+                    estimateForm.get('date')?.touched
+                  "
+                >
+                  Date is required.
+                </div>
+              </div>
+
+              <!-- New Notes Field (Textarea) -->
+              <div class="form-group">
+                <label for="notes">Notes</label>
+                <textarea id="notes" formControlName="notes"></textarea>
+                <div
+                  *ngIf="
+                    estimateForm.get('notes')?.invalid &&
+                    estimateForm.get('notes')?.touched
+                  "
+                >
+                  Notes are required.
+                </div>
+              </div>
+
+              <!-- New Total Field -->
+              <div class="form-group">
+                <label for="total">Total</label>
+                <input id="total" type="text" formControlName="total" />
+                <div
+                  *ngIf="
+                    estimateForm.get('total')?.invalid &&
+                    estimateForm.get('total')?.touched
+                  "
+                >
+                  Total is required.
+                </div>
+              </div>
+
+              <!-- New Due Date Field -->
+              <div class="form-group">
+                <label for="dueDate">Due Date</label>
+                <input id="dueDate" type="date" formControlName="dueDate" />
+                <div
+                  *ngIf="
+                    estimateForm.get('dueDate')?.invalid &&
+                    estimateForm.get('dueDate')?.touched
+                  "
+                >
+                  Due Date is required.
+                </div>
+              </div>
+
+              <!-- New Status Field -->
+              <div class="form-group">
+                <label for="status">Status</label>
+                <input id="status" type="text" formControlName="status" />
+                <div
+                  *ngIf="
+                    estimateForm.get('status')?.invalid &&
+                    estimateForm.get('status')?.touched
+                  "
+                >
+                  Status is required.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="paid">Paid</label>
+                <div class="checkbox-container">
+                  <label>
+                    <input type="radio" formControlName="paid" value="yes" />
+                    Yes
+                  </label>
+                  <label>
+                    <input type="radio" formControlName="paid" value="no" /> No
+                  </label>
+                </div>
+                <div
+                  *ngIf="
+                    estimateForm.get('paid')?.invalid &&
+                    estimateForm.get('paid')?.touched
+                  "
+                >
+                  Paid status is required.
+                </div>
+              </div>
+
+              <!-- Synced to QuickBooks Checkbox -->
+              <div class="checkbox-container">
+                <label for="syncedToQB">Synced to QuickBooks:</label>
+                <input
+                  id="syncedToQB"
+                  type="checkbox"
+                  formControlName="syncedToQB"
+                />
+              </div>
+
+              <!-- Synced to QuickBooks Checkbox -->
+              <div class="checkbox-container">
+                <label for="syncedToQB">Synced to QuickBooks:</label>
+                <input
+                  id="syncedToQB"
+                  type="checkbox"
+                  formControlName="syncedToQB"
+                />
+              </div>
+
+              <div>
+                <button type="button" (click)="closeModal()">Close</button>
+                <button
+                  type="submit"
+                  [disabled]="estimateForm.invalid"
+                  class="mx-2"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Invoices#</th>
+                <th>Date</th>
+                <th>Notes</th>
+                <th>Synced To Be</th>
+                <th>total</th>
+                <th>paid</th>
+                <th>dueDate</th>
+                <th>Satus</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="invoices.length > 0; else noDataMessage">
+                <tr *ngFor="let invoice of invoices">
+                  <td>{{ invoice.invoices }}</td>
+                  <td>{{ invoice.date | date }}</td>
+                  <td>{{ invoice.notes }}</td>
+                  <td>{{ invoice.syncedtobe }}</td>
+                  <td>{{ invoice.total }}</td>
+                  <td>{{ invoice.paid }}</td>
+                  <td>{{ invoice.dueDate | date }}</td>
+                  <td>{{ invoice.status }}</td>
+
+                  <td>
+                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item (click)="editEvent(invoices)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                      </button>
+                      <button mat-menu-item (click)="deleteEvent(invoices)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                      </button>
+                    </mat-menu>
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-template #noDataMessage>
+                <tr>
+                  <td colspan="6" class="text-center">No events available</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+
+        <ng-container *ngIf="totalCount > 0">
+          <app-pagination
+            [currentPageIndex]="currentPageIndex"
+            [totalCount]="totalCount"
+            (pageChange)="loadPagedData($event)"
+          ></app-pagination>
+        </ng-container>
+      </div>
+      <div *ngIf="activeTab === 'credit Memos'">
+        <div
+          class="modal-button-container d-flex justify-content-end align-items-end"
+        >
+          <button (click)="openModal()" class="btn btn-primary btn-sm my-2">
+            Add Credit Memos
+          </button>
+        </div>
+
+        <div
+          *ngIf="isModalVisible"
+          class="modal-overlay"
+          (click)="closeModal()"
+        >
+          <div class="modal-content" (click)="$event.stopPropagation()">
+            <h2>Add Credit Memos</h2>
+
+            <form [formGroup]="estimateForm" (ngSubmit)="submitForm()">
+              <!-- New List of Credit Input -->
+              <div class="form-group">
+                <label for="listOfCredit">List of Credit</label>
+                <input
+                  id="listOfCredit"
+                  type="text"
+                  formControlName="listOfCredit"
+                />
+                <div
+                  *ngIf="
+                    estimateForm.get('listOfCredit')?.invalid &&
+                    estimateForm.get('listOfCredit')?.touched
+                  "
+                >
+                  List of Credit is required.
+                </div>
+              </div>
+
+              <!-- New Number Input -->
+              <div class="form-group">
+                <label for="number">Number</label>
+                <input id="number" type="text" formControlName="number" />
+                <div
+                  *ngIf="
+                    estimateForm.get('number')?.invalid &&
+                    estimateForm.get('number')?.touched
+                  "
+                >
+                  Number is required.
+                </div>
+              </div>
+
+              <!-- New Created Record Input -->
+              <div class="form-group">
+                <label for="createdRecord">Related Records</label>
+                <input
+                  id="createdRecord"
+                  type="text"
+                  formControlName="createdRecord"
+                />
+                <div
+                  *ngIf="
+                    estimateForm.get('createdRecord')?.invalid &&
+                    estimateForm.get('createdRecord')?.touched
+                  "
+                >
+                  Created Record is required.
+                </div>
+              </div>
+
+              <!-- New Status Input -->
+              <div class="form-group">
+                <label for="status">Status</label>
+                <input id="status" type="text" formControlName="status" />
+                <div
+                  *ngIf="
+                    estimateForm.get('status')?.invalid &&
+                    estimateForm.get('status')?.touched
+                  "
+                >
+                  Status is required.
+                </div>
+              </div>
+
+              <!-- New Total Input -->
+              <div class="form-group">
+                <label for="total">Total</label>
+                <input id="total" type="text" formControlName="total" />
+                <div
+                  *ngIf="
+                    estimateForm.get('total')?.invalid &&
+                    estimateForm.get('total')?.touched
+                  "
+                >
+                  Total is required.
+                </div>
+              </div>
+
+              <!-- New Credit Memo Date Input -->
+              <div class="form-group">
+                <label for="creditMemoDate">Credit Memo Date</label>
+                <input
+                  id="creditMemoDate"
+                  type="date"
+                  formControlName="creditMemoDate"
+                />
+                <div
+                  *ngIf="
+                    estimateForm.get('creditMemoDate')?.invalid &&
+                    estimateForm.get('creditMemoDate')?.touched
+                  "
+                >
+                  Credit Memo Date is required.
+                </div>
+              </div>
+
+              <!-- New Date Updated Input -->
+              <div class="form-group">
+                <label for="dateUpdated">Date Updated</label>
+                <input
+                  id="dateUpdated"
+                  type="date"
+                  formControlName="dateUpdated"
+                />
+                <div
+                  *ngIf="
+                    estimateForm.get('dateUpdated')?.invalid &&
+                    estimateForm.get('dateUpdated')?.touched
+                  "
+                >
+                  Date Updated is required.
+                </div>
+              </div>
+
+              <div>
+                <button type="button" (click)="closeModal()">Close</button>
+                <button
+                  type="submit"
+                  [disabled]="estimateForm.invalid"
+                  class="mx-2"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Number#</th>
+                <th>Related Records</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Credit Date</th>
+                <th>Credit Uploaded</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="creditMemos.length > 0; else noDataMessage">
+                <tr *ngFor="let creditMemo of creditMemos">
+                  <td>{{ creditMemo.number }}</td>
+                  <td>{{ creditMemo.relatedRecords }}</td>
+                  <td>{{ creditMemo.status }}</td>
+                  <td>{{ creditMemo.total }}</td>
+                  <td>{{ creditMemo.creditdate | date }}</td>
+                  <td>{{ creditMemo.credituploaded }}</td>
+                  <td>
+                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item (click)="editEvent(creditMemos)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                      </button>
+                      <button mat-menu-item (click)="deleteEvent(creditMemos)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                      </button>
+                    </mat-menu>
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-template #noDataMessage>
+                <tr>
+                  <td colspan="6" class="text-center">No events available</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+
+        <ng-container *ngIf="totalCount > 0">
+          <app-pagination
+            [currentPageIndex]="currentPageIndex"
+            [totalCount]="totalCount"
+            (pageChange)="loadPagedData($event)"
+          ></app-pagination>
+        </ng-container>
+      </div>
+      <div *ngIf="activeTab === 'payments'">
+        <div
+          class="modal-button-container d-flex justify-content-end align-items-end"
+        >
+          <button (click)="openModal()" class="btn btn-primary btn-sm my-2">
+            Add Payments
+          </button>
+        </div>
+
+        <div
+          *ngIf="isModalVisible"
+          class="modal-overlay"
+          (click)="closeModal()"
+        >
+          <div class="modal-content" (click)="$event.stopPropagation()">
+            <h2>Add Payments</h2>
+
+            <form [formGroup]="estimateForm" (ngSubmit)="submitForm()">
+              <div class="form-group">
+                <label for="payment-list">List of Payment</label>
+                <input
+                  type="text"
+                  id="payment-list"
+                  class="form-control"
+                  placeholder="Enter payment details"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="payment-date">Date Payment</label>
+                <input
+                  type="date"
+                  id="payment-date"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="checkbox-container">
+                <label for="syncedToQB">Synced to QuickBooks:</label>
+                <input
+                  id="syncedToQB"
+                  type="checkbox"
+                  formControlName="syncedToQB"
+                />
+              </div>
+
+              <div>
+                <button type="button" (click)="closeModal()">Close</button>
+                <button
+                  type="submit"
+                  [disabled]="estimateForm.invalid"
+                  class="mx-2"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Date Payment#</th>
+                <th>Reference</th>
+                <th>total</th>
+                <th>Invoices</th>
+                <th>Method</th>
+                <th>Related Records</th>
+                <th>Synced To Be</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="payments.length > 0; else noDataMessage">
+                <tr *ngFor="let payment of payments">
+                  <td>{{ payment.datePayment }}</td>
+                  <td>{{ payment.reference }}</td>
+                  <td>{{ payment.total }}</td>
+                  <td>{{ payment.invoices }}</td>
+                  <td>{{ payment.method }}</td>
+                  <td>{{ payment.relatedRecords }}</td>
+                  <td>{{ payment.syncedtobe }}</td>
+                  <td>
+                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item (click)="editEvent(payments)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                      </button>
+                      <button mat-menu-item (click)="deleteEvent(payments)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                      </button>
+                    </mat-menu>
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-template #noDataMessage>
+                <tr>
+                  <td colspan="6" class="text-center">No events available</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+
+        <ng-container *ngIf="totalCount > 0">
+          <app-pagination
+            [currentPageIndex]="currentPageIndex"
+            [totalCount]="totalCount"
+            (pageChange)="loadPagedData($event)"
+          ></app-pagination>
+        </ng-container>
+      </div>
     </div>
   </div>
-</section>
-<div class="sidenav-overlay"></div>
+</div>
