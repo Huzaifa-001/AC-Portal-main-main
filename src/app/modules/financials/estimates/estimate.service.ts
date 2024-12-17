@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { EstimateDto } from '../Dtos/estimateDto';
+
+import { EstimateDto } from './EstimateDto';
 
 @Injectable({
   providedIn: 'root',

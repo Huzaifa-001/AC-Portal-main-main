@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { EstimateDetailComponent } from './estimate-detail/estimate-detail.component';
-import { EstimateDto } from '../Dtos/estimateDto';
-import { EstimatesService } from './../services/estimate.service';
+import { EstimateDto } from './EstimateDto';
+import { EstimatesService } from './estimate.service';
 import { AddEstimateComponent } from './add-estimate/add-estimate.component';
-import { MatDialogRef } from '@angular/material/dialog';
 import { AppConfig } from 'src/app/core/app-config';
 
 @Component({
@@ -50,7 +49,7 @@ export class EstimatesComponent implements OnInit {
   // Open Add Estimate modal
   openAddEstimateModal(): void {
     const dialogRef = this.dialog.open(AddEstimateComponent, {
-      width: '600px',
+      width: '90%',
       data: {}, // Pass any required data for the new estimate
     });
 

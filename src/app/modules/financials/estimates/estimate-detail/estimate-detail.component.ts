@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { EstimateDto } from '../../Dtos/estimateDto';
+import { EstimateDto } from '../EstimateDto';
 
 @Component({
   selector: 'app-estimate-detail',

@@ -26,6 +26,21 @@ import { AddEstimateComponent } from './estimates/add-estimate/add-estimate.comp
 import { RouterModule } from '@angular/router';
 import { EditEstimateComponent } from './estimates/edit-estimate/edit-estimate.component';
 import { EstimateDetailComponent } from './estimates/estimate-detail/estimate-detail.component';
+import { InvoiceDetailComponent } from './invoices/invoice-detail/invoice-detail.component';
+import { AddInvoiceComponent } from './invoices/add-invoice/add-invoice.component';
+import { EditInvoiceComponent } from './invoices/edit-invoice/edit-invoice.component';
+import { AddBudgetComponent } from './budgets/add-budget/add-budget.component';
+import { EditBudgetComponent } from './budgets/edit-budget/edit-budget.component';
+import { BudgetDetailComponent } from './budgets/budget-detail/budget-detail.component';
+import { AddMaterialOrderComponent } from './material-order/add-material-order/add-material-order.component';
+import { EditMaterialOrderComponent } from './material-order/edit-material-order/edit-material-order.component';
+import { MaterialOrderDetailComponent } from './material-order/material-order-detail/material-order-detail.component';
+import { AddCreditMemoComponent } from './credit-memos/add-credit-memo/add-credit-memo.component';
+import { EditCreditMemoComponent } from './credit-memos/edit-credit-memo/edit-credit-memo.component';
+import { CreditMemoDetailComponent } from './credit-memos/credit-memo-detail/credit-memo-detail.component';
+import { AddPaymentComponent } from './payments/add-payment/add-payment.component';
+import { EditPaymentComponent } from './payments/edit-payment/edit-payment.component';
+import { PaymentDetailComponent } from './payments/payment-detail/payment-detail.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +54,21 @@ import { EstimateDetailComponent } from './estimates/estimate-detail/estimate-de
     AddEstimateComponent,
     EditEstimateComponent,
     EstimateDetailComponent,
+    InvoiceDetailComponent,
+    AddInvoiceComponent,
+    EditInvoiceComponent,
+    AddBudgetComponent,
+    EditBudgetComponent,
+    BudgetDetailComponent,
+    AddMaterialOrderComponent,
+    EditMaterialOrderComponent,
+    MaterialOrderDetailComponent,
+    AddCreditMemoComponent,
+    EditCreditMemoComponent,
+    CreditMemoDetailComponent,
+    AddPaymentComponent,
+    EditPaymentComponent,
+    PaymentDetailComponent,
   ],
   imports: [
     RouterModule,

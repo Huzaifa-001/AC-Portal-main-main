@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { EstimateDto } from '../../Dtos/estimateDto';
+import { EstimateDto } from '../EstimateDto';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({

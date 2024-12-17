@@ -19,12 +19,10 @@
     </thead>
     <tbody>
       <ng-container *ngIf="estimates.length > 0; else noDataMessage">
-        <tr 
-        class="cursor-pointer"
-          *ngFor="let estimate of estimates"
-          (click)="openEstimateDetail(estimate)"
-        >
-          <td>{{ estimate.number }}</td>
+        <tr *ngFor="let estimate of estimates">
+          <td class="cursor-pointer" (click)="openEstimateDetail(estimate)">
+            {{ estimate.number }}
+          </td>
           <td>{{ estimate.dateCreated }}</td>
           <td>{{ estimate.internalNote }}</td>
           <td>{{ estimate.signatureStatus }}</td>
