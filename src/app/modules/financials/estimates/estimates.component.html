@@ -23,7 +23,7 @@
           <td class="cursor-pointer" (click)="openEstimateDetail(estimate)">
             {{ estimate.number }}
           </td>
-          <td>{{ estimate.dateCreated }}</td>
+          <td>{{ estimate.dateCreated.toDateString() }}</td>
           <td>{{ estimate.internalNote }}</td>
           <td>{{ estimate.signatureStatus }}</td>
           <td>{{ estimate.total | currency }}</td>

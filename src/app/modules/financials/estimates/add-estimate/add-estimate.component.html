@@ -1,21 +1,23 @@
 <h2 mat-dialog-title>Add Estimate</h2>
 <form [formGroup]="estimateForm" (ngSubmit)="submitForm()">
   <mat-dialog-content>
-    <mat-form-field class="full-width">
-      <mat-label>Estimate Number</mat-label>
-      <input matInput formControlName="estimateNumber" required />
-    </mat-form-field>
+    <div class="d-flex flex-column align-items-end justify-content-center">
+      <mat-form-field class="">
+        <mat-label>Estimate Number</mat-label>
+        <input matInput formControlName="estimateNumber" required />
+      </mat-form-field>
 
-    <mat-form-field class="full-width">
-      <mat-label>Date</mat-label>
-      <input
-        matInput
-        [matDatepicker]="picker"
-        formControlName="date"
-        required
-      />
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+      <mat-form-field class="">
+        <mat-label>Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="date"
+          required
+        />
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
 
     <mat-form-field class="full-width">
       <mat-label>Notes</mat-label>

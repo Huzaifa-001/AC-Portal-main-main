@@ -1,24 +1,13 @@
 export interface BudgetDto {
+  budgetNumber: string;
   createdBy: string;
-  customerNote: string;
+  dateBudget: Date;
   dateCreated: Date;
-  dateEstimate: Date;
-  dateStatusChange: Date;
-  dateUploaded: Date;
-  internalNote: string;
-  isArchived: boolean;
-  location: string;
-  markup: number;
-  number: string;
+  grossProfit: number;
+  netProfit: number;
+  salesRep: 'Rep A';
+  salesRepImage: 'rep-a.jpg';
   related: string;
-  salesRep: string;
-  salesRepImage: string;
-  signatureStatus: string;
-  status: string;
-  subTotal: number;
-  syncedToQB: boolean;
-  tax: number;
-  total: number;
   lineItems: LineItemDto[];
 }
 

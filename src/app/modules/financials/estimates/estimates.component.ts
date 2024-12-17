@@ -68,7 +68,7 @@ export class EstimatesComponent implements OnInit {
   // Open Estimate Detail modal on row click
   openEstimateDetail(estimate: EstimateDto): void {
     const dialogRef = this.dialog.open(EstimateDetailComponent, {
-      width: '600px',
+      width: '90%',
       data: estimate,
     });
 

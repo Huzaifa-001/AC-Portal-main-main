@@ -1,5 +1,58 @@
-<!-- <div class="modal-button-container d-flex justify-content-end align-items-end">
+<div class="modal-button-container d-flex justify-content-end align-items-end">
   <button class="btn btn-primary my-2" (click)="openAddBudgetModal()">
     Add Budget
   </button>
-</div> -->
+</div>
+
+<div class="card-body p-0">
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="text-uppercase">Budget#</th>
+        <th class="text-uppercase">Date</th>
+        <th class="text-uppercase">Gross Profit</th>
+        <th class="text-uppercase">Net Profit</th>
+        <th class="text-uppercase">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="budgets.length > 0; else noDataMessage">
+        <tr *ngFor="let budget of budgets">
+          <td class="cursor-pointer" (click)="openBudgetDetail(budget)">
+            {{ budget.budgetNumber }}
+          </td>
+          <td>{{ budget.dateCreated.toDateString() }}</td>
+          <td>{{ budget.grossProfit }}</td>
+          <td>{{ budget.netProfit }}</td>
+          <td>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editBudget(budget)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="deleteBudget(budget.budgetNumber)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+          </td>
+        </tr>
+      </ng-container>
+      <ng-template #noDataMessage>
+        <tr>
+          <td colspan="7" class="text-center">No budgets available</td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </table>
+</div>
+<!-- <ng-container *ngIf="totalCount > 0">
+  <app-pagination
+    [currentPageIndex]="currentPageIndex"
+    [totalCount]="totalCount"
+    (pageChange)="loadbudgets($event)"
+  ></app-pagination>
+</ng-container> -->
