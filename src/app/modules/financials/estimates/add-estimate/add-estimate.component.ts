@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./add-estimate.component.css'],
 })
 export class AddEstimateComponent {
-  estimateForm: FormGroup;
+  estimateForm: FormGroup;    
   updateData: any;
   @Output() estimateUpdated = new EventEmitter<any>();
 
