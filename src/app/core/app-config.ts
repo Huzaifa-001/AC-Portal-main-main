@@ -2,7 +2,7 @@ import { environment } from 'src/environments/environment';
 const API_URL = environment.apiBaseUrl;
 
 export const AppConfig = {
-  USER_KEY : 'user_data',
+  USER_KEY: 'user_data',
   pageSize: 10,
   dashBoardPageSize: 6,
   Base_url: API_URL,
@@ -77,10 +77,11 @@ export const AppConfig = {
     update: `${API_URL}/TeamMember/update`,
     disablelogin: `${API_URL}/TeamMember/disablelogin`,
     getteammebers: `${API_URL}/TeamMember/getteammebers`,
-    paged: (pageIndex: number,pageSize:number) => `${API_URL}/TeamMember/paged?pageIndex=${pageIndex}&pageSize=${pageSize}`,
+    paged: (pageIndex: number, pageSize: number) =>
+      `${API_URL}/TeamMember/paged?pageIndex=${pageIndex}&pageSize=${pageSize}`,
     delete: (Id: number) => `${API_URL}/TeamMember/delete?Id=${Id}`,
   },
-  
+
   TimeZone: `${API_URL}/TimeZone`,
   Contact: {
     PagedContacts: `${API_URL}/Contact/PagedContacts`,
@@ -108,7 +109,6 @@ export const AppConfig = {
     GetAllJobWithPagination: `${API_URL}/Jobs/GetAllJobWithPagination`,
     DeleteJob: `${API_URL}/Jobs/DeleteJob`,
     updateJobStatusAndWorkflow: `${API_URL}/Jobs/updateJobStatusAndWorkflow`,
-
   },
   Events: {
     GetEventById: `${API_URL}/Events/GetEventById`,
@@ -143,7 +143,6 @@ export const AppConfig = {
     GetAllWorkOrder: `${API_URL}/WorkOrder/GetAllWorkOrder`,
     GetWorkOrderByJobId: `${API_URL}/WorkOrder/GetWorkOrderByJobId`,
     updateWorkOrderStatusAndWorkflow: `${API_URL}/WorkOrder/updateWorkOrderStatusAndWorkflow`,
-
   },
   GlobalWorkFlow: {
     allWorkFlows: `${API_URL}/WorkFlow/allWorkFlows`,
@@ -199,9 +198,9 @@ export const AppConfig = {
     UpdateBoardStatuses: `${API_URL}/Boards/UpdateBoardStatuses`,
     DeleteBoardStatus: `${API_URL}/Boards/DeleteBoardStatus`,
   },
-  
-  Financials:{
-    GetAllEstimates:`${API_URL}/Finance/Estimates/GetEstimatesById`,
+
+  Financials: {
+    GetAllEstimates: `${API_URL}/Finance/Estimates/GetEstimatesById`,
   },
 
   JobAttachments: {
@@ -244,7 +243,7 @@ export const AppConfig = {
     UpdateSMSTemplate: `${API_URL}/Templates/sms/update`,
     DeleteEmailTemplate: `${API_URL}/Templates/email/delete`,
     DeleteSMSTemplate: `${API_URL}/Templates/sms/delete`,
-},
+  },
   Automation: {
     GetAll: `${API_URL}/Automation/getall`,
     Delete: `${API_URL}/Automation/delete`,
@@ -258,17 +257,20 @@ export const AppConfig = {
     GetAll: `${API_URL}/AppConfigurations/getAll`,
     AddOrUpdateAppConfig: `${API_URL}/AppConfigurations/addOrUpdateAppConfig`,
     AddOrUpdateDashboardConfig: `${API_URL}/AppConfigurations/addOrUpdateDashboardConfig`,
-    DeleteAppConfig: (id: number) => `${API_URL}/AppConfigurations/deleteAppConfig/${id}`,
-    DeleteDashboardConfig: (id: number) => `${API_URL}/AppConfigurations/deleteDashboardConfig/${id}`,
+    DeleteAppConfig: (id: number) =>
+      `${API_URL}/AppConfigurations/deleteAppConfig/${id}`,
+    DeleteDashboardConfig: (id: number) =>
+      `${API_URL}/AppConfigurations/deleteDashboardConfig/${id}`,
   },
-  
+
   DynamicFields: {
     Create: `${API_URL}/DynamicFields/create`,
-    GetAllByEntityType: (entityType: string) => `${API_URL}/DynamicFields/${entityType}`,
+    GetAllByEntityType: (entityType: string) =>
+      `${API_URL}/DynamicFields/${entityType}`,
     GetById: (id: string) => `${API_URL}/DynamicFields/field/${id}`,
     Update: `${API_URL}/DynamicFields/update`,
     Delete: (id: string) => `${API_URL}/DynamicFields/${id}`,
-  },  
+  },
 
   Notification: {
     Send: `${API_URL}/Notification/send`,
@@ -279,5 +281,5 @@ export const AppConfig = {
     MarkAllAsRead: `${API_URL}/Notification/mark-all-read`,
     Delete: (id: string) => `${API_URL}/Notification/${id}`,
     DeleteAll: `${API_URL}/Notification/delete-all`,
-  }
+  },
 };

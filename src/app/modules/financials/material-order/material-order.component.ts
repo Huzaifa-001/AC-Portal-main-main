@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AddMaterialOrderComponent } from './add-material-order/add-material-order.component';
 import { MaterialOrderDetailComponent } from './material-order-detail/material-order-detail.component';
 import { EditMaterialOrderComponent } from './edit-material-order/edit-material-order.component';
@@ -13,7 +13,7 @@ import { AppConfig } from 'src/app/core/app-config';
   templateUrl: './material-order.component.html',
   styleUrls: ['./material-order.component.css'],
 })
-export class MaterialOrderComponent {
+export class MaterialOrderComponent implements OnInit {
   materialOrders: MaterialOrderDto[] = []; // List of estimates
 
   currentPageIndex: number = 1;
