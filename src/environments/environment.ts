@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://40.78.110.204:2020',
+  apiBaseUrl: 'http://localhost:5259',
   firebaseConfig: {
     apiKey: 'AIzaSyD11iFrImfeqCCyezfVI28kkbKpP96TUtc',
     authDomain: 'accoura-core.firebaseapp.com',

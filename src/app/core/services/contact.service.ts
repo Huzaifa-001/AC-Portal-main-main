@@ -5,8 +5,16 @@ import { Observable } from 'rxjs';
 import { AppConfig } from '../app-config';
 import { CreateContactDto } from 'src/app/modules/contact/CreateContactDto';
 import { customFieldDto } from 'src/app/modules/contact/customFieldDto';
-import { createNoteDto, updateNoteDto } from 'src/app/modules/contact/createNoteDto';
-import { addPhoneNumber, addRelatedContact, updatePhoneNumber, updateRelatedContact } from 'src/app/modules/contact/CreatePhoneNumbersDto';
+import {
+  createNoteDto,
+  updateNoteDto,
+} from 'src/app/modules/contact/createNoteDto';
+import {
+  addPhoneNumber,
+  addRelatedContact,
+  updatePhoneNumber,
+  updateRelatedContact,
+} from 'src/app/modules/contact/CreatePhoneNumbersDto';
 import { WorkFlowDto } from 'src/app/modules/contact/WorkFlowDto';
 import { ContactAnalyticsRequest } from 'src/app/modules/contact/ContactAnalyticsRequest';
 
@@ -17,10 +25,12 @@ export class ContactService {
   baseUrl = AppConfig.Base_url;
   contactDto: any;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) {}
 
   getContactAttachmentById(id: number): Observable<any> {
-    return this.http.get<any>(`${AppConfig.ContactAttachments.GetAttachmentById}?Id=${id}`);
+    return this.http.get<any>(
+      `${AppConfig.ContactAttachments.GetAttachmentById}?Id=${id}`
+    );
   }
 
   downloadFiles(fileNames: string[]): Observable<any> {
@@ -33,7 +43,9 @@ export class ContactService {
   }
 
   getContactAttachmentsByContactId(ContactId: number): Observable<any> {
-    return this.http.get<any>(`${AppConfig.ContactAttachments.GetAttachmentByContactId}?Id=${ContactId}`);
+    return this.http.get<any>(
+      `${AppConfig.ContactAttachments.GetAttachmentByContactId}?Id=${ContactId}`
+    );
   }
 
   getAllContactAttachments(): Observable<any> {
@@ -41,44 +53,65 @@ export class ContactService {
   }
 
   createContactAttachment(formData: FormData): Observable<any> {
-    return this.http.post<any>(AppConfig.ContactAttachments.CreateAttachment, formData);
+    return this.http.post<any>(
+      AppConfig.ContactAttachments.CreateAttachment,
+      formData
+    );
   }
 
   updateContactAttachment(formData: FormData): Observable<any> {
-    return this.http.put<any>(AppConfig.ContactAttachments.UpdateAttachment, formData);
+    return this.http.put<any>(
+      AppConfig.ContactAttachments.UpdateAttachment,
+      formData
+    );
   }
 
   deleteContactAttachment(attachmentId: number): Observable<any> {
-    return this.http.delete<any>(`${AppConfig.ContactAttachments.DeleteAttachment}?attachmentId=${attachmentId}`);
+    return this.http.delete<any>(
+      `${AppConfig.ContactAttachments.DeleteAttachment}?attachmentId=${attachmentId}`
+    );
   }
 
   getPhotoById(id: number): Observable<any> {
-    return this.http.get<any>(`${AppConfig.ContactPhotos.GetPhotoById}?Id=${id}`);
+    return this.http.get<any>(
+      `${AppConfig.ContactPhotos.GetPhotoById}?Id=${id}`
+    );
   }
 
   getPhotosByContactId(ContactId: number): Observable<any> {
-    return this.http.get<any>(`${AppConfig.ContactPhotos.GetPhotosByContactId}?Id=${ContactId}`);
+    return this.http.get<any>(
+      `${AppConfig.ContactPhotos.GetPhotosByContactId}?Id=${ContactId}`
+    );
   }
 
   getLogsByContactId(jobId: number): Observable<any> {
-    return this.http.get(`${AppConfig.jobsLog.getLogsByContactId}?contactId=${jobId}`);
+    return this.http.get(
+      `${AppConfig.jobsLog.getLogsByContactId}?contactId=${jobId}`
+    );
   }
-
 
   getAllPhotos(): Observable<any> {
     return this.http.get<any>(AppConfig.ContactPhotos.GetAllPhotos);
   }
 
   addContactPhoto(formData: FormData): Observable<any> {
-    return this.http.post<any>(AppConfig.ContactPhotos.AddContactPhoto, formData);
+    return this.http.post<any>(
+      AppConfig.ContactPhotos.AddContactPhoto,
+      formData
+    );
   }
 
   updateContactPhoto(formData: FormData): Observable<any> {
-    return this.http.put<any>(AppConfig.ContactPhotos.UpdateContactPhoto, formData);
+    return this.http.put<any>(
+      AppConfig.ContactPhotos.UpdateContactPhoto,
+      formData
+    );
   }
 
   deleteContactPhoto(attachmentId: number): Observable<any> {
-    return this.http.delete<any>(`${AppConfig.ContactPhotos.DeleteContactPhoto}?attachmentId=${attachmentId}`);
+    return this.http.delete<any>(
+      `${AppConfig.ContactPhotos.DeleteContactPhoto}?attachmentId=${attachmentId}`
+    );
   }
 
   allResult() {
@@ -87,14 +120,14 @@ export class ContactService {
 
   pagedData(dto: any) {
     const queryParams = new HttpParams({ fromObject: dto as any });
-    return this.http.get<any>(this.baseUrl + '/Contact/PagedContacts', { params: queryParams });
+    return this.http.get<any>(this.baseUrl + '/Contact/PagedContacts', {
+      params: queryParams,
+    });
   }
   //-----------officeLocations
 
   allOfficeLocations() {
-    return this.http.get<any>(
-      AppConfig.OfficeLocation.officelocationsdropdown
-    );
+    return this.http.get<any>(AppConfig.OfficeLocation.officelocationsdropdown);
   }
 
   //-----------officeLocations
@@ -113,9 +146,7 @@ export class ContactService {
   }
 
   allSubcontractors() {
-    return this.http.get<any>(
-      AppConfig.SubContractor.getsubcontractors
-    );
+    return this.http.get<any>(AppConfig.SubContractor.getsubcontractors);
   }
 
   ///TeamMember/getteammebers
@@ -123,13 +154,12 @@ export class ContactService {
     return this.http.get<any>(AppConfig.TeamMember.getteammebers);
   }
 
-  allPagedTeamMembers(pageIndex,pageSize) {
-    return this.http.get<any>(AppConfig.TeamMember.paged(pageIndex,pageSize));
+  allPagedTeamMembers(pageIndex, pageSize) {
+    return this.http.get<any>(AppConfig.TeamMember.paged(pageIndex, pageSize));
   }
 
-
   addTeamMembers(data) {
-    return this.http.post<any>(AppConfig.TeamMember.add,data);
+    return this.http.post<any>(AppConfig.TeamMember.add, data);
   }
 
   deleteTeamMembers(Id) {
@@ -139,7 +169,7 @@ export class ContactService {
   BlockTeamMembers(id: number) {
     const data = {
       id: id,
-      enableLogin: false
+      enableLogin: false,
     };
     return this.http.put<any>(AppConfig.TeamMember.disablelogin, data);
   }
@@ -147,14 +177,13 @@ export class ContactService {
   UnBlockTeamMembers(id: number) {
     const data = {
       id: id,
-      enableLogin: true
+      enableLogin: true,
     };
     return this.http.put<any>(AppConfig.TeamMember.disablelogin, data);
   }
-  
 
   updateTeamMembers(data) {
-    return this.http.put<any>(AppConfig.TeamMember.update,data);
+    return this.http.put<any>(AppConfig.TeamMember.update, data);
   }
 
   allSource() {
@@ -183,7 +212,9 @@ export class ContactService {
       params = params.set('sourceId', request.sourceId.toString());
     }
 
-    return this.http.get(`${this.baseUrl}/Contact/GetContactAnalyticsAsync`, { params });
+    return this.http.get(`${this.baseUrl}/Contact/GetContactAnalyticsAsync`, {
+      params,
+    });
   }
 
   createContact(
@@ -191,7 +222,7 @@ export class ContactService {
     img: any,
     phonesno: any
   ): Observable<any> {
-    debugger
+    debugger;
     const formData = new FormData();
     if (contact?.id?.toString()) {
       formData.append('id', contact?.id?.toString() ?? '0');
@@ -208,13 +239,13 @@ export class ContactService {
     formData.append('faxNo', contact?.faxNo?.toString() ?? '');
     formData.append('displayName', contact?.displayName?.toString() ?? '');
     const startDate = contact?.startDate;
-    if (startDate !== undefined && startDate.toString() != "") {
+    if (startDate !== undefined && startDate.toString() != '') {
       const startDateObj = new Date(startDate);
       startDateObj.setDate(startDateObj.getDate() + 1);
       formData.append('startDate', startDateObj.toISOString());
     }
     const endDate = contact?.endDate;
-    if (endDate !== undefined && startDate.toString() != "") {
+    if (endDate !== undefined && startDate.toString() != '') {
       const endDateObj = new Date(endDate);
       endDateObj.setDate(endDateObj.getDate() + 1);
       formData.append('endDate', endDateObj.toISOString());
@@ -224,11 +255,17 @@ export class ContactService {
     formData.append('sourceId', contact?.sourceId?.toString() ?? '0');
     formData.append('stateId', contact?.stateId?.toString() ?? '0');
     formData.append('salesRepId', contact?.salesRepId?.toString() ?? '0');
-    formData.append('subContractorId', contact?.subContractorId?.toString() ?? '0');
+    formData.append(
+      'subContractorId',
+      contact?.subContractorId?.toString() ?? '0'
+    );
     contact?.teamMembers?.forEach((id?) =>
       formData.append('teamMembers[]', id?.toString())
     );
-    formData.append('officeLocationId', contact?.officeLocationId?.toString() ?? '0');
+    formData.append(
+      'officeLocationId',
+      contact?.officeLocationId?.toString() ?? '0'
+    );
     formData.append('workFlowId', contact?.workFlowId?.toString() ?? '0');
     formData.append('statusId', contact?.statusId?.toString() ?? '0');
     contact?.relatedContacts?.forEach((id) =>
@@ -248,18 +285,31 @@ export class ContactService {
     }
 
     // Add customFieldValues to formData
-  if (contact.customFieldValues) {
-    contact.customFieldValues.forEach((customFieldValue: any, index: number) => {
-      formData.append(`customFieldValues[${index}].FieldDefinitionId`, customFieldValue.FieldDefinitionId.toString());
-      formData.append(`customFieldValues[${index}].FieldValue`, customFieldValue.FieldValue);
-    });
-  }
-
+    if (contact.customFieldValues) {
+      contact.customFieldValues.forEach(
+        (customFieldValue: any, index: number) => {
+          formData.append(
+            `customFieldValues[${index}].FieldDefinitionId`,
+            customFieldValue.FieldDefinitionId.toString()
+          );
+          formData.append(
+            `customFieldValues[${index}].FieldValue`,
+            customFieldValue.FieldValue
+          );
+        }
+      );
+    }
 
     if (contact?.id?.toString()) {
-      return this.http.put<any>(this.baseUrl + '/Contact/updateContact', formData);
+      return this.http.put<any>(
+        this.baseUrl + '/Contact/updateContact',
+        formData
+      );
     } else {
-      return this.http.post<any>(this.baseUrl + '/Contact/addContact', formData);
+      return this.http.post<any>(
+        this.baseUrl + '/Contact/addContact',
+        formData
+      );
     }
   }
 
@@ -277,14 +327,14 @@ export class ContactService {
   ) {
     return this.http.get<any>(
       this.baseUrl +
-      '/Contact/PagedContacts?PageIndex=' +
-      pageIndex +
-      '&PageSize=' +
-      pageSize +
-      '&Sort=' +
-      sort +
-      '&Search=' +
-      search
+        '/Contact/PagedContacts?PageIndex=' +
+        pageIndex +
+        '&PageSize=' +
+        pageSize +
+        '&Sort=' +
+        sort +
+        '&Search=' +
+        search
     );
   }
 
@@ -296,7 +346,8 @@ export class ContactService {
 
   deleteContact(id: any) {
     return this.http.put<any>(
-      this.baseUrl + '/Contact/deleteContact?id=' + id, {}
+      this.baseUrl + '/Contact/deleteContact?id=' + id,
+      {}
     );
   }
 
@@ -321,7 +372,6 @@ export class ContactService {
       );
     }
   }
-
 
   deleteCustomField(customField: customFieldDto): Observable<any> {
     const formData = new FormData();
@@ -356,26 +406,26 @@ export class ContactService {
   ) {
     return this.http.get<any>(
       this.baseUrl +
-      '/CustomField/PagedCustomField?PageIndex=' +
-      pageIndex +
-      '&PageSize=' +
-      pageSize +
-      '&ContactId=' +
-      ContactId +
-      '&Sort=' +
-      sort +
-      '&Search=' +
-      search
+        '/CustomField/PagedCustomField?PageIndex=' +
+        pageIndex +
+        '&PageSize=' +
+        pageSize +
+        '&ContactId=' +
+        ContactId +
+        '&Sort=' +
+        sort +
+        '&Search=' +
+        search
     );
   }
 
   getAllCustomFields(sort: string, search: string) {
     return this.http.get<any>(
       this.baseUrl +
-      '/CustomField/allCustomFields?Sort=' +
-      sort +
-      '&Search=' +
-      search
+        '/CustomField/allCustomFields?Sort=' +
+        sort +
+        '&Search=' +
+        search
     );
   }
 
@@ -454,16 +504,16 @@ export class ContactService {
   ) {
     return this.http.get<any>(
       this.baseUrl +
-      '/Note/PagedNotes?PageIndex=' +
-      pageIndex +
-      '&PageSize=' +
-      pageSize +
-      '&ContactId=' +
-      ContactId +
-      '&Sort=' +
-      sort +
-      '&Search=' +
-      search
+        '/Note/PagedNotes?PageIndex=' +
+        pageIndex +
+        '&PageSize=' +
+        pageSize +
+        '&ContactId=' +
+        ContactId +
+        '&Sort=' +
+        sort +
+        '&Search=' +
+        search
     );
   }
 
@@ -532,26 +582,26 @@ export class ContactService {
   ) {
     return this.http.get<any>(
       this.baseUrl +
-      '/PhoneNumber/PagedPhoneNumbers?PageIndex=' +
-      pageIndex +
-      '&PageSize=' +
-      pageSize +
-      '&ContactId=' +
-      ContactId +
-      '&Sort=' +
-      sort +
-      '&Search=' +
-      search
+        '/PhoneNumber/PagedPhoneNumbers?PageIndex=' +
+        pageIndex +
+        '&PageSize=' +
+        pageSize +
+        '&ContactId=' +
+        ContactId +
+        '&Sort=' +
+        sort +
+        '&Search=' +
+        search
     );
   }
 
   getAllPhoneNumbers(sort: string, search: string) {
     return this.http.get<any>(
       this.baseUrl +
-      '/PhoneNumber/allPhoneNumbers?Sort=' +
-      sort +
-      '&Search=' +
-      search
+        '/PhoneNumber/allPhoneNumbers?Sort=' +
+        sort +
+        '&Search=' +
+        search
     );
   }
 
@@ -614,26 +664,26 @@ export class ContactService {
   ) {
     return this.http.get<any>(
       this.baseUrl +
-      '/RelatedContact/getPagedRelatedContacts?PageIndex=' +
-      pageIndex +
-      '&PageSize=' +
-      pageSize +
-      '&ContactId=' +
-      ContactId +
-      '&Sort=' +
-      sort +
-      '&Search=' +
-      search
+        '/RelatedContact/getPagedRelatedContacts?PageIndex=' +
+        pageIndex +
+        '&PageSize=' +
+        pageSize +
+        '&ContactId=' +
+        ContactId +
+        '&Sort=' +
+        sort +
+        '&Search=' +
+        search
     );
   }
 
   getAllRelatedContacts(sort: string, search: string) {
     return this.http.get<any>(
       this.baseUrl +
-      '/RelatedContact/allRelatedContacts?Sort=' +
-      sort +
-      '&Search=' +
-      search
+        '/RelatedContact/allRelatedContacts?Sort=' +
+        sort +
+        '&Search=' +
+        search
     );
   }
 
@@ -693,16 +743,16 @@ export class ContactService {
   ) {
     return this.http.get<any>(
       this.baseUrl +
-      '/Status/PagedStatuses?PageIndex=' +
-      pageIndex +
-      '&PageSize=' +
-      pageSize +
-      '&WorkFlowId=' +
-      WorkFlowId +
-      '&Sort=' +
-      sort +
-      '&Search=' +
-      search
+        '/Status/PagedStatuses?PageIndex=' +
+        pageIndex +
+        '&PageSize=' +
+        pageSize +
+        '&WorkFlowId=' +
+        WorkFlowId +
+        '&Sort=' +
+        sort +
+        '&Search=' +
+        search
     );
   }
 
@@ -755,16 +805,16 @@ export class ContactService {
   ) {
     return this.http.get<any>(
       this.baseUrl +
-      '/Status/PagedTags?PageIndex=' +
-      pageIndex +
-      '&PageSize=' +
-      pageSize +
-      '&ContactId=' +
-      ContactId +
-      '&Sort=' +
-      sort +
-      '&Search=' +
-      search
+        '/Status/PagedTags?PageIndex=' +
+        pageIndex +
+        '&PageSize=' +
+        pageSize +
+        '&ContactId=' +
+        ContactId +
+        '&Sort=' +
+        sort +
+        '&Search=' +
+        search
     );
   }
 
@@ -825,28 +875,28 @@ export class ContactService {
   ) {
     return this.http.get<any>(
       this.baseUrl +
-      '/WorkFlow/PagedWorkFlows?PageIndex=' +
-      pageIndex +
-      '&PageSize=' +
-      pageSize +
-      '&WorkFlowId=' +
-      WorkFlowId +
-      '&Sort=' +
-      sort +
-      '&Search=' +
-      search
+        '/WorkFlow/PagedWorkFlows?PageIndex=' +
+        pageIndex +
+        '&PageSize=' +
+        pageSize +
+        '&WorkFlowId=' +
+        WorkFlowId +
+        '&Sort=' +
+        sort +
+        '&Search=' +
+        search
     );
   }
 
   getAllWorkFlows(sort: string, search: string, WorkFlowId: number) {
     return this.http.get<any>(
       this.baseUrl +
-      '/WorkFlow/allWorkFlows?Sort=' +
-      sort +
-      '&Search=' +
-      search +
-      '&WorkFlowId=' +
-      WorkFlowId
+        '/WorkFlow/allWorkFlows?Sort=' +
+        sort +
+        '&Search=' +
+        search +
+        '&WorkFlowId=' +
+        WorkFlowId
     );
   }
 }
