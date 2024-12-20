@@ -1,1 +1,57 @@
-<p>edit-material-order works!</p>
+<h2>Add Material Order</h2>
+<form [formGroup]="materialOrderForm">
+  <div>
+    <label for="materialOrderNumber">Material Order Number:</label>
+    <input id="materialOrderNumber" formControlName="materialOrderNumber" />
+  </div>
+
+  <div>
+    <label for="createdBy">Created By:</label>
+    <input id="createdBy" formControlName="createdBy" />
+  </div>
+
+  <div>
+    <label for="dateBudget">Date Budget:</label>
+    <input id="dateBudget" type="date" formControlName="dateBudget" />
+  </div>
+
+  <div>
+    <label for="notes">Notes:</label>
+    <textarea id="notes" formControlName="notes"></textarea>
+  </div>
+
+  <div>
+    <label for="status">Status:</label>
+    <input id="status" formControlName="status" />
+  </div>
+
+  <div>
+    <label for="related">Related:</label>
+    <input id="related" formControlName="related" />
+  </div>
+<!-- 
+  <h3>Line Items</h3>
+  <div formArrayName="lineItems">
+    <div *ngFor="let lineItem of lineItems.controls; let i = index" [formGroupName]="i">
+      <label>Description:</label>
+      <input formControlName="description" />
+
+      <label>Quantity:</label>
+      <input type="number" formControlName="quantity" />
+
+      <label>Unit Price:</label>
+      <input type="number" formControlName="unitPrice" />
+
+      <label>Total Price:</label>
+      <input type="number" formControlName="totalPrice" />
+
+      <button type="button" (click)="removeLineItem(i)">Remove</button>
+    </div>
+  </div>
+  <button type="button" (click)="addLineItem()">Add Line Item</button> -->
+
+  <button type="button" (click)="submit()" [disabled]="materialOrderForm.invalid">
+    Submit
+  </button>
+  <button type="button" (click)="cancel()">Cancel</button>
+</form>

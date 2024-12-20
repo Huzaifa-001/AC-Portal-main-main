@@ -73,4 +73,5 @@ export class InvoiceService {
     this.staticData.push(newInvoice);
     return of(this.staticData);
   }
+  
 }

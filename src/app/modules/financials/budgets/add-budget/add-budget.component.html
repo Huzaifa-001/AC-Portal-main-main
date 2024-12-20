@@ -1,1 +1,52 @@
-<p>add-budget works!</p>
+<h2>Add New Budget</h2>
+<form [formGroup]="budgetForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="budgetNumber">Budget Number</label>
+    <input id="budgetNumber" formControlName="budgetNumber" type="text" />
+    <div *ngIf="budgetForm.get('budgetNumber')?.invalid && budgetForm.get('budgetNumber')?.touched">
+      <small>Budget Number is required.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="createdBy">Created By</label>
+    <input id="createdBy" formControlName="createdBy" type="text" />
+    <div *ngIf="budgetForm.get('createdBy')?.invalid && budgetForm.get('createdBy')?.touched">
+      <small>Creator is required.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="grossProfit">Gross Profit</label>
+    <input id="grossProfit" formControlName="grossProfit" type="number" />
+    <div *ngIf="budgetForm.get('grossProfit')?.invalid && budgetForm.get('grossProfit')?.touched">
+      <small>Gross Profit must be a positive number.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="netProfit">Net Profit</label>
+    <input id="netProfit" formControlName="netProfit" type="number" />
+    <div *ngIf="budgetForm.get('netProfit')?.invalid && budgetForm.get('netProfit')?.touched">
+      <small>Net Profit must be a positive number.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="related">Related</label>
+    <input id="related" formControlName="related" type="text" />
+    <div *ngIf="budgetForm.get('related')?.invalid && budgetForm.get('related')?.touched">
+      <small>Related field is required.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="description">Description</label>
+    <textarea id="description" formControlName="description"></textarea>
+  </div>
+
+  <div class="buttons">
+    <button type="submit" [disabled]="budgetForm.invalid">Submit</button>
+    <button type="button" (click)="onCancel()">Cancel</button>
+  </div>
+</form>

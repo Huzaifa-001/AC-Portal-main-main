@@ -14,11 +14,11 @@ import { AppConfig } from 'src/app/core/app-config';
   styleUrls: ['./material-order.component.css'],
 })
 export class MaterialOrderComponent implements OnInit {
-  materialOrders: MaterialOrderDto[] = []; // List of estimates
-
+  materialOrders: MaterialOrderDto[] = [];
   currentPageIndex: number = 1;
   totalCount: number = 0;
-  pageSize: number = AppConfig.pageSize; // Page size from config
+  pageSize: number = AppConfig.pageSize;
+  isLoading: boolean = false;
 
   constructor(
     private toastr: ToastrService,
@@ -30,85 +30,76 @@ export class MaterialOrderComponent implements OnInit {
     this.loadMaterialOrders(this.currentPageIndex);
   }
 
-  // Load all estimates with pagination
   loadMaterialOrders(pageIndex: number): void {
-    const relatedValue = 'Contact 1'; // Example static value or dynamically set
+    this.isLoading = true;
+    const relatedValue = 'Contact 1';
     this.materialOrderService
       .getAllMaterialOrders(relatedValue, pageIndex, this.pageSize)
-      .subscribe((data) => {
-        this.materialOrders = data.payload;
-        this.totalCount = data.totalCount;
-        this.currentPageIndex = data.pageIndex;
+      .subscribe({
+        next: (data) => {
+          this.materialOrders = data.payload;
+          this.totalCount = data.totalCount;
+          this.currentPageIndex = data.pageIndex;
+        },
+        error: () => this.toastr.error('Failed to load material orders.'),
+        complete: () => (this.isLoading = false),
       });
   }
 
-  // Pagination handler (when page changes)
   onPageChange(pageIndex: number): void {
     this.loadMaterialOrders(pageIndex);
   }
 
-  // Open Add Estimate modal
   openAddMaterialOrderModal(): void {
-    const dialogRef = this.dialog.open(AddMaterialOrderComponent, {
-      width: '90%',
-      data: {}, // Pass any required data for the new estimate
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
+    this.openDialog(AddMaterialOrderComponent).subscribe((result) => {
       if (result) {
-        this.materialOrderService
-          .addMaterialOrder(result)
-          .subscribe((updatedMaterialOrders) => {
+        this.materialOrderService.addMaterialOrder(result).subscribe({
+          next: (updatedMaterialOrders) => {
             this.materialOrders = updatedMaterialOrders;
             this.toastr.success('Material Order added successfully!');
-          });
+          },
+          error: () => this.toastr.error('Failed to add Material Order.'),
+        });
       }
     });
   }
 
-  // Open Estimate Detail modal on row click
   openMaterialOrderDetail(materialOrder: MaterialOrderDto): void {
-    const dialogRef = this.dialog.open(MaterialOrderDetailComponent, {
-      width: '600px',
-      data: materialOrder,
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-      // Handle modal close logic if needed
-    });
+    this.openDialog(MaterialOrderDetailComponent, materialOrder);
   }
 
-  // Edit estimate
   editMaterialOrder(materialOrder: MaterialOrderDto): void {
-    const dialogRef = this.dialog.open(EditMaterialOrderComponent, {
-      width: '600px',
-      data: materialOrder, // Pass the estimate for editing
-    });
-
-    dialogRef.afterClosed().subscribe((updatedMaterialOrder) => {
+    this.openDialog(EditMaterialOrderComponent, materialOrder).subscribe((updatedMaterialOrder) => {
       if (updatedMaterialOrder) {
-        this.materialOrderService
-          .updateMaterialOrder(updatedMaterialOrder)
-          .subscribe((updatedMaterialOrders) => {
+        this.materialOrderService.updateMaterialOrder(updatedMaterialOrder).subscribe({
+          next: (updatedMaterialOrders) => {
             this.materialOrders = updatedMaterialOrders;
             this.toastr.success('Material Order updated successfully!');
-          });
+          },
+          error: () => this.toastr.error('Failed to update Material Order.'),
+        });
       }
     });
   }
 
-  // Delete estimate with confirmation
-  deleteMaterialOrder(MaterialOrderNumber: string): void {
-    const confirmation = confirm(
-      'Are you sure you want to delete this Material Order?'
-    );
+  deleteMaterialOrder(materialOrderNumber: string): void {
+    const confirmation = confirm('Are you sure you want to delete this Material Order?');
     if (confirmation) {
-      this.materialOrderService
-        .deleteMaterialOrder(MaterialOrderNumber)
-        .subscribe((updatedMaterialOrders) => {
+      this.materialOrderService.deleteMaterialOrder(materialOrderNumber).subscribe({
+        next: (updatedMaterialOrders) => {
           this.materialOrders = updatedMaterialOrders;
           this.toastr.success('Material Order deleted successfully!');
-        });
+        },
+        error: () => this.toastr.error('Failed to delete Material Order.'),
+      });
     }
+  }
+
+  private openDialog(component: any, data?: any) {
+    const dialogRef = this.dialog.open(component, {
+      width: data ? '600px' : '90%',
+      data: data || {},
+    });
+    return dialogRef.afterClosed();
   }
 }

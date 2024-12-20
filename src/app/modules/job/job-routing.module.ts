@@ -20,7 +20,14 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'logbook', pathMatch: "full" },
       { path: 'logbook', component: JobsLogbookComponent },
-      { path: 'financials', component: FinancialsComponent },
+      {
+        path: 'financials',
+        loadChildren: () =>
+          import('../financials/financials.module').then(
+            (m) => m.FinancialsModule
+          ),
+      },
+      
       { path: 'tasks', component: JobsTasksComponent },
       { path: 'events', component: EventsComponent },
       { path: 'workorder', component: WorkOrderComponent },

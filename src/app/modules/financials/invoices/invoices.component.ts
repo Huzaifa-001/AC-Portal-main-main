@@ -41,6 +41,7 @@ export class InvoicesComponent implements OnInit {
         this.currentPageIndex = data.pageIndex;
       });
   }
+  
 
   // Pagination handler (when page changes)
   onPageChange(pageIndex: number): void {
