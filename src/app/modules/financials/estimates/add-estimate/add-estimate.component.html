@@ -2,9 +2,18 @@
 <form [formGroup]="estimateForm" (ngSubmit)="submitForm()">
   <mat-dialog-content>
     <div class="d-flex align-items-center justify-content-between">
+<<<<<<< HEAD
       <div
         class="static-address d-flex flex-column align-items-start-10px justify-content-center"
       >
+=======
+
+<<<<<<< HEAD
+      <div class="address d-flex flex-column align-items-start-5px ">
+=======
+      <div class="static-address d-flex flex-column align-items-start-10px justify-content-center">
+>>>>>>> 1d54827548a44e9674cf308609cd5467c5ab4897
+>>>>>>> d4d7f18a913d86671b751c3222edc498d43fd845
         <p>
           <strong>Address</strong><br />
           1234 Elm Street<br />
@@ -48,6 +57,7 @@
               <input matInput formControlName="description" required />
             </mat-form-field>
 
+<<<<<<< HEAD
             <mat-form-field class="full-width">
               <mat-label>Quantity</mat-label>
               <input
@@ -85,6 +95,69 @@
       </div>
     </mat-dialog-content>
     <button mat-raised-button (click)="addItem()">Add Item</button>
+=======
+    <div formArrayName="items">
+      <div *ngFor="let item of items.controls; let i = index">
+        <div [formGroupName]="i">
+          <mat-form-field class="row">
+            <mat-label>Item Name</mat-label>
+            <input matInput formControlName="itemName" required />
+          </mat-form-field>
+
+          <mat-form-field class="row">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="description" required />
+          </mat-form-field>
+
+          <mat-form-field class="row">
+            <mat-label>Quantity</mat-label>
+            <input
+              matInput
+              formControlName="quantity"
+              type="number"
+              (input)="updateItemAmount(i)"
+            />
+          </mat-form-field>
+
+          <mat-form-field class="row">
+            <mat-label>Price</mat-label>
+            <input
+              matInput
+              formControlName=""
+              type="number"
+              (input)="updateItemAmount(i)"
+          />  
+            </mat-form-field>  
+            <mat-form-field class="">
+            <mat-label>Amount</mat-label>
+            <input
+              matInput
+              [value]="item.get('amount').value | currency"
+            />
+          </mat-form-field>
+          
+          <button mat-icon-button (click)="removeItem(i)" style="border-color:none; color:white; background-color:#0d6efd; border-radius:5px ; margin:10px; justify-content: flex-end; margin:10px">
+            
+            <mat-icon>delete</mat-icon>
+          </button>
+          
+        </div>
+      </div>
+    </div>
+
+
+
+<<<<<<< HEAD
+    <button style=" border-color:none; color:white; background-color:#0d6efd; border-radius:5px ; margin:10px" mat-raised-button (click)="addItem()">Add Item</button>
+
+   
+=======
+    <button mat-raised-button (click)="addItem()">Add Item</button>
+>>>>>>> 1d54827548a44e9674cf308609cd5467c5ab4897
+
+   
+
+>>>>>>> d4d7f18a913d86671b751c3222edc498d43fd845
     <mat-form-field class="full-width">
       <mat-label>Subtotal</mat-label>
       <input
@@ -104,6 +177,7 @@
       <input matInput [value]="estimateForm.value.total | currency" disabled />
     </mat-form-field>
   </mat-dialog-content>
+<<<<<<< HEAD
 
   <mat-dialog-content>
     <mat-form-field class="full-width">
@@ -111,16 +185,31 @@
       <textarea matInput formControlName="notes"></textarea>
     </mat-form-field>
   </mat-dialog-content>
+=======
+  
+<mat-dialog-content>
+  <mat-form-field class="full-width">
+<<<<<<< HEAD
+    <mat-label>Notes (Optional)</mat-label>
+    <textarea matInput formControlName="notes"></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+  <button mat-button style=" border-color:none; color:white; background-color:#0d6efd; border-radius:5px; margin:10px; justify-content: flex-end; margin: 10px" (click)="closeModal()">Cancel</button> 
+  <button 
+  style="border-color:none; color:white; background-color:#0d6efd; border-radius:5px; justify-content: flex-end;"
+    mat-button
+    (click)="closeModal()"
+    type="submit"
+    [disabled]="!estimateForm.valid"
+  >
+    Submit Estimate
+  </button>
+=======
+    <mat-label>Notes</mat-label>
+    <textarea matInput formControlName="notes"></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+>>>>>>> 1d54827548a44e9674cf308609cd5467c5ab4897
+>>>>>>> d4d7f18a913d86671b751c3222edc498d43fd845
 
-  <mat-dialog-actions>
-    <button mat-button (click)="closeModal()">Cancel</button>
-    <button
-      mat-button
-      color="primary"
-      type="submit"
-      [disabled]="!estimateForm.valid"
-    >
-      Submit Estimate
-    </button>
-  </mat-dialog-actions>
-</form>
+</form>     

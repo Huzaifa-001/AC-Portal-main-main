@@ -1,1 +1,41 @@
-<p>edit-invoice works!</p>
+<h2>Add Invoice</h2>
+<form [formGroup]="invoiceForm" (ngSubmit)="submitInvoice()">
+        <div>
+        <label>Invoice Number</label>
+        <input formControlName="InvoiceNumber" />
+        </div>
+        <div>
+        <label>Created By</label>
+        <input formControlName="createdBy" />
+        </div>
+        <div>
+        <label>Date Invoice</label>
+        <input type="date" formControlName="dateInvoice" />
+        </div>
+        <div>
+        <label>Due Date</label>
+        <input type="date" formControlName="DueDate" />
+        </div>
+        <div>
+        <label>Notes</label>
+        <textarea formControlName="notes"></textarea>
+        </div>
+<!--     
+        <h3>Line Items</h3>
+        <div formArrayName="lineItems">
+        <div *ngFor="let lineItem of lineItems.controls; let i = index" [formGroupName]="i">
+            <label>Description</label>
+            <input formControlName="description" />
+            <label>Quantity</label>
+            <input type="number" formControlName="quantity" />
+            <label>Unit Price</label>
+            <input type="number" formControlName="unitPrice" />
+            <label>Total Price</label>
+            <input type="number" formControlName="totalPrice" readonly />
+            <button type="button" (click)="removeLineItem(i)">Remove</button>
+        </div>
+        </div>
+        <button type="button" (click)="addLineItem()">Add Line Item</button> -->
+        <button type="submit" [disabled]="!invoiceForm.valid">Submit Invoice</button>
+    </form>
+    
