@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input'; // Import this if you 
 import { MatSelectModule } from '@angular/material/select';
 import { AddJobsComponent } from './add-jobs/add-jobs.component';
 import { JobRoutingModule } from './job-routing.module';
-import { MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { TagInputModule } from 'ngx-chips';
@@ -22,9 +22,7 @@ import { JobDetailsComponentComponent } from './job-details-component/job-detail
 import { CoreModule } from 'src/app/core/core.module';
 import { JobsLogbookComponent } from './jobs-logbook/jobs-logbook.component';
 import { EventsComponent } from './events/events.component';
-import { FinancialsComponent } from './financials/financials.component';
 import { WorkOrderComponent } from './work-order/work-order.component';
-import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { WorkflowComponent } from './workflow/workflow.component';
 import { NotesModalComponent } from './notes-modal/notes-modal.component';
@@ -36,6 +34,7 @@ import { PanelModule } from 'primeng/panel';
 import { WorkorderDetailPageComponent } from './workorder-detail-page/workorder-detail-page.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { JobsTasksComponent } from './jobs-tasks/jobs-tasks.component';
+
 @NgModule({
   declarations: [
     JobsComponent,
@@ -46,7 +45,6 @@ import { JobsTasksComponent } from './jobs-tasks/jobs-tasks.component';
     JobDetailsComponentComponent,
     JobsLogbookComponent,
     EventsComponent,
-    FinancialsComponent,
     WorkOrderComponent,
     WorkflowComponent,
     NotesModalComponent,
@@ -77,8 +75,8 @@ import { JobsTasksComponent } from './jobs-tasks/jobs-tasks.component';
     TagInputModule,
     CoreModule,
     RouterModule,
-    FormsModule
+    FormsModule,
   ],
-  exports : [EventsComponent,JobsComponent,AddJobEventComponent]
+  exports: [EventsComponent, JobsComponent, AddJobEventComponent],
 })
-export class JobModule { }
+export class JobModule {}

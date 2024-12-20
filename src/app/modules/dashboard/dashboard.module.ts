@@ -68,7 +68,6 @@ import { AllNotificationsComponent } from './all-notifications/all-notifications
     DragDropModule,
     MatMenuModule,
     MatSnackBarModule,
-    ContactModule,
     CoreModule,
     FormsModule,
   ],

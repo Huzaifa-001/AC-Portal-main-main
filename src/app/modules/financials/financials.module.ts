@@ -92,5 +92,6 @@ import { PaymentDetailComponent } from './payments/payment-detail/payment-detail
     CoreModule,
     FormsModule,
   ],
+  exports: [FinancialsComponent],
 })
 export class FinancialsModule {}

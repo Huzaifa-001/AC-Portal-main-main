@@ -24,11 +24,9 @@ import { ContactJobsComponent } from './contact-jobs/contact-jobs.component';
 import { ContactEventsComponent } from './contact-events/contact-events.component';
 import { ContactAttachmentsComponent } from './contact-attachments/contact-attachments.component';
 import { ContactPhotosComponent } from './contact-photos/contact-photos.component';
-import { ContactFinancialsComponent } from './contact-financials/contact-financials.component';
 import { ContactFormsComponent } from './contact-forms/contact-forms.component';
 import { AddContactPhotoComponent } from './add-contact-photo/add-contact-photo.component';
 import { ContactTasksComponent } from './contact-tasks/contact-tasks.component';
-
 
 @NgModule({
   declarations: [
@@ -41,10 +39,9 @@ import { ContactTasksComponent } from './contact-tasks/contact-tasks.component';
     ContactEventsComponent,
     ContactAttachmentsComponent,
     ContactPhotosComponent,
-    ContactFinancialsComponent,
     ContactFormsComponent,
     AddContactPhotoComponent,
-    ContactTasksComponent
+    ContactTasksComponent,
   ],
   imports: [
     CommonModule,
@@ -55,15 +52,15 @@ import { ContactTasksComponent } from './contact-tasks/contact-tasks.component';
     MatSelectModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule, 
+    MatNativeDateModule,
     MatIconModule,
     TagInputModule,
     MatMenuModule,
     MatSnackBarModule,
     MatDialogModule,
     CoreModule,
-    FormsModule
+    FormsModule,
   ],
-  exports:[ContactComponent]
+  exports: [ContactComponent],
 })
-export class ContactModule { }
+export class ContactModule {}

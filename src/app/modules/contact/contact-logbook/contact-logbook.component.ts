@@ -7,13 +7,16 @@ import { ContactService } from 'src/app/core/services/contact.service';
 @Component({
   selector: 'app-contact-logbook',
   templateUrl: './contact-logbook.component.html',
-  styleUrls: ['./contact-logbook.component.css']
+  styleUrls: ['./contact-logbook.component.css'],
 })
 export class ContactLogbookComponent {
   contactId: any;
   logBooks: any[] = [];
 
-  constructor(private route: ActivatedRoute, private contactService: ContactService) {
+  constructor(
+    private route: ActivatedRoute,
+    private contactService: ContactService
+  ) {
     this.contactId = this.route.parent.snapshot.paramMap.get('id');
   }
 
@@ -27,11 +30,10 @@ export class ContactLogbookComponent {
 
   loadPagedData(pageIndex: number) {
     this.contactService.getLogsByContactId(this.contactId).subscribe((res) => {
-      this.logBooks = []
-      this.logBooks =  res
+      this.logBooks = [];
+      this.logBooks = res;
       this.totalCount = this.logBooks.length;
       this.currentPageIndex = res?.pageIndex ?? 1;
     });
   }
-  
 }

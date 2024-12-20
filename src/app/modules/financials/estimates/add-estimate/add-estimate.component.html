@@ -1,99 +1,90 @@
 <h2 mat-dialog-title>Add Estimate</h2>
 <form [formGroup]="estimateForm" (ngSubmit)="submitForm()">
-  
- 
   <mat-dialog-content>
     <div class="d-flex align-items-center justify-content-between">
-
-      <div class="static-address d-flex flex-column align-items-start-10px justify-content-center">
+      <div
+        class="static-address d-flex flex-column align-items-start-10px justify-content-center"
+      >
         <p>
           <strong>Address</strong><br />
-        1234 Elm Street<br />
-        Suite 567<br />
-        Springfield, IL 62704<br />
-        Phone: (555) 123-4567
-      </p>
-    </div>
- 
+          1234 Elm Street<br />
+          Suite 567<br />
+          Springfield, IL 62704<br />
+          Phone: (555) 123-4567
+        </p>
+      </div>
 
-      <div class="d-flex flex-column align-items-between justify-content-center">
+      <div
+        class="d-flex flex-column align-items-between justify-content-center"
+      >
         <mat-form-field class="">
           <mat-label>Estimate Number</mat-label>
           <input matInput formControlName="estimateNumber" required />
         </mat-form-field>
-        
-        
+
         <mat-form-field class="">
           <mat-label>Date</mat-label>
           <input
-          matInput
-          [matDatepicker]="picker"
-          formControlName="date"
-          required
+            matInput
+            [matDatepicker]="picker"
+            formControlName="date"
+            required
           />
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
     </div>
-      
-    
+    <mat-dialog-content>
+      <div formArrayName="items">
+        <div *ngFor="let item of items.controls; let i = index">
+          <div [formGroupName]="i">
+            <mat-form-field class="full-width">
+              <mat-label>Item Name</mat-label>
+              <input matInput formControlName="itemName" required />
+            </mat-form-field>
 
+            <mat-form-field class="full-width">
+              <mat-label>Description</mat-label>
+              <input matInput formControlName="description" required />
+            </mat-form-field>
 
-    <div formArrayName="items">
-      <div *ngFor="let item of items.controls; let i = index">
-        <div [formGroupName]="i">
-          <mat-form-field class="full-width">
-            <mat-label>Item Name</mat-label>
-            <input matInput formControlName="itemName" required />
-          </mat-form-field>
+            <mat-form-field class="full-width">
+              <mat-label>Quantity</mat-label>
+              <input
+                matInput
+                formControlName="quantity"
+                type="number"
+                (input)="updateItemAmount(i)"
+              />
+            </mat-form-field>
 
-          <mat-form-field class="full-width">
-            <mat-label>Description</mat-label>
-            <input matInput formControlName="description" required />
-          </mat-form-field>
+            <mat-form-field class="full-width">
+              <mat-label>Price</mat-label>
+              <input
+                matInput
+                formControlName="price"
+                type="number"
+                (input)="updateItemAmount(i)"
+              />
+            </mat-form-field>
 
-          <mat-form-field class="full-width">
-            <mat-label>Quantity</mat-label>
-            <input
-              matInput
-              formControlName="quantity"
-              type="number"
-              (input)="updateItemAmount(i)"
-            />
-          </mat-form-field>
+            <mat-form-field class="full-width">
+              <mat-label>Amount</mat-label>
+              <input
+                matInput
+                [value]="item.get('amount').value | currency"
+                disabled
+              />
+            </mat-form-field>
 
-          <mat-form-field class="full-width">
-            <mat-label>Price</mat-label>
-            <input
-              matInput
-              formControlName="price"
-              type="number"
-              (input)="updateItemAmount(i)"
-            />
-          </mat-form-field>
-
-          <mat-form-field class="full-width">
-            <mat-label>Amount</mat-label>
-            <input
-              matInput
-              [value]="item.get('amount').value | currency"
-              disabled
-            />
-          </mat-form-field>
-
-          <button mat-icon-button (click)="removeItem(i)">
-            <mat-icon>delete</mat-icon>
-          </button>
+            <button mat-icon-button (click)="removeItem(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-
-
-
+    </mat-dialog-content>
     <button mat-raised-button (click)="addItem()">Add Item</button>
-
-   
-
     <mat-form-field class="full-width">
       <mat-label>Subtotal</mat-label>
       <input
@@ -113,13 +104,13 @@
       <input matInput [value]="estimateForm.value.total | currency" disabled />
     </mat-form-field>
   </mat-dialog-content>
-  
-<mat-dialog-content>
-  <mat-form-field class="full-width">
-    <mat-label>Notes</mat-label>
-    <textarea matInput formControlName="notes"></textarea>
-  </mat-form-field>
-</mat-dialog-content>
+
+  <mat-dialog-content>
+    <mat-form-field class="full-width">
+      <mat-label>Notes</mat-label>
+      <textarea matInput formControlName="notes"></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
 
   <mat-dialog-actions>
     <button mat-button (click)="closeModal()">Cancel</button>
