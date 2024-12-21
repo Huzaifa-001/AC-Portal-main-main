@@ -6,6 +6,7 @@ import { EstimateDto } from './EstimateDto';
 import { EstimatesService } from './estimate.service';
 import { AddEstimateComponent } from './add-estimate/add-estimate.component';
 import { AppConfig } from 'src/app/core/app-config';
+import { EditEstimateComponent } from './edit-estimate/edit-estimate.component';
 
 @Component({
   selector: 'app-estimates',
@@ -79,8 +80,8 @@ export class EstimatesComponent implements OnInit {
 
   // Edit estimate
   editEvent(estimate: EstimateDto): void {
-    const dialogRef = this.dialog.open(AddEstimateComponent, {
-      width: '600px',
+    const dialogRef = this.dialog.open(EditEstimateComponent, {
+      width: '90%',
       data: estimate, // Pass the estimate for editing
     });
 

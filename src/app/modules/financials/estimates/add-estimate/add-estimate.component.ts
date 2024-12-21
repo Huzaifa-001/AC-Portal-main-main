@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./add-estimate.component.css'],
 })
 export class AddEstimateComponent {
-  estimateForm: FormGroup;    
+  estimateForm: FormGroup;
   updateData: any;
   @Output() estimateUpdated = new EventEmitter<any>();
 
@@ -24,16 +24,16 @@ export class AddEstimateComponent {
 
   ngOnInit() {
     this.estimateForm = this.fb.group({
-      estimateNumber: ['', Validators.required],
-      date: ['', Validators.required],
+      estimateNumber: [{ value: '#00001', disabled: true }],
+      date: [new Date(), Validators.required], // Set current date as default value
       notes: [''],
       status: ['Draft'],
       syncedToQB: [false],
       signed: [false],
       items: this.fb.array([]),
-      subtotal: [0],
-      tax: [0],
-      total: [0],
+      subtotal: [{ value: 0, disabled: true }],
+      tax: [{ value: 0, disabled: true }],
+      total: [{ value: 0, disabled: true }], // Total field is disabled
     });
 
     if (this.updateData) {
@@ -74,6 +74,14 @@ export class AddEstimateComponent {
     );
   }
 
+  addSection(): void {
+    this.items.push(
+      this.fb.group({
+        Section: ['', Validators.required],
+      })
+    );
+  }
+
   removeItem(index: number): void {
     this.items.removeAt(index);
     this.updateTotals(); // Recalculate totals after removing an item
@@ -110,7 +118,6 @@ export class AddEstimateComponent {
       this.estimateUpdated.emit(this.estimateForm.value);
       this.dialogRef.close();
     } else {
-      this.toastr.error('Please fill in all required fields.');
     }
   }
 

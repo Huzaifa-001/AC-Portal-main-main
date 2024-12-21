@@ -23,8 +23,10 @@ export interface EstimateDto {
 }
 
 export interface LineItemDto {
+  itemName: string;
   description: string;
   quantity: number;
+  markup: number;
   unitPrice: number;
   totalPrice: number;
 }

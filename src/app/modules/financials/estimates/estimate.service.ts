@@ -19,7 +19,7 @@ export class EstimatesService {
       isArchived: false,
       location: 'Location A',
       markup: 15,
-      number: 'E12345',
+      number: '#00002',
       related: 'Contact 1', // Related to contact or job
       salesRep: 'Rep A',
       salesRepImage: 'rep-a.jpg',
@@ -30,8 +30,22 @@ export class EstimatesService {
       tax: 100,
       total: 1100,
       lineItems: [
-        { description: 'Item 1', quantity: 2, unitPrice: 200, totalPrice: 400 },
-        { description: 'Item 2', quantity: 3, unitPrice: 200, totalPrice: 600 },
+        {
+          description: 'Item 1',
+          quantity: 2,
+          markup: 5,
+          itemName: 'Item',
+          unitPrice: 200,
+          totalPrice: 400,
+        },
+        {
+          markup: 5,
+          itemName: 'Item',
+          description: 'Item 2',
+          quantity: 3,
+          unitPrice: 200,
+          totalPrice: 600,
+        },
       ],
     },
     // More sample estimates here...

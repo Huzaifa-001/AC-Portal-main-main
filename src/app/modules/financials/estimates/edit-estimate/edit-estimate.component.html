@@ -1,18 +1,184 @@
-<h2 mat-dialog-title>Edit Estimate</h2>
-<form>
-  <mat-form-field>
-    <input
-      matInput
-      [(ngModel)]="estimate.customerNote"
-      name="customerNote"
-      placeholder="Customer Note"
-    />
-  </mat-form-field>
-
-  <!-- Add other fields as required -->
-
-  <div mat-dialog-actions>
-    <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-button (click)="onSave()">Save</button>
+<div class="mat-modal">
+  <div class="mat-modal-header">
+    <p class="title">Edit Estimate</p>
   </div>
-</form>
+  <form [formGroup]="estimateForm" (ngSubmit)="submitForm()">
+    <div class="mat-modal-body">
+      <div class="row">
+        <div class="col-md-3 ms-auto">
+          <div class="input">
+            <label class="form-label" for="faxNo">Estimate Number</label>
+            <input
+              type="text"
+              formControlName="estimateNumber"
+              class="form-control"
+              id="estimateNumber"
+              placeholder="000000"
+              [value]="updateData?.number"
+            />
+          </div>
+
+          <div class="input">
+            <label>Estimate Date</label>
+            <div>
+              <mat-form-field appearance="outline" class="date-picker">
+                <input
+                  matInput
+                  [matDatepicker]="startDatepicker"
+                  formControlName="date"
+                />
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="startDatepicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #startDatepicker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Line Items Table -->
+      <div formArrayName="items" class="mt-5">
+        <div class="row">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Item Name</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Unit Cost</th>
+                <th>Amount</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let item of items.controls; let i = index"
+                [formGroupName]="i"
+              >
+                <td>
+                  <input
+                    formControlName="itemName"
+                    class="form-control"
+                    placeholder="Item Name"
+                  />
+                </td>
+                <td>
+                  <textarea
+                    formControlName="description"
+                    class="form-control"
+                    placeholder="Description"
+                  ></textarea>
+                </td>
+                <td>
+                  <input
+                    formControlName="quantity"
+                    type="number"
+                    (input)="updateItemAmount(i)"
+                    class="form-control"
+                    placeholder="Quantity"
+                  />
+                </td>
+                <td>
+                  <input
+                    formControlName="price"
+                    type="number"
+                    (input)="updateItemAmount(i)"
+                    class="form-control"
+                    placeholder="Price"
+                  />
+                </td>
+                <td>
+                  <input
+                    formControlName="amount"
+                    type="text"
+                    class="form-control"
+                    [value]="item.get('amount')?.value | currency"
+                    readonly
+                    placeholder="Amount"
+                  />
+                </td>
+                <td>
+                  <button class="btn btn-danger" (click)="removeItem(i)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="6">
+                  <div class="gap-2 d-flex">
+                    <button class="btn btn-primary m-2" (click)="addItem()">
+                      Add Item
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Customer Notes and Total Information -->
+      <div class="row">
+        <div class="col-md-3">
+          <div class="input">
+            <label>Customer Note:</label>
+            <textarea
+              formControlName="notes"
+              class="form-control"
+              style="height: 100px"
+            ></textarea>
+          </div>
+        </div>
+        <div class="col-md-3 ms-auto">
+          <div class="input">
+            <label>Subtotal</label>
+            <input
+              formControlName="subtotal"
+              [value]="estimateForm.value.subtotal | currency"
+              [disabled]="true"
+              type="text"
+              class="form-control"
+            />
+          </div>
+          <div class="input">
+            <label>Tax (10%)</label>
+            <input
+              formControlName="tax"
+              [value]="estimateForm.value.tax | currency"
+              [disabled]="true"
+              type="text"
+              class="form-control"
+            />
+          </div>
+          <div class="input">
+            <label>Total</label>
+            <input
+              formControlName="total"
+              [value]="estimateForm.value.total | currency"
+              type="text"
+              class="form-control"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="mat-modal-footer">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-primary mr-2" (click)="closeModal()">
+          Cancel
+        </button>
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="!estimateForm.valid"
+        >
+          Submit Estimate
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
