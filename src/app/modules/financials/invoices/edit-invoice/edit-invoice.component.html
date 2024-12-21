@@ -1,41 +1,129 @@
-<h2>Add Invoice</h2>
-<form [formGroup]="invoiceForm" (ngSubmit)="submitInvoice()">
-        <div>
-        <label>Invoice Number</label>
-        <input formControlName="InvoiceNumber" />
+<div class="mat-modal">
+    <div class="mat-modal-header">
+      <p class="title">Edit Invoice</p>
+    </div>
+    <form [formGroup]="invoiceForm" (ngSubmit)="submitInvoice()">
+      <div class="mat-modal-body">
+        <div class="row">
+          <div class="col-md-3 ms-auto">
+            <div class="input">
+              <label class="form-label" for="invoiceNumber">Invoice Number</label>
+              <input
+                formControlName="invoiceNumber"
+                class="form-control"
+                id="invoiceNumber"
+                placeholder="000000"
+              />
+            </div>
+  
+            <div class="input">
+              <label>Invoice Date</label>
+              <div>
+                <mat-form-field appearance="outline" class="date-picker">
+                  <input matInput [matDatepicker]="datepicker" formControlName="date" />
+                  <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                  <mat-datepicker #datepicker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-        <label>Created By</label>
-        <input formControlName="createdBy" />
+  
+        <div formArrayName="lineItems" class="mt-5">
+          <div class="row">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Item Name</th>
+                  <th>Description</th>
+                  <th>Quantity</th>
+                  <th>Unit Cost</th>
+                  <th>Markup(%)</th>
+                  <th>Amount</th>
+                  <th>Tax</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of lineItems.controls; let i = index" [formGroupName]="i">
+                  <td>
+                    <input formControlName="itemName" class="form-control" placeholder="Item Name" />
+                  </td>
+                  <td>
+                    <textarea formControlName="description" class="form-control" placeholder="Description"></textarea>
+                  </td>
+                  <td>
+                    <input formControlName="quantity" type="number" (input)="updateItemAmount(i)" class="form-control" placeholder="Quantity" />
+                  </td>
+                  <td>
+                    <input formControlName="unitCost" type="number" (input)="updateItemAmount(i)" class="form-control" placeholder="Unit Cost" />
+                  </td>
+                  <td>
+                    <input formControlName="markup" type="text" class="form-control" placeholder="Markup" />
+                  </td>
+                  <td>
+                    <input formControlName="amount" type="text" class="form-control" readonly placeholder="Amount" />
+                  </td>
+                  <td>
+                    <input formControlName="tax" type="text" class="form-control" readonly placeholder="Tax" />
+                  </td>
+                  <td>
+                    <button class="btn btn-danger" (click)="removeLineItem(i)">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="8" class="text-center">
+                    <button class="btn btn-primary" (click)="addLineItem()">Add Item</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div>
-        <label>Date Invoice</label>
-        <input type="date" formControlName="dateInvoice" />
+  
+        <div class="row">
+          <div class="col-md-3">
+            <div class="input">
+              <label>Customer Note:</label>
+              <textarea formControlName="customerNote" class="form-control" style="height: 100px"></textarea>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="input">
+              <label>Internal Note:</label>
+              <textarea formControlName="internalNote" class="form-control" style="height: 100px"></textarea>
+            </div>
+          </div>
+          <div class="col-md-3 ms-auto">
+            <div class="input">
+              <label>Subtotal</label>
+              <input formControlName="subtotal" [value]="invoiceForm.value.subtotal | currency" [disabled]="true" type="text" class="form-control" />
+            </div>
+            <div class="input">
+              <label>Tax (10%)</label>
+              <input formControlName="tax" [value]="invoiceForm.value.tax | currency" [disabled]="true" type="text" class="form-control" />
+            </div>
+            <div class="input">
+              <label>Total</label>
+              <input formControlName="total" [value]="invoiceForm.value.total | currency" type="text" class="form-control" />
+            </div>
+          </div>
         </div>
-        <div>
-        <label>Due Date</label>
-        <input type="date" formControlName="DueDate" />
+      </div>
+      <div class="mat-modal-footer">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button class="btn btn-primary mr-2" (click)="closeModal()">
+            Cancel
+          </button>
+          <button
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="!invoiceForm.valid"
+          >
+            Update Invoice
+          </button>
         </div>
-        <div>
-        <label>Notes</label>
-        <textarea formControlName="notes"></textarea>
-        </div>
-<!--     
-        <h3>Line Items</h3>
-        <div formArrayName="lineItems">
-        <div *ngFor="let lineItem of lineItems.controls; let i = index" [formGroupName]="i">
-            <label>Description</label>
-            <input formControlName="description" />
-            <label>Quantity</label>
-            <input type="number" formControlName="quantity" />
-            <label>Unit Price</label>
-            <input type="number" formControlName="unitPrice" />
-            <label>Total Price</label>
-            <input type="number" formControlName="totalPrice" readonly />
-            <button type="button" (click)="removeLineItem(i)">Remove</button>
-        </div>
-        </div>
-        <button type="button" (click)="addLineItem()">Add Line Item</button> -->
-        <button type="submit" [disabled]="!invoiceForm.valid">Submit Invoice</button>
+      </div>
     </form>
-    
+  </div>
+  

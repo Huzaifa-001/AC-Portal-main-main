@@ -9,6 +9,9 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 })
 export class AddMaterialOrderComponent {
   materialOrderForm: FormGroup;
+submitMaterialOrder: any;
+cancelMaterialOrder: any;
+closeModal: any;
 
   constructor(
     private fb: FormBuilder,

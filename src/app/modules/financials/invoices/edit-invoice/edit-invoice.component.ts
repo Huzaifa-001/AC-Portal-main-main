@@ -9,6 +9,8 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 export class EditInvoiceComponent {
 
   invoiceForm!: FormGroup;
+updateItemAmount: any;
+closeModal: any;
 
   constructor(private fb: FormBuilder) {}
 

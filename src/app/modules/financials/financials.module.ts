@@ -41,6 +41,7 @@ import { CreditMemoDetailComponent } from './credit-memos/credit-memo-detail/cre
 import { AddPaymentComponent } from './payments/add-payment/add-payment.component';
 import { EditPaymentComponent } from './payments/edit-payment/edit-payment.component';
 import { PaymentDetailComponent } from './payments/payment-detail/payment-detail.component';
+import { CoreModule_1 as CoreModule } from "../../core/core.module";
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { PaymentDetailComponent } from './payments/payment-detail/payment-detail
     MatDialogModule,
     CoreModule,
     FormsModule,
-  ],
+    CoreModule_1
+],
   exports: [FinancialsComponent],
 })
 export class FinancialsModule {}
