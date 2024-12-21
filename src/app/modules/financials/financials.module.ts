@@ -11,7 +11,6 @@ import { PaymentsComponent } from './payments/payments.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { CoreModule } from '@angular/flex-layout';
 import { TagInputModule } from 'ngx-chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -41,7 +40,7 @@ import { CreditMemoDetailComponent } from './credit-memos/credit-memo-detail/cre
 import { AddPaymentComponent } from './payments/add-payment/add-payment.component';
 import { EditPaymentComponent } from './payments/edit-payment/edit-payment.component';
 import { PaymentDetailComponent } from './payments/payment-detail/payment-detail.component';
-import { CoreModule_1 as CoreModule } from "../../core/core.module";
+import { CoreModule as CoreModule } from "../../core/core.module";
 
 @NgModule({
   declarations: [
@@ -92,7 +91,7 @@ import { CoreModule_1 as CoreModule } from "../../core/core.module";
     MatDialogModule,
     CoreModule,
     FormsModule,
-    CoreModule_1
+    CoreModule
 ],
   exports: [FinancialsComponent],
 })
