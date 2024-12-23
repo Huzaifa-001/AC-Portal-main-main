@@ -1,8 +1,12 @@
 export interface PaymentDto {
-  materialOrderNumber: string;
+  paymentId: number;
   createdBy: string;
-  dateBudget: Date;
+  paymentDate: Date;
+  paymentMethod: string;
+  refrenceNumber: string;
+  totalAmount: number;
   dateCreated: Date;
+  dateUpdated: Date;
   notes: string;
   status: string;
   related: string;

@@ -8,12 +8,16 @@ import { Observable, of } from 'rxjs';
 export class PaymentService {
   private staticData: PaymentDto[] = [
     {
+      paymentId: 1,
       createdBy: 'John Doe',
       dateCreated: new Date(),
-      dateBudget: new Date(),
-      status: '',
+      dateUpdated: new Date(),
+      paymentDate: new Date(),
+      paymentMethod: 'Credit Card',
+      totalAmount: 123412,
+      status: 'Pending',
+      refrenceNumber: 'Astd-32423',
       notes: 'Nothing Here',
-      materialOrderNumber: 'MT-12345',
       related: 'Contact 1', // Related to contact or jo
       lineItems: [
         { description: 'Item 1', quantity: 2, unitPrice: 200, totalPrice: 400 },
@@ -24,51 +28,50 @@ export class PaymentService {
 
   constructor() {}
 
-  getAllBudgets(
+  getAllPayments(
     related: string,
     pageIndex: number,
     pageSize: number
   ): Observable<any> {
-    const filteredBudgets = this.staticData.filter(
-      (budget) => budget.related === related
+    const filteredPayments = this.staticData.filter(
+      (payment) => payment.related === related
     );
 
     // Pagination logic
-    const paginatedBudgets = filteredBudgets.slice(
+    const paginatedPayments = filteredPayments.slice(
       (pageIndex - 1) * pageSize,
       pageIndex * pageSize
     );
 
     return of({
-      payload: paginatedBudgets,
-      totalCount: filteredBudgets.length,
+      payload: paginatedPayments,
+      totalCount: filteredPayments.length,
       pageIndex,
     });
   }
   // 2. Delete an estimate by its number
-  deleteBudget(budgetNumber: string): Observable<PaymentDto[]> {
+  deletePayment(paymentId: number): Observable<PaymentDto[]> {
     // Perform the delete action
     this.staticData = this.staticData.filter(
-      (budget) => budget.materialOrderNumber !== budgetNumber
+      (payment) => payment.paymentId !== paymentId
     );
     return of(this.staticData);
   }
 
   // 3. Update an estimate
-  updateBudget(updatedBudget: PaymentDto): Observable<PaymentDto[]> {
+  updatePayment(updatedPayment: PaymentDto): Observable<PaymentDto[]> {
     const index = this.staticData.findIndex(
-      (budget) =>
-        budget.materialOrderNumber === updatedBudget.materialOrderNumber
+      (payment) => payment.paymentId === updatedPayment.paymentId
     );
     if (index > -1) {
-      this.staticData[index] = updatedBudget;
+      this.staticData[index] = updatedPayment;
     }
     return of(this.staticData);
   }
 
   // 4. Add a new estimate
-  addBudget(newBudget: PaymentDto): Observable<PaymentDto[]> {
-    this.staticData.push(newBudget);
+  addPayment(newPayment: PaymentDto): Observable<PaymentDto[]> {
+    this.staticData.push(newPayment);
     return of(this.staticData);
   }
 }

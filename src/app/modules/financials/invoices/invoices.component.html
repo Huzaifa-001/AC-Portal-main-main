@@ -28,7 +28,7 @@
           <td>{{ invoice.notes }}</td>
           <td>{{ invoice.Total }}</td>
           <td>{{ invoice.SyncedToQB }}</td>
-          <td>{{ invoice.DueDate }}</td>
+          <td>{{ invoice.DueDate.toDateString() }}</td>
           <td>{{ invoice.status }}</td>
           <td>
             <button mat-icon-button [matMenuTriggerFor]="menu">

@@ -9,7 +9,11 @@ import { MatInputModule } from '@angular/material/input'; // Import this if you 
 import { MatSelectModule } from '@angular/material/select';
 import { AddJobsComponent } from './add-jobs/add-jobs.component';
 import { JobRoutingModule } from './job-routing.module';
-import { MatNativeDateModule } from '@angular/material/core';
+import {
+  MatNativeDateModule,
+  MAT_DATE_FORMATS,
+  DateAdapter,
+} from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { TagInputModule } from 'ngx-chips';
@@ -23,6 +27,7 @@ import { CoreModule } from 'src/app/core/core.module';
 import { JobsLogbookComponent } from './jobs-logbook/jobs-logbook.component';
 import { EventsComponent } from './events/events.component';
 import { WorkOrderComponent } from './work-order/work-order.component';
+import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { WorkflowComponent } from './workflow/workflow.component';
 import { NotesModalComponent } from './notes-modal/notes-modal.component';
@@ -34,6 +39,7 @@ import { PanelModule } from 'primeng/panel';
 import { WorkorderDetailPageComponent } from './workorder-detail-page/workorder-detail-page.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { JobsTasksComponent } from './jobs-tasks/jobs-tasks.component';
+import { FinancialsComponent } from './../financials/financials.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +61,7 @@ import { JobsTasksComponent } from './jobs-tasks/jobs-tasks.component';
     JobsTasksComponent,
   ],
   imports: [
+    CoreModule,
     CommonModule,
     JobRoutingModule,
     AccordionModule,

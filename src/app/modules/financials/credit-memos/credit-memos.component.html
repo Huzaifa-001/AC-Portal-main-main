@@ -1,1 +1,65 @@
-<p>credit-memos works! YOO HOO!</p>
+<div class="modal-button-container d-flex justify-content-end align-items-end">
+  <button class="btn btn-primary my-2" (click)="openAddCreditMemoModal()">
+    Add Credit Memo
+  </button>
+</div>
+
+<div class="card-body p-0">
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="text-uppercase">CreditMemo#</th>
+        <th class="text-uppercase">Related Records</th>
+        <th class="text-uppercase">Status</th>
+        <th class="text-uppercase">Total</th>
+        <th class="text-uppercase">Credit Memo Date</th>
+        <th class="text-uppercase">Date Updated</th>
+        <th class="text-uppercase">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="creditMemos.length > 0; else noDataMessage">
+        <tr *ngFor="let creditMemo of creditMemos">
+          <td class="cursor-pointer" (click)="openCreditMemoDetail(creditMemo)">
+            {{ creditMemo.creditMemoNumber }}
+          </td>
+          <td>{{ creditMemo.relatedRecords }}</td>
+          <td>{{ creditMemo.status }}</td>
+          <td>{{ creditMemo.total }}</td>
+          <td>{{ creditMemo.creditMemoDate.toDateString() }}</td>
+          <td>{{ creditMemo.dateUpdated.toDateString() }}</td>
+          <td>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editCreditMemo(creditMemo)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button
+                mat-menu-item
+                (click)="deleteCreditMemo(creditMemo.creditMemoNumber)"
+              >
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+          </td>
+        </tr>
+      </ng-container>
+      <ng-template #noDataMessage>
+        <tr>
+          <td colspan="7" class="text-center">No budgets available</td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </table>
+</div>
+<!-- <ng-container *ngIf="totalCount > 0">
+    <app-pagination
+      [currentPageIndex]="currentPageIndex"
+      [totalCount]="totalCount"
+      (pageChange)="loadbudgets($event)"
+    ></app-pagination>
+  </ng-container> -->

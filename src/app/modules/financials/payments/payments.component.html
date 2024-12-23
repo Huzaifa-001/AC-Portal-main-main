@@ -1,5 +1,5 @@
-<!-- <div class="modal-button-container d-flex justify-content-end align-items-end">
-  <button class="btn btn-primary my-2" (click)="openAddBudgetModal()">
+<div class="modal-button-container d-flex justify-content-end align-items-end">
+  <button class="btn btn-primary my-2" (click)="openAddPaymentModal()">
     Add Payment
   </button>
 </div>
@@ -8,35 +8,36 @@
   <table class="table">
     <thead>
       <tr>
-        <th class="text-uppercase">Order#</th>
-        <th class="text-uppercase">Date</th>
-        <th class="text-uppercase">Note</th>
-        <th class="text-uppercase">Status</th>
+        <th class="text-uppercase">Payment Date</th>
+        <th class="text-uppercase">Reference#</th>
+        <th class="text-uppercase">Total</th>
+        <th class="text-uppercase">Invoices</th>
+        <th class="text-uppercase">Method</th>
+        <th class="text-uppercase">Date Updated</th>
         <th class="text-uppercase">Action</th>
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngIf="budgets.length > 0; else noDataMessage">
-        <tr *ngFor="let budget of budgets">
-          <td class="cursor-pointer" (click)="openBudgetDetail(budget)">
-            {{ budget.materialOrderNumber }}
+      <ng-container *ngIf="payments.length > 0; else noDataMessage">
+        <tr *ngFor="let payment of payments">
+          <td class="cursor-pointer" (click)="openPaymentDetail(payment)">
+            {{ payment.paymentDate.toDateString() }}
           </td>
-          <td>{{ budget.dateCreated.toDateString() }}</td>
-          <td>{{ budget.notes }}</td>
-          <td>{{ budget.status }}</td>
+          <td>{{ payment.refrenceNumber }}</td>
+          <td>{{ payment.totalAmount }}</td>
+          <td></td>
+          <td>{{ payment.paymentMethod }}</td>
+          <td>{{ payment.dateUpdated.toDateString() }}</td>
           <td>
             <button mat-icon-button [matMenuTriggerFor]="menu">
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="editBudget(budget)">
+              <button mat-menu-item (click)="editPayment(payment)">
                 <mat-icon>edit</mat-icon>
                 <span>Edit</span>
               </button>
-              <button
-                mat-menu-item
-                (click)="deleteBudget(budget.materialOrderNumber)"
-              >
+              <button mat-menu-item (click)="deletePayment(payment.paymentId)">
                 <mat-icon>delete</mat-icon>
                 <span>Delete</span>
               </button>
@@ -46,7 +47,7 @@
       </ng-container>
       <ng-template #noDataMessage>
         <tr>
-          <td colspan="7" class="text-center">No budgets available</td>
+          <td colspan="7" class="text-center">No Payments available</td>
         </tr>
       </ng-template>
     </tbody>
@@ -58,4 +59,4 @@
         [totalCount]="totalCount"
         (pageChange)="loadbudgets($event)"
       ></app-pagination>
-    </ng-container> --> -->
+    </ng-container> -->

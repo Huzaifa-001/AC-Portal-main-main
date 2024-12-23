@@ -1,6 +1,15 @@
 import { Component, Inject } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  Validators,
+} from '@angular/forms';
+import {
+  MatDialogRef,
+  MatDialog,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -12,13 +21,18 @@ import { AddJobWorkOrderComponent } from '../add-job-work-order/add-job-work-ord
 import { createWorkOrderDto } from '../createWorkOrderDto';
 import { NotesModalComponent } from '../notes-modal/notes-modal.component';
 import { Priorities } from '../Common/common';
-import { DynamicField, EntityTypes, FieldTypes } from '../../custom-fields/common';
+import {
+  DynamicField,
+  EntityTypes,
+  FieldTypes,
+} from '../../custom-fields/common';
 import { FieldService } from 'src/app/core/services/field.service';
+import { CoreModule } from '../../../core/core.module';
 
 @Component({
   selector: 'app-workorder-detail-page',
   templateUrl: './workorder-detail-page.component.html',
-  styleUrls: ['./workorder-detail-page.component.css']
+  styleUrls: ['./workorder-detail-page.component.css'],
 })
 export class WorkorderDetailPageComponent {
   private subscriptions: Subscription = new Subscription();
@@ -29,7 +43,7 @@ export class WorkorderDetailPageComponent {
   public modelMain: any = {};
   updateData: any = {};
   Jobs: any[] = [];
-  statuses = []
+  statuses = [];
   workOrderForm!: FormGroup;
   workOrderDto?: createWorkOrderDto;
   priorities = Priorities;
@@ -54,15 +68,12 @@ export class WorkorderDetailPageComponent {
     private route: ActivatedRoute,
     private workFlowService: WorkflowService,
     private contactService: ContactService,
-    private fieldService: FieldService,
-
-
+    private fieldService: FieldService
   ) {
     this.fieldsValueForm = this.formBuilder.group({});
     if (data) {
       this.modelMain = data;
       this.updateData = Object.assign({}, this.modelMain);
-
     }
 
     this.prioritykeys = Object.keys(this.priorities);
@@ -88,18 +99,19 @@ export class WorkorderDetailPageComponent {
       id: new FormControl(0),
       name: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
-      quantity: new FormControl(0, [Validators.required, Validators.pattern(/^\d*\.?\d*$/)]),
+      quantity: new FormControl(0, [
+        Validators.required,
+        Validators.pattern(/^\d*\.?\d*$/),
+      ]),
     });
 
-    this.getWorkflows()
-    this.getAllcontacts()
-    this.getSubcontractors()
-    this.getRelatedcontacts()
-    this.getTeamMembers()
-    this.getAllJobs()
-    this.getWorkOrderById()
-
-
+    this.getWorkflows();
+    this.getAllcontacts();
+    this.getSubcontractors();
+    this.getRelatedcontacts();
+    this.getTeamMembers();
+    this.getAllJobs();
+    this.getWorkOrderById();
   }
 
   initAttachment() {
@@ -125,7 +137,7 @@ export class WorkorderDetailPageComponent {
     this.subscriptions.add(
       this.jobService.statusByWorkflowId(workflowId).subscribe(
         (res: any) => {
-          this.statuses = res.payload
+          this.statuses = res.payload;
         },
         (err) => {
           console.log(err);
@@ -142,7 +154,7 @@ export class WorkorderDetailPageComponent {
       error: (err) => {
         console.log(err);
       },
-    })
+    });
   }
 
   getSubcontractors() {
@@ -160,8 +172,8 @@ export class WorkorderDetailPageComponent {
 
   onWorkflowSelectionChange(event: any): void {
     const selectedId = event.value;
-    this.selectedWorkflow = this.workflows.find(wf => wf.id === selectedId);
-    this.getStatuses(selectedId)
+    this.selectedWorkflow = this.workflows.find((wf) => wf.id === selectedId);
+    this.getStatuses(selectedId);
   }
 
   getRelatedcontacts() {
@@ -177,65 +189,99 @@ export class WorkorderDetailPageComponent {
     );
   }
 
-  fields: DynamicField[] = []
+  fields: DynamicField[] = [];
   fieldsValueForm: FormGroup<{}>;
   existingCustomFieldsValues: any;
   handleCustomFields() {
     this.subscriptions.add(
       this.fieldService.getFieldsByEntityType(EntityTypes.WorkOrder).subscribe({
         next: (res) => {
-          debugger
-          this.fields = res
+          debugger;
+          this.fields = res;
           if (this.existingWorkOrder.id) {
-            this.existingCustomFieldsValues = this.existingWorkOrder?.customFieldValues || [];
-            this.fields.forEach(field => {
+            this.existingCustomFieldsValues =
+              this.existingWorkOrder?.customFieldValues || [];
+            this.fields.forEach((field) => {
               const validators = field.isRequired ? [Validators.required] : [];
-              const existingFieldValue = this.existingCustomFieldsValues.find(value => value.fieldDefinitionId === field.id)?.fieldValue;
+              const existingFieldValue = this.existingCustomFieldsValues.find(
+                (value) => value.fieldDefinitionId === field.id
+              )?.fieldValue;
               let existingValue: any = '';
               if (existingFieldValue) {
                 try {
-                  existingValue = field.multiSelect ? JSON.parse(existingFieldValue) : existingFieldValue;
+                  existingValue = field.multiSelect
+                    ? JSON.parse(existingFieldValue)
+                    : existingFieldValue;
                 } catch (e) {
-                  console.error(`Error parsing field value for field ${field.id}:`, e);
+                  console.error(
+                    `Error parsing field value for field ${field.id}:`,
+                    e
+                  );
                   existingValue = '';
                 }
               }
-              if (field.fieldType === FieldTypes.Dropdown && !field.multiSelect) {
+              if (
+                field.fieldType === FieldTypes.Dropdown &&
+                !field.multiSelect
+              ) {
                 existingValue = Number(existingValue);
               }
-              if (field.fieldType === FieldTypes.Dropdown && field.multiSelect) {
-                const valueArray = Array.isArray(existingValue) ? existingValue : []; // Ensure it's an array
-                this.fieldsValueForm.addControl(field.id.toString(), new FormControl({value: valueArray , disabled: true}, validators));
+              if (
+                field.fieldType === FieldTypes.Dropdown &&
+                field.multiSelect
+              ) {
+                const valueArray = Array.isArray(existingValue)
+                  ? existingValue
+                  : []; // Ensure it's an array
+                this.fieldsValueForm.addControl(
+                  field.id.toString(),
+                  new FormControl(
+                    { value: valueArray, disabled: true },
+                    validators
+                  )
+                );
               } else {
-                this.fieldsValueForm.addControl(field.id.toString(), new FormControl({value: existingValue, disabled: true}, validators));
+                this.fieldsValueForm.addControl(
+                  field.id.toString(),
+                  new FormControl(
+                    { value: existingValue, disabled: true },
+                    validators
+                  )
+                );
               }
             });
-          }
-          else {
-            this.fields.forEach(field => {
+          } else {
+            this.fields.forEach((field) => {
               const validators = field.isRequired ? [Validators.required] : [];
-              if (field.fieldType === FieldTypes.Dropdown && field.multiSelect) {
-                this.fieldsValueForm.addControl(field.id.toString(), new FormControl({value: [], disabled: true}, validators));
+              if (
+                field.fieldType === FieldTypes.Dropdown &&
+                field.multiSelect
+              ) {
+                this.fieldsValueForm.addControl(
+                  field.id.toString(),
+                  new FormControl({ value: [], disabled: true }, validators)
+                );
               } else {
-                this.fieldsValueForm.addControl(field.id.toString(), new FormControl({value: '', disabled: true}, validators));
+                this.fieldsValueForm.addControl(
+                  field.id.toString(),
+                  new FormControl({ value: '', disabled: true }, validators)
+                );
               }
             });
           }
-
-
-        }
+        },
       })
-    )
+    );
   }
 
   getAllcontacts() {
     this.subscriptions.add(
       this.contactService.allResult().subscribe({
         next: (res) => {
-          console.log("Contacts: ", res.payload);
-          this.PrimaryContacts = res.payload.map(contact => ({
+          console.log('Contacts: ', res.payload);
+          this.PrimaryContacts = res.payload.map((contact) => ({
             id: contact.id,
-            name: contact.firstName + ' ' + contact.lastName
+            name: contact.firstName + ' ' + contact.lastName,
           }));
         },
         error: (err) => {
@@ -263,12 +309,12 @@ export class WorkorderDetailPageComponent {
       this.jobService.getWorkOrderById(this.updateData.id).subscribe({
         next: (res) => {
           if (this.updateData) {
-            this.existingWorkOrder = res.data
-            this.lineItems = this.existingWorkOrder.lineItems ?? []
-            this.notes = this.existingWorkOrder.notes ?? []
+            this.existingWorkOrder = res.data;
+            this.lineItems = this.existingWorkOrder.lineItems ?? [];
+            this.notes = this.existingWorkOrder.notes ?? [];
             this.workOrderForm.patchValue(this.existingWorkOrder);
             this.getStatuses(this.existingWorkOrder.workflowId);
-            this.handleCustomFields()
+            this.handleCustomFields();
           }
         },
         error: (err) => {
@@ -289,7 +335,9 @@ export class WorkorderDetailPageComponent {
   openNotesModal() {
     const dialogRef = this.dialog.open(NotesModalComponent, {
       width: '400px',
-      data: { /* Pass any necessary data */ },
+      data: {
+        /* Pass any necessary data */
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -311,7 +359,7 @@ export class WorkorderDetailPageComponent {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         console.log('Note updated:', result);
-        this.notes[index] = result; 
+        this.notes[index] = result;
       }
     });
   }
@@ -354,6 +402,6 @@ export class WorkorderDetailPageComponent {
   }
 
   ngOnDistroy() {
-    this.subscriptions.unsubscribe()
+    this.subscriptions.unsubscribe();
   }
 }
